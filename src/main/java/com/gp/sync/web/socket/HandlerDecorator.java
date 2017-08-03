@@ -32,7 +32,7 @@ public class HandlerDecorator extends WebSocketHandlerDecorator{
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		Object mp = message.getPayload();
-		LOGGER.debug("type payload: {}", mp.getClass().getName());
+		LOGGER.debug("type payload: {}", message.getClass().getName());
 		LOGGER.debug("session principal: {}", session.getPrincipal());
 		super.handleMessage(session, message);
 	}
@@ -40,7 +40,6 @@ public class HandlerDecorator extends WebSocketHandlerDecorator{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus)
 			throws Exception {
-		//String username = session.getPrincipal().getName();
 		LOGGER.info("offline: {}", session);
 		super.afterConnectionClosed(session, closeStatus);
 		Principal p = session.getPrincipal();

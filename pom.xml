@@ -9,7 +9,6 @@
       <redisson.version>3.4.4</redisson.version>
       <pool.jdbc>2.6.0</pool.jdbc>
       <jedis>2.9.0</jedis>
-      <jredis>06052013</jredis>
   </properties>
   <parent>
 	 <groupId>org.springframework.boot</groupId>
@@ -21,11 +20,6 @@
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-websocket</artifactId>
      </dependency>
-     <!-- dependency>
-	   <groupId>org.redisson</groupId>
-	   <artifactId>redisson</artifactId>
-	   <version>${redisson.version}</version>
-	</dependency-->  
 	<dependency>
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-context</artifactId>
@@ -71,7 +65,6 @@
 	    <artifactId>spring-data-redis</artifactId>
 	</dependency>
 	<!--dependency>
-	
 	    <groupId>org.springframework.session</groupId>
 	    <artifactId>spring-session-data-redis</artifactId>
 	</dependency-->
@@ -79,33 +72,16 @@
 	    <groupId>org.springframework.session</groupId>
 	    <artifactId>spring-session</artifactId>
 	</dependency-->
-			<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-pool2</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-			<version>${jedis}</version>
-		</dependency>
-		<!--dependency>
-			<groupId>org.jredis</groupId>
-			<artifactId>jredis-core-api</artifactId>
-			<version>${jredis}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.jredis</groupId>
-			<artifactId>jredis-core-ri</artifactId>
-			<version>${jredis}</version>
-		</dependency-->
-		
-<!--dependency>
-    <groupId>biz.paluch.redis</groupId>
-    <artifactId>lettuce</artifactId>
-    <version>4.3.3.Final</version>
-</dependency-->
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-pool2</artifactId>
+		<optional>true</optional>
+	</dependency>
+	<dependency>
+		<groupId>redis.clients</groupId>
+		<artifactId>jedis</artifactId>
+		<version>${jedis}</version>
+	</dependency>
   </dependencies>
   <build>
     <plugins>

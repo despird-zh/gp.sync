@@ -8,7 +8,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 public class AppContextListener implements ApplicationListener<ContextRefreshedEvent> {
 
-static Logger LOGGER = LoggerFactory.getLogger(AppContextListener.class);
+	static Logger LOGGER = LoggerFactory.getLogger(AppContextListener.class);
 	
 	public ApplicationContext referContext;
 	

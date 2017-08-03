@@ -10,6 +10,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.gp.sync.AppContextListener;
 import com.gp.sync.web.socket.AgentSessionRegistry;
 
 /**
@@ -31,7 +32,12 @@ public class RootConfigurer {
     public AgentSessionRegistry webAgentSessionRegistry(){
         return new AgentSessionRegistry();
     }
-		
+	
+	@Bean
+	public AppContextListener appContextListener() {
+		return new AppContextListener();
+	}
+	
     @Bean
     public JedisConnectionFactory connectionFactory() {
     	

@@ -21,7 +21,7 @@ public class GSyncApplication{
 	 **/
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(GSyncApplication.class);
-		app.addListeners(new AppContextListener());
+		//app.addListeners(new AppContextListener());
         app.run( args);
     }
 

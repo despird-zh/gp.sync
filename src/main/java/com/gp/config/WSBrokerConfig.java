@@ -1,7 +1,6 @@
 package com.gp.config;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 
-import com.gp.sync.web.socket.AgentSessionRegistry;
 import com.gp.sync.web.socket.HandlerDecorator;
 import com.gp.sync.web.socket.HandshakeHandler;
 
@@ -25,7 +23,6 @@ import com.gp.sync.web.socket.HandshakeHandler;
 		"com.gp.sync.web"
  })
 public class WSBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
-//public class WebSocketBrokerConfigurer extends AbstractSessionWebSocketMessageBrokerConfigurer<ExpiringSession> {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -35,10 +32,8 @@ public class WSBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-    //protected void configureStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/hello")
-        		.setHandshakeHandler(userHandshakeHandler())
-        		//.addInterceptors(new HttpSessionHandshakeInterceptor())
+        		.setHandshakeHandler( handshakeHandler() )
         		.setAllowedOrigins("*");
     }
     
@@ -48,11 +43,6 @@ public class WSBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
 		registration.setMessageSizeLimit(256 * 1024);
 		super.configureWebSocketTransport(registration);
 	}
-    
-   // @Override
-    //public void configureClientInboundChannel(ChannelRegistration registration) {
-      //registration.setInterceptors(new ChannelIntercepter());
-    //}
 	
     @Bean
     public WebSocketHandlerDecoratorFactory handlerDecoratorFactory(){
@@ -65,7 +55,7 @@ public class WSBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
     }
     
     @Bean
-    public HandshakeHandler userHandshakeHandler(){
+    public HandshakeHandler handshakeHandler(){
         return new HandshakeHandler();
     }
 }
