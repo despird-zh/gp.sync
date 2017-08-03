@@ -3,7 +3,6 @@ package com.gp.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -11,10 +10,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,9 +40,6 @@ import com.gp.web.servlet.ServiceFilter;
  })
 public class RootConfigurer {
 	
-	@Autowired(required=true)
-	private Environment env;
-
 	@Bean
     public AgentSessionRegistry webAgentSessionRegistry(){
         return new AgentSessionRegistry();
@@ -102,6 +100,9 @@ public class RootConfigurer {
 	    return  servlet;
 	}
 	
+    /**
+     * Prepare the rest template for Jedis data  
+     **/
     @Bean
     public JedisConnectionFactory connectionFactory() {
     	
@@ -121,4 +122,20 @@ public class RootConfigurer {
     		
     		return redisTemplate;
 	}
+    
+    /**
+     * Prepare the rest template for http json data requesting 
+     **/
+    @Bean
+    public RestTemplate restTemplate(ClientHttpRequestFactory factory){
+        return new RestTemplate(factory);
+    }
+    
+    @Bean
+    public ClientHttpRequestFactory simpleClientHttpRequestFactory(){
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setReadTimeout(5000);//ms
+        factory.setConnectTimeout(15000);//ms
+        return factory;
+    }
 }
