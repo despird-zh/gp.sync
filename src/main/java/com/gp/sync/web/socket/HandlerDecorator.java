@@ -7,44 +7,48 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
+
+import com.gp.core.AppContextHelper;
 
 public class HandlerDecorator extends WebSocketHandlerDecorator{
 
 	static Logger LOGGER = LoggerFactory.getLogger(HandlerDecorator.class);
-		
+	
+	private AgentSessionRegistry sessionRegistry ;
+	
 	public HandlerDecorator(WebSocketHandler delegate) {
 		super(delegate);
+		
 	}
 
+	private void initialRegistry() {
+		if( null == this.sessionRegistry )
+			this.sessionRegistry = AppContextHelper.getSpringBean(AgentSessionRegistry.class);
+	}
+	
 	@Override
 	public void afterConnectionEstablished(final WebSocketSession session) throws Exception {
-
+		
+		initialRegistry();
 		LOGGER.info("online principal: {}", session.getPrincipal());
 		super.afterConnectionEstablished(session);
 		Principal p = session.getPrincipal();
 		if(StringUtils.isNotBlank(p.getName()))
-			AgentSessionRegistry.addSession(p.getName(), session);
-	}
-
-	@Override
-	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		Object mp = message.getPayload();
-		LOGGER.debug("type payload: {}", message.getClass().getName());
-		LOGGER.debug("session principal: {}", session.getPrincipal());
-		super.handleMessage(session, message);
+			sessionRegistry.addSession(p.getName(), session);
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus)
 			throws Exception {
+		
+		initialRegistry();
 		LOGGER.info("offline: {}", session);
 		super.afterConnectionClosed(session, closeStatus);
 		Principal p = session.getPrincipal();
 		if(StringUtils.isNotBlank(p.getName()))
-			AgentSessionRegistry.removeSession(p.getName());
+			sessionRegistry.removeSession(p.getName());
 	}
 
 }

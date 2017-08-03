@@ -5,11 +5,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.gp.core.AppContextHelper;
 import com.gp.sync.AppContextListener;
 import com.gp.sync.web.socket.AgentSessionRegistry;
 
@@ -21,6 +23,7 @@ import com.gp.sync.web.socket.AgentSessionRegistry;
 		"classpath:/gpress-datasource.xml"
 	})
 @ComponentScan(basePackages = { 
+		"com.gp.core",
 		"com.gp.sync.svc"
  })
 public class RootConfigurer {
@@ -36,6 +39,12 @@ public class RootConfigurer {
 	@Bean
 	public AppContextListener appContextListener() {
 		return new AppContextListener();
+	}
+	
+	@Bean
+	@Order(1)
+	public AppContextHelper appContextHelper() {
+		return new AppContextHelper();
 	}
 	
     @Bean

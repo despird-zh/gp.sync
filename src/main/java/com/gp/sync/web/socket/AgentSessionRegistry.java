@@ -7,18 +7,18 @@ import org.springframework.web.socket.WebSocketSession;
 
 public class AgentSessionRegistry {
 
-	private static ConcurrentMap<String, WebSocketSession> agentMap = new ConcurrentHashMap<String, WebSocketSession>();
+	private ConcurrentMap<String, WebSocketSession> agentMap = new ConcurrentHashMap<String, WebSocketSession>();
 	
-	public static void addSession(String agentId, WebSocketSession session) {
+	public void addSession(String agentId, WebSocketSession session) {
 		agentMap.put(agentId, session);
 	} 
 	
-	public static WebSocketSession getSession(String agentId) {
+	public WebSocketSession getSession(String agentId) {
 		
 		return agentMap.get(agentId);
 	}
 	
-	public static WebSocketSession removeSession(String agentId) {
+	public WebSocketSession removeSession(String agentId) {
 		
 		return agentMap.remove(agentId);
 	}
