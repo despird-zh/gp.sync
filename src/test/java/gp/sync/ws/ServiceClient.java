@@ -11,7 +11,9 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 import java.util.Scanner;
 
 public class ServiceClient {
+		
     public static void main(String... argv) {
+    	
         WebSocketClient webSocketClient = new StandardWebSocketClient();
         WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
