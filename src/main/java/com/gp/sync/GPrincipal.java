@@ -1,13 +1,13 @@
-package com.gp.sync.web.socket;
+package com.gp.sync;
 
 import java.security.Principal;
 
-public class TestPrincipal implements Principal {
+public class GPrincipal implements Principal {
 
 	private final String name;
 	private final String passcode;
 
-	public TestPrincipal(String name, String passcode) {
+	public GPrincipal(String name, String passcode) {
 		this.name = name;
 		this.passcode = passcode;
 	}
@@ -23,7 +23,7 @@ public class TestPrincipal implements Principal {
 
 	@Override
 	public String toString() {
-		return "TestPrincipal [name=" + name + ", passcode=" + passcode + "]";
+		return "GPrincipal [name=" + name + ", passcode=" + passcode + "]";
 	}
 
 }

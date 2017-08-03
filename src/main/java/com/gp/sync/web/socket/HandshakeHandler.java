@@ -11,6 +11,8 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
+import com.gp.sync.GPrincipal;
+
 public class HandshakeHandler extends DefaultHandshakeHandler {
 
 	Logger log = LoggerFactory.getLogger(HandshakeHandler.class);
@@ -28,7 +30,7 @@ public class HandshakeHandler extends DefaultHandshakeHandler {
     		String login = headers.toSingleValueMap().get("login");
     		String passcode = headers.toSingleValueMap().get("passcode");
     		
-        return new TestPrincipal(login, passcode);
+        return new GPrincipal(login, passcode);
     }
 
 }

@@ -12,9 +12,11 @@ import java.time.format.DateTimeFormatter;
 
 @Component
 public class TimeSender {
+	
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
     
-    Logger log = LoggerFactory.getLogger(TimeSender.class);
+    Logger LOGGER = LoggerFactory.getLogger(TimeSender.class);
+    
     @Autowired
     private SimpMessagingTemplate broker;
 
@@ -27,7 +29,7 @@ public class TimeSender {
     public void run() {
         String time = LocalTime.now().format(TIME_FORMAT);
 
-       // log.info("Time broadcast: {}", time);
-        broker.convertAndSend("/topic/greetings", new Greeting("Current time is " + time));
+        LOGGER.info("Time broadcast: {}", time);
+       broker.convertAndSend("/topic/greetings", new Greeting("Current time is " + time));
     }
 }
