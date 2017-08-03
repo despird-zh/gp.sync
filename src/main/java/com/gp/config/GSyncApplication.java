@@ -2,10 +2,7 @@ package com.gp.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Import;
-
-import com.gp.sync.AppContextListener;
 
 @SpringBootApplication
 @Import({ 
