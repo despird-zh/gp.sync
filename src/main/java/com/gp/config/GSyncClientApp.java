@@ -11,13 +11,13 @@ import org.springframework.context.annotation.Import;
 	WSBrokerConfig.class
 	})
 
-public class GSyncApplication{
+public class GSyncClientApp{
 
     /**
 	 * The main entrance of application 
 	 **/
 	public static void main(String[] args) {
-		SpringApplication app = new SpringApplication(GSyncApplication.class);
+		SpringApplication app = new SpringApplication(GSyncClientApp.class);
 		//app.addListeners(new AppContextListener());
         app.run( args);
     }

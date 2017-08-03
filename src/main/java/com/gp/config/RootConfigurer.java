@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import com.gp.core.AppContextHelper;
 import com.gp.sync.AppContextListener;
 import com.gp.sync.web.socket.AgentSessionRegistry;
+import com.gp.sync.CoreStarter;
 import com.gp.web.servlet.ServiceFilter;
 
 /**
@@ -54,6 +56,16 @@ public class RootConfigurer {
 	@Order(1)
 	public AppContextHelper appContextHelper() {
 		return new AppContextHelper();
+	}
+	
+	/**
+	 * The CoreStart listener 
+	 **/
+	@Bean ServletListenerRegistrationBean<CoreStarter> coreStarterListener(){
+		ServletListenerRegistrationBean<CoreStarter> listenerReg = new ServletListenerRegistrationBean<CoreStarter>();
+		
+		listenerReg.setListener(new CoreStarter());
+		return listenerReg;
 	}
 	
 	@Bean
