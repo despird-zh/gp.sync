@@ -12,7 +12,7 @@ public class SyncMessage {
 	
 	private String bloomFilter;
 	
-	private String message;
+	private String payload;
 	
 	private Map<String,Object> params;
 
@@ -56,12 +56,12 @@ public class SyncMessage {
 		this.params = params;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getPayload() {
+		return payload;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setPayload(String payload) {
+		this.payload = payload;
 	}
 	
 }
