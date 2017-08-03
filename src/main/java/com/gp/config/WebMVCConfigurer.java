@@ -10,9 +10,6 @@ import com.gp.web.DatabaseMessageSource;
 import com.gp.web.PrincipalLocaleResolver;
 
 @EnableWebMvc
-@ComponentScan(basePackages = { 
-		"com.gp.sync.web"
- })
 public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 	
 	/**
