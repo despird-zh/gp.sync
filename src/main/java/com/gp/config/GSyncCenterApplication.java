@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Import;
 	RootConfigurer.class, 
 	ServiceConfigurer.class,
 	StompBrokerConfig.class
-	})
-
+})
 public class GSyncCenterApplication{
 
     /**
