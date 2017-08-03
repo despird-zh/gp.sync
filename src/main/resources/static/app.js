@@ -44,3 +44,22 @@ function showGreeting(message) {
     response.appendChild(p);
 }
 
+$(document).ready(function(){ 
+	$('#login').bind('click', function(){
+		var data = {
+			principal: $('#user').val(),
+			credential:$('#pass').val(),
+			audience:'sync001'
+		}
+		$.ajax({
+			url: 'gpapi/authenticate.do',
+			data: JSON.stringify(data),
+			type: 'post',
+			contentType: "application/json; charset=utf-8",
+			dataType: 'json',
+			success:function(data) {  
+				$('#api-result').html(data);
+			}
+		});
+	});
+}) 

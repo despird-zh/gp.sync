@@ -14,8 +14,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import com.gp.core.AppContextHelper;
 import com.gp.sync.AppContextListener;
@@ -74,6 +76,18 @@ public class RootConfigurer {
 		bean.setOrder(2);
 		
 		return bean;
+	}
+	
+	@Bean
+	public DispatcherServlet dispatcherServlet() {
+
+		 // Create ApplicationContext
+        AnnotationConfigWebApplicationContext webMvcContext = new AnnotationConfigWebApplicationContext();
+        webMvcContext.register(WebMVCConfigurer.class);
+
+	    DispatcherServlet servlet=new DispatcherServlet(webMvcContext);
+ 
+	    return  servlet;
 	}
 	
     @Bean

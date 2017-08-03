@@ -19,9 +19,6 @@ import com.gp.sync.web.socket.HandshakeHandler;
 @Configuration
 @EnableWebSocketMessageBroker
 @EnableScheduling
-@ComponentScan(basePackages = { 
-		"com.gp.sync.web"
- })
 public class WSBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
