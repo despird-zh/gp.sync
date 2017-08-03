@@ -24,7 +24,7 @@ import com.gp.sync.web.socket.HandshakeHandler;
 @ComponentScan(basePackages = { 
 		"com.gp.sync.web"
  })
-public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
+public class WSBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
 //public class WebSocketBrokerConfigurer extends AbstractSessionWebSocketMessageBrokerConfigurer<ExpiringSession> {
 
     @Override

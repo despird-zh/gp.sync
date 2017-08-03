@@ -6,6 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.gp.sync.web.socket.AgentSessionRegistry;
 
@@ -28,4 +31,24 @@ public class RootConfigurer {
     public AgentSessionRegistry webAgentSessionRegistry(){
         return new AgentSessionRegistry();
     }
+		
+    @Bean
+    public JedisConnectionFactory connectionFactory() {
+    	
+    		JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
+
+    		connectionFactory.setHostName("127.0.0.1");
+    		connectionFactory.setPort(6379);
+    		return connectionFactory;
+    }
+    
+    @Bean
+	public RedisTemplate<String, Object> redisTemplate() {
+
+    		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+    		redisTemplate.setConnectionFactory(connectionFactory());
+    		redisTemplate.setKeySerializer(new StringRedisSerializer());
+    		
+    		return redisTemplate;
+	}
 }
