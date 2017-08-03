@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 @Import({ 
 	RootConfigurer.class, 
 	ServiceConfigurer.class,
-	WSBrokerConfig.class
+	StompBrokerConfig.class
 	})
 
 public class GSyncClientApp{

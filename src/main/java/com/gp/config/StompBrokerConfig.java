@@ -18,7 +18,7 @@ import com.gp.sync.web.socket.HandshakeHandler;
 @Configuration
 @EnableWebSocketMessageBroker
 @EnableScheduling
-public class WSBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
+public class StompBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
