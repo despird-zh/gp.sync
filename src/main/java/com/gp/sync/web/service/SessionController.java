@@ -1,7 +1,5 @@
 package com.gp.sync.web.service;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
