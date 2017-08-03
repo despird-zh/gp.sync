@@ -1,6 +1,10 @@
 package com.gp.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +14,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.gp.core.AppContextHelper;
 import com.gp.sync.AppContextListener;
 import com.gp.sync.web.socket.AgentSessionRegistry;
+import com.gp.web.servlet.ServiceFilter;
 
 /**
  *
@@ -45,6 +52,28 @@ public class RootConfigurer {
 	@Order(1)
 	public AppContextHelper appContextHelper() {
 		return new AppContextHelper();
+	}
+	
+	@Bean
+	public FilterRegistrationBean corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(false);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader(ServiceFilter.AUTH_HEADER);
+		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration( ServiceFilter.FILTER_PREFIX + "/**", config);
+        
+		FilterRegistrationBean bean = new FilterRegistrationBean(new ServiceFilter(source));
+		
+		List<String> urlPatterns = new ArrayList<String>();
+        urlPatterns.add(ServiceFilter.FILTER_PREFIX + "/*");
+        
+        bean.setUrlPatterns(urlPatterns);
+		bean.setOrder(2);
+		
+		return bean;
 	}
 	
     @Bean
