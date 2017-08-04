@@ -1,21 +1,24 @@
-package com.gp.sync.web.service;
+package com.gp.sync.web.socket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.socket.WebSocketSession;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import com.gp.sync.web.model.Greeting;
-import com.gp.sync.web.socket.HelloMessage;
 
 @Controller
 public class GreetingController {
 	
 	Logger log = LoggerFactory.getLogger(GreetingController.class);
+	
+	@Autowired
+	private SimpMessagingTemplate template;
 	
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
@@ -26,8 +29,14 @@ public class GreetingController {
 
     @MessageMapping("/test")
     @SendTo("/topic/greetings")
-    public Greeting test(Message message) throws Exception {
+    public Greeting test(Message<?> message) throws Exception {
     		log.debug("msg: {} " , message);
         return new Greeting("Hello, ss!");
+    }
+    
+    @RequestMapping(path="/greetings", method=RequestMethod.POST)
+    public void greet(String greeting) {
+        String text = "[" + System.currentTimeMillis() + "]:" + greeting;
+        this.template.convertAndSend("/topic/greetings", text);
     }
 }
