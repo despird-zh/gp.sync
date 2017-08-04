@@ -46,6 +46,9 @@ public class RootConfigurer {
         return new AgentSessionRegistry();
     }
 	
+	/**
+	 * Trigger the AppContext event 
+	 **/
 	@Bean
 	public AppContextListener appContextListener() {
 		return new AppContextListener();
@@ -58,7 +61,8 @@ public class RootConfigurer {
 	}
 	
 	/**
-	 * The CoreStart listener 
+	 * The CoreStart listener, it starts the CoreEngine which detect and prepare the CoreInitializer via java serviceloader(SPI).
+	 * assembly the initializer to sort the LifecycleHooker with priority. 
 	 **/
 	@Bean ServletListenerRegistrationBean<CoreStarter> coreStarterListener(){
 		ServletListenerRegistrationBean<CoreStarter> listenerReg = new ServletListenerRegistrationBean<CoreStarter>();
@@ -67,6 +71,10 @@ public class RootConfigurer {
 		return listenerReg;
 	}
 	
+	/**
+	 * Build the service filter bean, it filter out the valid request to /gpapi/* service.
+	 * e.g. authenticate.do to fetch a valid token 
+	 **/
 	@Bean
 	public FilterRegistrationBean corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -89,6 +97,9 @@ public class RootConfigurer {
 		return bean;
 	}
 	
+	/**
+	 * Prepare the dispatch servlet 
+	 **/
 	@Bean
 	public DispatcherServlet dispatcherServlet() {
 
