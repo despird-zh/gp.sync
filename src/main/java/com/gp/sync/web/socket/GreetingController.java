@@ -1,5 +1,6 @@
 package com.gp.sync.web.socket;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,11 @@ public class GreetingController {
     @MessageMapping("/test")
     @SendTo("/topic/greetings")
     public Greeting test(Message<?> message) throws Exception {
-    		log.debug("msg: {} " , message);
+    		
+    		byte[] bytes = (byte[]) message.getPayload();
+    		String str = new String(bytes ,"UTF-8");
+    		log.debug("msg: {} " , str);
+    		
         return new Greeting("Hello, ss!");
     }
     

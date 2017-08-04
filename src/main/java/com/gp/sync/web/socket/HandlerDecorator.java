@@ -21,7 +21,6 @@ public class HandlerDecorator extends WebSocketHandlerDecorator{
 	
 	public HandlerDecorator(WebSocketHandler delegate) {
 		super(delegate);
-		
 	}
 
 	private void initialRegistry() {
@@ -42,13 +41,12 @@ public class HandlerDecorator extends WebSocketHandlerDecorator{
 	
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		
+		LOGGER.info("handle message principal: {}", session.getPrincipal());
 		super.handleMessage(session, message);
 	}
 	
 	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus)
-			throws Exception {
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus)	throws Exception {
 		
 		initialRegistry();
 		LOGGER.info("offline: {}", session);
