@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
@@ -26,12 +25,12 @@ public class HandshakeHandler extends DefaultHandshakeHandler {
     		
     		HttpHeaders headers = request.getHeaders();
     		try {
-				String body = IOUtils.toString(request.getBody(), "utf-8");
-				log.debug("msg body : {}", body);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			String body = IOUtils.toString(request.getBody(), "utf-8");
+			log.debug("msg body : {}", body);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     		
     		String mapHeaders = headers.toSingleValueMap().toString();
     		log.info("determine attr : {}", mapHeaders);
