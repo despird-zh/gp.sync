@@ -7,6 +7,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.gp.sync.web.model.Greeting;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -29,7 +31,7 @@ public class TimeSender {
     public void run() {
         String time = LocalTime.now().format(TIME_FORMAT);
 
-        LOGGER.info("Time broadcast: {}", time);
+       LOGGER.info("Time broadcast: {}", time);
        broker.convertAndSend("/topic/greetings", new Greeting("Current time is " + time));
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.cors.CorsConfiguration;
@@ -36,8 +37,7 @@ import com.gp.web.servlet.ServiceFilter;
 	})
 @ComponentScan(basePackages = { 
 		"com.gp.core",
-		"com.gp.sync.svc",
-		"com.gp.sync.web"
+		"com.gp.sync.svc"
  })
 public class RootConfigurer {
 	

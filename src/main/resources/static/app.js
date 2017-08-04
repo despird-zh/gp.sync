@@ -44,7 +44,8 @@ function showGreeting(message) {
     response.appendChild(p);
 }
 
-$(document).ready(function(){ 
+$(document).ready(function(){
+	
 	$('#login').bind('click', function(){
 		var data = {
 			principal: $('#user').val(),
@@ -61,5 +62,9 @@ $(document).ready(function(){
 				$('#api-result').html(data);
 			}
 		});
+	});
+	
+	$('#test').bind('click', function(){
+		stompClient.send("/app/test", {'token':'xxx-0sdfsss--'}, JSON.stringify({ 'tkey': 'hello blabal...' }));
 	});
 }) 

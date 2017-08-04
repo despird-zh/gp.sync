@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 
@@ -37,6 +38,12 @@ public class HandlerDecorator extends WebSocketHandlerDecorator{
 		Principal p = session.getPrincipal();
 		if(StringUtils.isNotBlank(p.getName()))
 			sessionRegistry.addSession(p.getName(), session);
+	}
+	
+	@Override
+	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+		
+		super.handleMessage(session, message);
 	}
 	
 	@Override

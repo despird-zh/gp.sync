@@ -1,8 +1,10 @@
 package com.gp.sync.web.socket;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -23,14 +25,21 @@ public class HandshakeHandler extends DefaultHandshakeHandler {
                     Map<String, Object> attributes) {
     		
     		HttpHeaders headers = request.getHeaders();
-
+    		try {
+				String body = IOUtils.toString(request.getBody(), "utf-8");
+				log.debug("msg body : {}", body);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
     		String mapHeaders = headers.toSingleValueMap().toString();
     		log.info("determine attr : {}", mapHeaders);
     		
     		String login = headers.toSingleValueMap().get("login");
     		String passcode = headers.toSingleValueMap().get("passcode");
     		
-        return new GPrincipal(login, passcode);
+        return new GPrincipal(login == null? "x":login, passcode == null? "y":passcode);
     }
 
 }
