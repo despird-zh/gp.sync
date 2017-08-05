@@ -5,9 +5,9 @@ import com.gp.exception.BaseException;
 import com.gp.launcher.CoreInitializer;
 import com.gp.launcher.LifecycleHooker;
 
-public class SyncInitializer extends CoreInitializer{
+public class SyncCoreInitializer extends CoreInitializer{
 
-	public SyncInitializer() throws BaseException {
+	public SyncCoreInitializer() throws BaseException {
 		super();
 	}
 

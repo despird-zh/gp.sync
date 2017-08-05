@@ -11,8 +11,10 @@ function connect() {
 	console.log('connecting... ');
 	//sockJS = new SockJS('http://localhost:8080/hello');
     stompClient = Stomp.client('ws://localhost:8080/hello');
-    stompClient.debug = function(d){console.log(d)};
-    stompClient.connect({'passcode':'adC123456x','login':'dddddd'}, function(frame) {
+    //stompClient.debug = null;
+    var login = document.getElementById('user').value;
+    var pass = document.getElementById('pass').value;
+    stompClient.connect({'passcode':pass,'login':login}, function(frame) {
     	
         setConnected(true);
         console.log('Connected: ' + frame);
@@ -59,7 +61,7 @@ $(document).ready(function(){
 			contentType: "application/json; charset=utf-8",
 			dataType: 'json',
 			success:function(data) {  
-				$('#api-result').html(data);
+				$('#api-result').html(JSON.stringify(data));
 			}
 		});
 	});
