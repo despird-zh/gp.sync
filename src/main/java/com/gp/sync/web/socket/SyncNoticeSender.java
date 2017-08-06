@@ -12,18 +12,22 @@ import com.gp.sync.web.model.Greeting;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class monitor the received message and analysis is it need to notify 
+ * node to fetch the incremental sync message. 
+ **/
 @Component
-public class TimeSender {
+public class SyncNoticeSender {
 	
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
     
-    Logger LOGGER = LoggerFactory.getLogger(TimeSender.class);
+    Logger LOGGER = LoggerFactory.getLogger(SyncNoticeSender.class);
     
     @Autowired
     private SimpMessagingTemplate broker;
 
     @Autowired
-    public TimeSender(final SimpMessagingTemplate broker) {
+    public SyncNoticeSender(final SimpMessagingTemplate broker) {
         this.broker = broker;
     }
 

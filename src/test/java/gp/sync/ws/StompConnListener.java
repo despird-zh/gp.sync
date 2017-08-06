@@ -11,7 +11,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 
-import com.gp.sync.web.socket.AgentSessionRegistry;
+import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 
 @Service
 public class StompConnListener implements ApplicationListener<SessionConnectEvent> {
@@ -19,7 +19,7 @@ public class StompConnListener implements ApplicationListener<SessionConnectEven
 	Logger log = LoggerFactory.getLogger(StompConnListener.class);
 	
 	@Autowired
-	AgentSessionRegistry webAgentSessionRegistry;
+	SyncNodeSessionRegistry webAgentSessionRegistry;
 
 	@Override
 	public void onApplicationEvent(SessionConnectEvent event) {

@@ -1,4 +1,4 @@
-package com.gp.sync.web.socket;
+package com.gp.sync.web.model;
 
 public class HelloMessage {
 
@@ -13,6 +13,4 @@ public class HelloMessage {
 	public void setName(String name) {
 		this.name = name;
 	}
-    
-    
 }

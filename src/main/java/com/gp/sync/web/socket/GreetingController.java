@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.gp.sync.web.model.Greeting;
+import com.gp.sync.web.model.HelloMessage;
 
 @Controller
 public class GreetingController {

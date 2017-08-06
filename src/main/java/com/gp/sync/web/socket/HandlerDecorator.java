@@ -17,31 +17,36 @@ public class HandlerDecorator extends WebSocketHandlerDecorator{
 
 	static Logger LOGGER = LoggerFactory.getLogger(HandlerDecorator.class);
 	
-	private AgentSessionRegistry sessionRegistry ;
+	private SyncNodeSessionRegistry sessionRegistry ;
 	
 	public HandlerDecorator(WebSocketHandler delegate) {
+		
 		super(delegate);
+		LOGGER.debug("initial a new decorator");
 	}
 
 	private void initialRegistry() {
 		if( null == this.sessionRegistry )
-			this.sessionRegistry = AppContextHelper.getSpringBean(AgentSessionRegistry.class);
+			this.sessionRegistry = AppContextHelper.getSpringBean(SyncNodeSessionRegistry.class);
 	}
 	
 	@Override
 	public void afterConnectionEstablished(final WebSocketSession session) throws Exception {
 		
 		initialRegistry();
-		LOGGER.info("online principal: {}", session.getPrincipal());
 		super.afterConnectionEstablished(session);
 		Principal p = session.getPrincipal();
 		if(StringUtils.isNotBlank(p.getName()))
-			sessionRegistry.addSession(p.getName(), session);
+			sessionRegistry.addNodeSession(p.getName(), session);
 	}
 	
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		LOGGER.info("handle message principal: {}", session.getPrincipal());
+		
+		if("dev2".equals(session.getPrincipal().getName())) {
+			session.close();
+		}
 		super.handleMessage(session, message);
 	}
 	
@@ -49,11 +54,10 @@ public class HandlerDecorator extends WebSocketHandlerDecorator{
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus)	throws Exception {
 		
 		initialRegistry();
-		LOGGER.info("offline: {}", session);
 		super.afterConnectionClosed(session, closeStatus);
 		Principal p = session.getPrincipal();
 		if(StringUtils.isNotBlank(p.getName()))
-			sessionRegistry.removeSession(p.getName());
+			sessionRegistry.removeNodeSession(p.getName());
 	}
 
 }

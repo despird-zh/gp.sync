@@ -15,7 +15,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.cors.CorsConfiguration;
@@ -24,7 +23,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import com.gp.core.AppContextHelper;
 import com.gp.sync.AppContextListener;
-import com.gp.sync.web.socket.AgentSessionRegistry;
+import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 import com.gp.sync.CoreStarter;
 import com.gp.web.servlet.ServiceFilter;
 
@@ -42,8 +41,8 @@ import com.gp.web.servlet.ServiceFilter;
 public class RootConfigurer {
 	
 	@Bean
-    public AgentSessionRegistry webAgentSessionRegistry(){
-        return new AgentSessionRegistry();
+    public SyncNodeSessionRegistry webAgentSessionRegistry(){
+        return new SyncNodeSessionRegistry();
     }
 	
 	/**
