@@ -20,30 +20,26 @@ import com.gp.config.ServiceConfigurer;
 import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
-import com.gp.sync.dao.CenterMsgDAO;
-import com.gp.sync.dao.info.CenterMsgInfo;
+import com.gp.sync.dao.CenterRcvDAO;
+import com.gp.sync.dao.info.CenterDistInfo;
+import com.gp.sync.dao.info.CenterRcvInfo;
 
 @Component
-public class CenterMsgDAOImpl extends DAOSupport implements CenterMsgDAO{
+public class CenterRcvDAOImpl extends DAOSupport implements CenterRcvDAO{
 
-	Logger LOGGER = LoggerFactory.getLogger(CenterMsgDAOImpl.class);
+	Logger LOGGER = LoggerFactory.getLogger(CenterRcvDAOImpl.class);
 	
 	@Autowired
-	public CenterMsgDAOImpl(@Qualifier(ServiceConfigurer.DATA_SRC) DataSource dataSource) {
+	public CenterRcvDAOImpl(@Qualifier(ServiceConfigurer.DATA_SRC) DataSource dataSource) {
 		setDataSource(dataSource);
 	}
 	
 	@Override
-	protected void initialJdbcTemplate(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-
-	@Override
-	public int create(CenterMsgInfo info) {
+	public int create(CenterRcvInfo info) {
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("insert into gp_center_msgs (")
-			.append("msg_id, rcv_id, entity_code, node_code, ")
-			.append("trace_code, owm, sync_cmd, msg_data, ")
+		SQL.append("insert into gp_center_rcv (")
+			.append("rcv_id, entity_code, node_code, rcv_time, ")
+			.append("state, rcv_data, start_owm, end_owm, ")
 			.append("modifier, last_modified")
 			.append(")values(")
 			.append("?,?,?,?,")
@@ -53,8 +49,8 @@ public class CenterMsgDAOImpl extends DAOSupport implements CenterMsgDAO{
 		InfoId<Long> key = info.getInfoId();
 		
 		Object[] params = new Object[]{
-				key.getId(),info.getReceiveId(), info.getEntityCode(), info.getNodeCode(),
-				info.getTraceCode(), info.getOwm(), info.getSyncCommand(), info.getMsgData(),
+				key.getId(),info.getEntityCode(), info.getNodeCode(), info.getReceiveTime(),
+				info.getState(), info.getReceiveData(), info.getStartOwm(), info.getEndOwm(),
 				info.getModifier(),info.getModifyDate(),
 		};
 		if(LOGGER.isDebugEnabled()){
@@ -69,8 +65,8 @@ public class CenterMsgDAOImpl extends DAOSupport implements CenterMsgDAO{
 	@Override
 	public int delete(InfoId<?> id) {
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("delete from gp_center_msgs ")
-			.append("where msg_id = ? ");
+		SQL.append("delete from gp_center_rcv ")
+			.append("where rcv_id = ? ");
 		
 		JdbcTemplate jtemplate = this.getJdbcTemplate(JdbcTemplate.class);
 		Object[] params = new Object[]{
@@ -84,17 +80,13 @@ public class CenterMsgDAOImpl extends DAOSupport implements CenterMsgDAO{
 	}
 
 	@Override
-	public int update(CenterMsgInfo info, FilterMode mode, FlatColLocator... filterCols) {
+	public int update(CenterRcvInfo info, FilterMode mode, FlatColLocator... filterCols) {
 		Set<String> colset = FlatColumns.toColumnSet(filterCols);
 		List<Object> params = new ArrayList<Object>();
 	
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("update gp_center_msgs set ");
+		SQL.append("update gp_center_rcv set ");
 		
-		if(columnCheck(mode, colset, "rcv_id")){
-			SQL.append("rcv_id = ? ,");
-			params.add(info.getReceiveId());
-		}
 		if(columnCheck(mode, colset, "entity_code")){
 			SQL.append("entity_code = ? , ");
 			params.add(info.getEntityCode());
@@ -103,25 +95,29 @@ public class CenterMsgDAOImpl extends DAOSupport implements CenterMsgDAO{
 			SQL.append("node_code = ?, ");
 			params.add(info.getNodeCode());
 		}
-		if(columnCheck(mode, colset, "trace_code")){
-		SQL.append("trace_code = ?,");
-		params.add(info.getTraceCode());
+		if(columnCheck(mode, colset, "rcv_time")){
+			SQL.append("rcv_time = ?,");
+			params.add(info.getReceiveTime());
 		}
-		if(columnCheck(mode, colset, "owm")){
-			SQL.append("owm = ?, ");
-			params.add(info.getOwm());
+		if(columnCheck(mode, colset, "state")){
+			SQL.append("state = ?, ");
+			params.add(info.getState());
 		}
-		if(columnCheck(mode, colset, "sync_cmd")){
-			SQL.append("sync_cmd = ?, ");
-			params.add(info.getSyncCommand());
+		if(columnCheck(mode, colset, "rcv_data")){
+			SQL.append("rcv_data = ?, ");
+			params.add(info.getReceiveData());
 		}
-		if(columnCheck(mode, colset, "msg_data")){
-			SQL.append("msg_data = ?, ");
-			params.add(info.getMsgData());
+		if(columnCheck(mode, colset, "start_owm")){
+			SQL.append("start_owm = ?, ");
+			params.add(info.getStartOwm());
+		}
+		if(columnCheck(mode, colset, "end_owm")){
+			SQL.append("end_owm = ?, ");
+			params.add(info.getEndOwm());
 		}
 		
 		SQL.append("modifier = ?, last_modified = ? ")
-			.append("where msg_id = ? ");
+			.append("where rcv_id = ? ");
 		params.add(info.getModifier());
 		params.add(info.getModifyDate());
 		params.add(info.getInfoId().getId());
@@ -135,9 +131,9 @@ public class CenterMsgDAOImpl extends DAOSupport implements CenterMsgDAO{
 	}
 
 	@Override
-	public CenterMsgInfo query(InfoId<?> id) {
-		String SQL = "select * from gp_center_msgs "
-				+ "where msg_id = ? ";
+	public CenterRcvInfo query(InfoId<?> id) {
+		String SQL = "select * from gp_center_dist "
+				+ "where dist_id = ? ";
 		
 		Object[] params = new Object[]{				
 				id.getId()
@@ -147,9 +143,14 @@ public class CenterMsgDAOImpl extends DAOSupport implements CenterMsgDAO{
 		if(LOGGER.isDebugEnabled()){			
 			LOGGER.debug("SQL : " + SQL.toString() + " / params : " + ArrayUtils.toString(params));
 		}
-		List<CenterMsgInfo> ainfo = jtemplate.query(SQL, params, CMSG_Mapper);
+		List<CenterRcvInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
 		
 		return ainfo.size() > 0 ? ainfo.get(0) : null;
+	}
+
+	@Override
+	protected void initialJdbcTemplate(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 }
