@@ -17,13 +17,11 @@ import org.springframework.stereotype.Component;
 import com.gp.common.FlatColumns;
 import com.gp.common.FlatColumns.FilterMode;
 import com.gp.config.ServiceConfigurer;
-import com.gp.dao.SysOptionDAO;
 import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
 import com.gp.sync.dao.SyncOptDAO;
 import com.gp.sync.dao.info.SyncOptInfo;
-import com.gp.dao.info.SysOptionInfo;
 
 @Component
 public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
@@ -39,8 +37,8 @@ public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
 	public int create( SyncOptInfo info) {
 
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("insert into gp_sys_options (")
-			.append("sys_opt_id,opt_group,")
+		SQL.append("insert into gp_sync_opts (")
+			.append("sync_opt_id,opt_group,")
 			.append("opt_key,opt_value,descr,")
 			.append("modifier, last_modified")
 			.append(")values(")
@@ -66,8 +64,8 @@ public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
 	@Override
 	public int delete( InfoId<?> id) {
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("delete from gp_sys_options ")
-			.append("where sys_opt_id = ?");
+		SQL.append("delete from gp_sync_opts ")
+			.append("where sync_opt_id = ?");
 		
 		JdbcTemplate jtemplate = this.getJdbcTemplate(JdbcTemplate.class);
 		Object[] params = new Object[]{
@@ -89,7 +87,7 @@ public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
 		List<Object> params = new ArrayList<Object>();
 
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("update gp_sys_options set ");
+		SQL.append("update gp_sync_opts set ");
 		if(columnCheck(mode, colset, "opt_group")){
 			SQL.append("opt_group = ?,");
 			params.add(info.getOptionGroup());
@@ -108,7 +106,7 @@ public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
 		}
 		
 		SQL.append("modifier = ?, last_modified = ? ")
-			.append("where sys_opt_id = ?");
+			.append("where sync_opt_id = ?");
 		params.add(info.getModifier());
 		params.add(info.getModifyDate());
 		params.add(info.getInfoId().getId());
@@ -127,8 +125,8 @@ public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
 
 	@Override
 	public SyncOptInfo query( InfoId<?> id) {
-		String SQL = "select * from gp_sys_options "
-				+ "where sys_opt_id = ?";
+		String SQL = "select * from gp_sync_opts "
+				+ "where sync_opt_id = ?";
 		
 		Object[] params = new Object[]{				
 				id.getId()
@@ -154,7 +152,7 @@ public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
 	@Override
 	public List<SyncOptInfo> queryAll() {
 		
-		String SQL = "select * from gp_sys_options ";
+		String SQL = "select * from gp_sync_opts ";
 		
 		List<SyncOptInfo> options = null;
 		JdbcTemplate jtemplate = this.getJdbcTemplate(JdbcTemplate.class);
@@ -171,7 +169,7 @@ public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
 	@Override
 	public List<SyncOptInfo> queryByGroup( String groupKey) {
 		
-		String SQL = "select * from gp_sys_options where opt_group = ?";
+		String SQL = "select * from gp_sync_opts where opt_group = ?";
 		
 		List<SyncOptInfo> options = null;
 		JdbcTemplate jtemplate = this.getJdbcTemplate(JdbcTemplate.class);
@@ -191,7 +189,7 @@ public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
 
 	@Override
 	public SyncOptInfo queryByKey( String optKey){
-		String SQL = "select * from gp_sys_options where opt_key = ?";
+		String SQL = "select * from gp_sync_opts where opt_key = ?";
 
 		JdbcTemplate jtemplate = this.getJdbcTemplate(JdbcTemplate.class);
 		
@@ -212,7 +210,7 @@ public class SyncOptDAOImpl extends DAOSupport implements SyncOptDAO{
 	@Override
 	public int updateByKey(String optionKey, String optionValue) {
 		
-		String SQL = "update gp_sys_options set opt_value = ? where opt_key = ?";
+		String SQL = "update gp_sync_opts set opt_value = ? where opt_key = ?";
 
 		JdbcTemplate jtemplate = this.getJdbcTemplate(JdbcTemplate.class);
 		
