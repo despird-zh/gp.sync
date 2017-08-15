@@ -2,7 +2,7 @@ package com.gp.sync.dao.info;
 
 import com.gp.info.TraceableInfo;
 
-public class SyncOptInfo extends TraceableInfo<Long>{
+public class SyncOptInfo extends TraceableInfo<Integer>{
 
 	private static final long serialVersionUID = -7327001231571154525L;
 
