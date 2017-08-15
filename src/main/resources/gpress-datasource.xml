@@ -13,7 +13,7 @@
     <!-- we will manage transactions with annotations -->
     <tx:annotation-driven/>
 
-	<bean id="gpDataSource" class="com.gp.common.DataSourceDynamic" >  
+	<bean id="gpDataSource" class="com.gp.common.DataSourceDynamic" primary="true">  
 
 	    <property name="targetDataSources">  
 	        <map>  
