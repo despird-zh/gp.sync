@@ -14,7 +14,7 @@
     <tx:annotation-driven/>
 
 	<bean id="gpDataSource" class="com.gp.common.DataSourceDynamic" >  
-	    <!-- 通过key-value的形式来关联数据源 -->  
+
 	    <property name="targetDataSources">  
 	        <map>  
 	            <entry value-ref="syncDataSource" key="syncDataSource"></entry>
