@@ -21,7 +21,6 @@ import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
 import com.gp.sync.dao.NodeMsgOutDAO;
-import com.gp.sync.dao.info.NodeMsgInInfo;
 import com.gp.sync.dao.info.NodeMsgOutInfo;
 
 @Component
@@ -39,7 +38,7 @@ public class NodeMsgOutDAOImpl extends DAOSupport implements NodeMsgOutDAO{
 		StringBuffer SQL = new StringBuffer();
 		SQL.append("insert into gp_node_msg_out (")
 			.append("msg_id, push_id, entity_code, node_code, ")
-			.append("trace_code, owm, sync_cmd, msg_data ")
+			.append("trace_code, owm, sync_cmd, msg_data, ")
 			.append("modifier, last_modified")
 			.append(")values(")
 			.append("?,?,?,")

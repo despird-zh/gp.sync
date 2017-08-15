@@ -21,7 +21,6 @@ import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
 import com.gp.sync.dao.CenterSourceDAO;
-import com.gp.sync.dao.info.CenterDistInfo;
 import com.gp.sync.dao.info.CenterSourceInfo;
 
 @Component

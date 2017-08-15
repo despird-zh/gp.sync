@@ -20,25 +20,26 @@ import com.gp.config.ServiceConfigurer;
 import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
-import com.gp.sync.dao.NodeMsgInDAO;
-import com.gp.sync.dao.info.NodeMsgInInfo;
+import com.gp.sync.dao.NodePullDAO;
+import com.gp.sync.dao.info.NodeMsgOutInfo;
+import com.gp.sync.dao.info.NodePullInfo;
 
 @Component
-public class NodeMsgInDAOImpl extends DAOSupport implements NodeMsgInDAO{
+public class NodePullDAOImpl extends DAOSupport implements NodePullDAO{
 
-	Logger LOGGER = LoggerFactory.getLogger(NodeMsgInDAOImpl.class);
+	Logger LOGGER = LoggerFactory.getLogger(NodePullDAOImpl.class);
 	
 	@Autowired
-	public NodeMsgInDAOImpl(@Qualifier(ServiceConfigurer.DATA_SRC) DataSource dataSource) {
+	public NodePullDAOImpl(@Qualifier(ServiceConfigurer.DATA_SRC) DataSource dataSource) {
 		setDataSource(dataSource);
 	}
 	
 	@Override
-	public int create(NodeMsgInInfo info) {
+	public int create(NodePullInfo info) {
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("insert into gp_node_msg_in (")
-			.append("msg_id, pull_id, entity_code, node_code, ")
-			.append("trace_code, owm, sync_cmd, msg_data, ")
+		SQL.append("insert into gp_node_pull (")
+			.append("pull_id, entity_code, node_code, ")
+			.append("bloom_data, pull_time, pull_data, ")
 			.append("modifier, last_modified")
 			.append(")values(")
 			.append("?,?,?,")
@@ -48,8 +49,8 @@ public class NodeMsgInDAOImpl extends DAOSupport implements NodeMsgInDAO{
 		InfoId<Long> key = info.getInfoId();
 		
 		Object[] params = new Object[]{
-				key.getId(),info.getPullId(), info.getEntityCode(), info.getNodeCode(),
-				info.getTraceCode(), info.getOwm(), info.getSyncCommand(), info.getMsgData(),
+				key.getId(), info.getEntityCode(), info.getNodeCode(),
+				info.getBloomData(), info.getPullTime(), info.getPullData(),
 				info.getModifier(),info.getModifyDate(),
 		};
 		if(LOGGER.isDebugEnabled()){
@@ -64,8 +65,8 @@ public class NodeMsgInDAOImpl extends DAOSupport implements NodeMsgInDAO{
 	@Override
 	public int delete(InfoId<?> id) {
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("delete from gp_node_msg_in ")
-			.append("where msg_id = ? ");
+		SQL.append("delete from gp_node_pull ")
+			.append("where pull_id = ? ");
 		
 		JdbcTemplate jtemplate = this.getJdbcTemplate(JdbcTemplate.class);
 		Object[] params = new Object[]{
@@ -79,12 +80,12 @@ public class NodeMsgInDAOImpl extends DAOSupport implements NodeMsgInDAO{
 	}
 
 	@Override
-	public int update(NodeMsgInInfo info, FilterMode mode, FlatColLocator... filterCols) {
+	public int update(NodePullInfo info, FilterMode mode, FlatColLocator... filterCols) {
 		Set<String> colset = FlatColumns.toColumnSet(filterCols);
 		List<Object> params = new ArrayList<Object>();
 	
 		StringBuffer SQL = new StringBuffer();
-		SQL.append("update gp_node_msg_in set ");
+		SQL.append("update gp_node_pull set ");
 		
 		if(columnCheck(mode, colset, "node_code")){
 			SQL.append("node_code = ?,");
@@ -94,26 +95,19 @@ public class NodeMsgInDAOImpl extends DAOSupport implements NodeMsgInDAO{
 			SQL.append("entity_code = ? ,");
 			params.add(info.getEntityCode());
 		}
-		if(columnCheck(mode, colset, "pull_id")){
-			SQL.append("pull_id = ? , ");
-			params.add(info.getPullId());
+		if(columnCheck(mode, colset, "bloom_data")){
+			SQL.append("bloom_data = ? , ");
+			params.add(info.getBloomData());
 		}
-		if(columnCheck(mode, colset, "trace_code")){
-			SQL.append("trace_code = ?, ");
-			params.add(info.getTraceCode());
+		if(columnCheck(mode, colset, "pull_time")){
+			SQL.append("pull_time = ?, ");
+			params.add(info.getPullTime());
 		}
-		if(columnCheck(mode, colset, "owm")){
-		SQL.append("owm = ?,");
-		params.add(info.getOwm());
+		if(columnCheck(mode, colset, "pull_data")){
+		SQL.append("pull_data = ?,");
+		params.add(info.getPullData());
 		}
-		if(columnCheck(mode, colset, "sync_cmd")){
-			SQL.append("sync_cmd = ?, ");
-			params.add(info.getSyncCommand());
-		}
-		if(columnCheck(mode, colset, "msg_data")){
-			SQL.append("msg_data = ?, ");
-			params.add(info.getMsgData());
-		}
+
 		
 		SQL.append("modifier = ?, last_modified = ? ")
 			.append("where msg_id = ? ");
@@ -130,9 +124,9 @@ public class NodeMsgInDAOImpl extends DAOSupport implements NodeMsgInDAO{
 	}
 
 	@Override
-	public NodeMsgInInfo query(InfoId<?> id) {
-		String SQL = "select * from gp_node_msg_in "
-				+ "where msg_id = ? ";
+	public NodePullInfo query(InfoId<?> id) {
+		String SQL = "select * from gp_node_pull "
+				+ "where pull_id = ? ";
 		
 		Object[] params = new Object[]{				
 				id.getId()
@@ -142,7 +136,7 @@ public class NodeMsgInDAOImpl extends DAOSupport implements NodeMsgInDAO{
 		if(LOGGER.isDebugEnabled()){			
 			LOGGER.debug("SQL : " + SQL.toString() + " / params : " + ArrayUtils.toString(params));
 		}
-		List<NodeMsgInInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
+		List<NodePullInfo> ainfo = jtemplate.query(SQL, params, MAPPER);
 		
 		return ainfo.size() > 0 ? ainfo.get(0) : null;
 	}
