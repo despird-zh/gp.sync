@@ -9,6 +9,7 @@
       <redisson.version>3.4.4</redisson.version>
       <pool.jdbc>2.6.0</pool.jdbc>
       <jedis>2.9.0</jedis>
+      <msgpack>0.8.13</msgpack>
   </properties>
   <parent>
 	 <groupId>org.springframework.boot</groupId>
@@ -81,6 +82,16 @@
 		<groupId>redis.clients</groupId>
 		<artifactId>jedis</artifactId>
 		<version>${jedis}</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.msgpack</groupId>
+	    <artifactId>msgpack-core</artifactId>
+	    <version>${msgpack}</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.msgpack</groupId>
+	    <artifactId>jackson-dataformat-msgpack</artifactId>
+	    <version>${msgpack}</version>
 	</dependency>
   </dependencies>
   <build>
