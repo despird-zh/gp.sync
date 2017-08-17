@@ -1,4 +1,4 @@
-package com.gp.sync.svc;
+package com.gp.sync.svc.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;
@@ -6,6 +6,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessageType;
 
+import com.gp.sync.svc.MessageSender;
 import com.gp.sync.web.model.SyncNoticeMessage;
 import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 
