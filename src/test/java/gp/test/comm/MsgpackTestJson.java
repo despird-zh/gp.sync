@@ -7,6 +7,7 @@ import java.util.Date;
 import org.msgpack.jackson.dataformat.MessagePackFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gp.common.IdKeys;
 import com.gp.info.InfoId;
 import com.gp.info.InfoIdHelper;
 import com.gp.sync.SyncIdKey;
@@ -26,7 +27,7 @@ public class MsgpackTestJson {
 	public static void test1() throws IOException{
 		
 		CenterDistInfo dist = new CenterDistInfo();
-		InfoId<Long> id = SyncIdKey.CEN_DIST.getInfoId(12l);
+		InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.CENTER_DIST,12l);
 		dist.setInfoId(id);
 		dist.setTargetEntityCode("TG001");
 		dist.setTargetNodeCode("TGN001");

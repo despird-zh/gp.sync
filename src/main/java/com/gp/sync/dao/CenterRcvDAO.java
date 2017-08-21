@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
@@ -19,7 +20,7 @@ public interface CenterRcvDAO extends BaseDAO<CenterRcvInfo>{
 			
 			CenterRcvInfo info = new CenterRcvInfo();
 			
-			InfoId<Long> id = SyncIdKey.CEN_RCV.getInfoId(rs.getLong("rcv_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.CENTER_RCV, rs.getLong("rcv_id"));
 			info.setInfoId(id);
 			info.setEntityCode(rs.getString("entity_code"));
 			info.setNodeCode(rs.getString("node_code"));

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
@@ -19,7 +20,7 @@ public interface NodePushDAO extends BaseDAO<NodePushInfo>{
 			
 			NodePushInfo info = new NodePushInfo();
 			
-			InfoId<Long> id = SyncIdKey.NODE_PUSH.getInfoId(rs.getLong("push_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_PUSH,rs.getLong("push_id"));
 			info.setInfoId(id);
 			info.setEntityCode(rs.getString("entity_code"));
 			info.setNodeCode(rs.getString("node_code"));

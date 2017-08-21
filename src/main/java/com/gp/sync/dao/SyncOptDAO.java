@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
@@ -26,7 +27,7 @@ public interface SyncOptDAO extends BaseDAO<SyncOptInfo>{
 		@Override
 		public SyncOptInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			SyncOptInfo info = new SyncOptInfo();
-			InfoId<Integer> id = SyncIdKey.SYNC_OPT.getInfoId(rs.getInt("sync_opt_id"));
+			InfoId<Integer> id = IdKeys.getInfoId(SyncIdKey.SYNC_OPT,rs.getInt("sync_opt_id"));
 			info.setInfoId(id);
 
 			info.setOptionGroup(rs.getString("opt_group"));

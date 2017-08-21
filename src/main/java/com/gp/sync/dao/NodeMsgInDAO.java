@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.gp.common.IdKeys;
 import com.gp.dao.BaseDAO;
 import com.gp.info.InfoId;
 import com.gp.sync.SyncIdKey;
@@ -18,7 +19,7 @@ public interface NodeMsgInDAO extends BaseDAO<NodeMsgInInfo>{
 		public NodeMsgInInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			NodeMsgInInfo info = new NodeMsgInInfo();
 			
-			InfoId<Long> id = SyncIdKey.NODE_MSG_IN.getInfoId(rs.getLong("msg_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_MSG_IN,rs.getLong("msg_id"));
 			info.setInfoId(id);
 			info.setPullId(rs.getLong("pull_id"));
 			info.setEntityCode(rs.getString("entity_code"));
