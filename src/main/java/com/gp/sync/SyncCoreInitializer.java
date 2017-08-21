@@ -1,5 +1,6 @@
 package com.gp.sync;
 
+import com.gp.common.IdKeys;
 import com.gp.disruptor.EventDispatcher;
 import com.gp.exception.BaseException;
 import com.gp.launcher.CoreInitializer;
@@ -21,7 +22,11 @@ public class SyncCoreInitializer extends CoreInitializer{
 				
 				SyncHooker syncHooker = new SyncHooker();
 				EventDispatcher.getInstance().regEventHooker( syncHooker );
+				// Register the IdKey enum to IdKeys helper class.
+				IdKeys.addIdentifier(SyncIdKey.values());
+				
 				sendFeedback(false, "SyncLifecycleHooker initial done");
+				
 			}
 
 			@Override
