@@ -1,7 +1,6 @@
 package com.gp.sync;
 
 import com.gp.info.Identifier;
-import com.gp.info.InfoId;
 
 public enum SyncIdKey implements Identifier{
 	
