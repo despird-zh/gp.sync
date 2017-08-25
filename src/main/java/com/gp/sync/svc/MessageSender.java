@@ -1,9 +1,11 @@
 package com.gp.sync.svc;
 
-import com.gp.sync.web.model.SyncNoticeMessage;
+import com.gp.sync.model.SyncNotifMessage;
 
 public interface MessageSender {
 
-	public void sendEventToClient(SyncNoticeMessage event,String sessionId);
+	public void sendNotifToUser(SyncNotifMessage event,String sessionId);
+	
+	
 	
 }

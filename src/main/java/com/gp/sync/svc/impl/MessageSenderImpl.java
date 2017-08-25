@@ -5,15 +5,18 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessageType;
+import org.springframework.stereotype.Service;
 
+import com.gp.sync.model.SyncNotifMessage;
 import com.gp.sync.svc.MessageSender;
-import com.gp.sync.web.model.SyncNoticeMessage;
+
 import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 
+@Service
 public class MessageSenderImpl implements MessageSender{
 
 	@Autowired
-	SyncNodeSessionRegistry webAgentSessionRegistry;
+	SyncNodeSessionRegistry nodeSessionRegistry;
 	
 	@Autowired
 	SimpMessageSendingOperations messageTemplate;
@@ -29,7 +32,7 @@ public class MessageSenderImpl implements MessageSender{
 	}
 
 	@Override
-	public void sendEventToClient(SyncNoticeMessage event, String sessionId) {
+	public void sendNotifToUser(SyncNotifMessage event,String sessionId) {
 	    messageTemplate.convertAndSendToUser(sessionId,qName,event,createHeaders(sessionId));
 	}
 }

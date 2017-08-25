@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gp.sync.web.model.SyncFetchMessage;
+import com.gp.sync.model.SyncPullMessage;
 import com.gp.web.BaseController;
 import com.gp.web.servlet.ServiceFilter;
 
@@ -29,10 +29,11 @@ public class SyncPullController extends BaseController{
 		
 		ModelAndView rtv= super.getJsonModelView();
 		
-		SyncFetchMessage message = super.readRequestBody(payload, SyncFetchMessage.class);
+		SyncPullMessage message = super.readRequestBody(payload, SyncPullMessage.class);
 		
-		LOGGER.debug("request fetch message: {}" , message);
+		LOGGER.debug("request pulling message: {}" , message);
 		
 		return rtv;
 	}
+
 }

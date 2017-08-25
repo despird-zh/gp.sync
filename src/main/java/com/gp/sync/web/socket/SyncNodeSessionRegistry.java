@@ -13,21 +13,30 @@ public class SyncNodeSessionRegistry {
 	
 	private ConcurrentMap<String, WebSocketSession> syncNodeMap = new ConcurrentHashMap<String, WebSocketSession>();
 	
-	public void addNodeSession(String agentId, WebSocketSession session) {
+	/**
+	 * Add the node session into the memory repository 
+	 **/
+	public void addNodeSession(String websocketSID, WebSocketSession session) {
 		
 		LOGGER.debug("add node session: {}" , session.getPrincipal().getName());
-		syncNodeMap.put(agentId, session);
+		syncNodeMap.put(websocketSID, session);
 	}
 	
-	public WebSocketSession getNodeSession(String agentId) {
+	/**
+	 * Get the node session out of the memory repository 
+	 **/
+	public WebSocketSession getNodeSession(String websocketSID) {
 		
-		return syncNodeMap.get(agentId);
+		return syncNodeMap.get(websocketSID);
 	}
 	
-	public WebSocketSession removeNodeSession(String agentId) {
+	/**
+	 * Remove the session out of memory repository 
+	 **/
+	public WebSocketSession removeNodeSession(String websocketSID) {
 		
-		LOGGER.debug("remove node session: {}" , agentId);
-		return syncNodeMap.remove(agentId);
+		LOGGER.debug("remove node session: {}" , websocketSID);
+		return syncNodeMap.remove(websocketSID);
 	}
 	
 	public String show() {
