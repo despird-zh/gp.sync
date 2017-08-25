@@ -40,7 +40,7 @@ public class StompBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer 
     
     @Override
 	public void configureWebSocketTransport(final WebSocketTransportRegistration registration) {
-		//registration.addDecoratorFactory(handlerDecoratorFactory());
+
 		registration.setMessageSizeLimit(256 * 1024);
 		super.configureWebSocketTransport(registration);
 	}
