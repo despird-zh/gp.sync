@@ -1,5 +1,13 @@
 package com.gp.sync.data;
 
+/**
+ * the distributed nodes use push structure to send information to center node or global node.
+ * so the payload of content could be any operation to be synchronized.
+ * 
+ * @author admin
+ * @version 0.1 2017-9-10
+ * 
+ **/
 public class SyncPush {
 
 	private String type;
