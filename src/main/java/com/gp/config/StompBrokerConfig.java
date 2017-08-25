@@ -1,20 +1,18 @@
 package com.gp.config;
 
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
-import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
-
-import com.gp.sync.web.socket.HandlerDecorator;
-import com.gp.sync.web.socket.HandshakeHandler;
+import com.gp.sync.svc.impl.WebSocketAuthenService;
+import com.gp.sync.web.socket.AuthChannelInterceptorAdapter;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -24,6 +22,9 @@ import com.gp.sync.web.socket.HandshakeHandler;
  })
 public class StompBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
+	@Autowired
+    private WebSocketAuthenService webSocketAuthenService;
+	
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic","/queue");
@@ -33,30 +34,20 @@ public class StompBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer 
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/hello")// sync-center
-        		.setHandshakeHandler( handshakeHandler() )
+        registry.addEndpoint("/stomp")// sync-center
         		.setAllowedOrigins("*");
     }
     
     @Override
 	public void configureWebSocketTransport(final WebSocketTransportRegistration registration) {
-		registration.addDecoratorFactory(handlerDecoratorFactory());
+		//registration.addDecoratorFactory(handlerDecoratorFactory());
 		registration.setMessageSizeLimit(256 * 1024);
 		super.configureWebSocketTransport(registration);
 	}
-	
-    @Bean
-    public WebSocketHandlerDecoratorFactory handlerDecoratorFactory(){
-    		return new WebSocketHandlerDecoratorFactory() {
-			@Override
-			public WebSocketHandler decorate(final WebSocketHandler handler) {
-				return new HandlerDecorator(handler);
-			}
-		};
-    }
     
-    @Bean
-    public HandshakeHandler handshakeHandler(){
-        return new HandshakeHandler();
+    @Override
+    public void configureClientInboundChannel(final ChannelRegistration registration) {
+        registration.setInterceptors(new AuthChannelInterceptorAdapter(this.webSocketAuthenService));
     }
+
 }

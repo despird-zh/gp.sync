@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/45405332/websocket-authentication-and-authorization-in-spring/45405333#45405333
