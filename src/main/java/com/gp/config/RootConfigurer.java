@@ -17,9 +17,6 @@ import com.gp.sync.AppContextListener;
 import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 import com.gp.sync.CoreStarter;
 
-/**
- *
- */
 @Configuration
 @ImportResource({
 		"classpath:/gpress-datasource.xml"
@@ -27,14 +24,15 @@ import com.gp.sync.CoreStarter;
 @ComponentScan(basePackages = { 
 		"com.gp.core",
 		"com.gp.sync.dao",
-		"com.gp.sync.svc"
+		"com.gp.sync.svc",
+		"com.gp.sync.web"
  })
 public class RootConfigurer {
 	
-	@Bean
-    public SyncNodeSessionRegistry webAgentSessionRegistry(){
-        return new SyncNodeSessionRegistry();
-    }
+//	@Bean
+//    public SyncNodeSessionRegistry webAgentSessionRegistry(){
+//        return new SyncNodeSessionRegistry();
+//    }
 	
 	/**
 	 * Trigger the AppContext event 

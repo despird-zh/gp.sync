@@ -1,4 +1,4 @@
-package com.gp.sync.svc.impl;
+package com.gp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;

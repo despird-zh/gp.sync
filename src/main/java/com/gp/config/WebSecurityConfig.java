@@ -24,25 +24,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
     protected void configure(final HttpSecurity http) throws Exception {
         // This is not for websocket authorization, and this should most likely not be altered.
-        http.httpBasic().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().antMatchers("/stomp").permitAll()
-            .anyRequest().denyAll();
-        
-        http.authorizeRequests( ).antMatchers( "/login*" ).permitAll( );
-        http.authorizeRequests( ).antMatchers( "/register*" ).permitAll( );
+//        http.httpBasic().disable()
+//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//            .authorizeRequests().antMatchers("/stomp").permitAll()
+//            .anyRequest().denyAll();
+//        
+//        http.authorizeRequests( ).antMatchers( "/login*" ).permitAll( );
+//        http.authorizeRequests( ).antMatchers( "/register*" ).permitAll( );
+//
+//        http.authorizeRequests( ).antMatchers( "/admin/**" ).hasAnyAuthority( "ROLE_ADMIN", "ROLE_USER" );//
 
-        http.authorizeRequests( ).antMatchers( "/admin/**" ).hasAnyAuthority( "ROLE_ADMIN", "ROLE_USER" );//
-
-//        http.authorizeRequests( ).and( ).formLogin( )//
-//                .loginPage( "/login" )//
-//                .successHandler( successHandler( ) )//
-//                .failureUrl( "/login?error" ).permitAll( )//
-//                .and( ).logout( )//
-//                .logoutUrl( "/logout" ).logoutSuccessUrl( "/login?logout" ).permitAll( )//
+        http.authorizeRequests()
+        			.antMatchers("/", "/index").permitAll()
+        			.anyRequest().authenticated().and( )
+        		.formLogin( )//
+                .loginPage( "/login" )//
+                .successHandler( successHandler( ) )//
+                .failureUrl( "/login?error" ).permitAll( ).and( )
+            .logout( )//
+                .logoutUrl( "/logout" ).logoutSuccessUrl( "/login?logout" ).permitAll( );//
 //                .and( ).rememberMe( ).key( "sync_key" ).tokenValiditySeconds( 2419200 ); // remember me for 2 weeks
 
-        http.addFilterBefore( tokenAuthFilter( ), BasicAuthenticationFilter.class );
+        http.addFilterBefore( tokenAuthFilter(), BasicAuthenticationFilter.class );
     }
 	
 	@Bean

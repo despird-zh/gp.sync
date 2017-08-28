@@ -51,10 +51,10 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 
-		Optional<String> login = Optional.of(request.getParameter(SyncConstants.WS_HEADER_USERNAME));
-		Optional<String> passcode = Optional.of(request.getParameter(SyncConstants.WS_HEADER_PASSWORD));
-		Optional<String> audience = Optional.of(request.getParameter(SyncConstants.WS_HEADER_AUDIENCE));
-		Optional<String> token = Optional.of(request.getHeader(SyncConstants.WS_HEADER_TOKEN));
+		Optional<String> login = Optional.ofNullable(request.getParameter(SyncConstants.WS_HEADER_USERNAME));
+		Optional<String> passcode = Optional.ofNullable(request.getParameter(SyncConstants.WS_HEADER_PASSWORD));
+		Optional<String> audience = Optional.ofNullable(request.getParameter(SyncConstants.WS_HEADER_AUDIENCE));
+		Optional<String> token = Optional.ofNullable(request.getHeader(SyncConstants.WS_HEADER_TOKEN));
 		
 		Authentication authResult = null;
 		if(login.isPresent() && passcode.isPresent()) {
