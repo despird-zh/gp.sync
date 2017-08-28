@@ -14,7 +14,7 @@ import com.gp.web.DatabaseMessageSource;
 import com.gp.web.PrincipalLocaleResolver;
 
 @Configuration
-@ComponentScan(basePackages = { "com.gp.sync.web.service" })
+@ComponentScan(basePackages = { "com.gp.sync.web.service","com.gp.sync.web.view" })
 public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 	
 	@Bean

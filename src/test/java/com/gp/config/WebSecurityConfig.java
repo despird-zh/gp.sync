@@ -1,11 +1,13 @@
 package com.gp.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,10 +23,11 @@ import com.gp.sync.web.TokenAuthenSuccessHandler;
 import com.gp.sync.web.UserPasswordAuthenProvider;
 
 @Configuration
+//@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    
 	@Override
-    public void init(WebSecurity web) {
+ 	public void configure(final WebSecurity web) throws Exception {
         web.ignoring()
         		.antMatchers("/css/**","/js/**", "/images/**", "**/favicon.ico");
     }
@@ -32,28 +35,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
     protected void configure(final HttpSecurity http) throws Exception {
         // This is not for websocket authorization, and this should most likely not be altered.
-        http.httpBasic().disable()
-            		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            	.and()
-            	.authorizeRequests()
-            		.antMatchers("/stomp").permitAll()
+		http
+        .authorizeRequests()
+            .antMatchers("/", "/home").permitAll()
+            .anyRequest().authenticated()
+            .and()
+        .formLogin()
+            .loginPage("/login")
+            .permitAll()
+            .and()
+        .logout()
+            .permitAll();
+//        http
+//        		.httpBasic().disable()
+//            		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //            	.and()
-//            	.authorizeRequests( )
-//            		.antMatchers( "/login*" ).permitAll( )
-            	.and()
-        		.authorizeRequests()
-        			.antMatchers("/", "/index","/home").permitAll()
-        			.anyRequest().authenticated()
-        		.and( )
-        		.formLogin( )//
-                .loginPage( "/login" )//
-                .successHandler( successHandler( ) )//
-                .failureUrl( "/login?error" ).permitAll( ).and( )
-            .logout( )//
-                .logoutUrl( "/logout" ).logoutSuccessUrl( "/login?logout" ).permitAll( );//
+//            	.csrf().disable()
+////            	.authorizeRequests()
+////            		.antMatchers("/stomp").permitAll()
+////            	.and()
+////            	.authorizeRequests( )
+////            		.antMatchers( "/login*" ).permitAll( )
+////            	.and()
+//        		.authorizeRequests()
+//        			.antMatchers("/", "/index","/home").permitAll()
+//        			.anyRequest().authenticated()
+//        		.and()
+//        		.formLogin()//
+//                .loginPage( "/login" )//
+//                .successHandler( successHandler( ) )//
+//                .failureUrl( "/login?error" ).permitAll( ).and( )
+//            .logout( )//
+//                .logoutUrl( "/logout" ).logoutSuccessUrl( "/login?logout" ).permitAll( );//
 //                .and( ).rememberMe( ).key( "sync_key" ).tokenValiditySeconds( 2419200 ); // remember me for 2 weeks
 
-        http.addFilterBefore( tokenAuthFilter(), UsernamePasswordAuthenticationFilter.class );
+        //http.addFilterBefore( tokenAuthFilter(), BasicAuthenticationFilter.class );
     }
 	
 	@Bean
@@ -70,10 +86,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return tokenFilter;
 	}
 	
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(userPasswordAuthenProvider()).
-                authenticationProvider(tokenAuthenProvider());
+    @Autowired
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    		auth
+        .inMemoryAuthentication()
+            .withUser("user").password("password").roles("USER");
+        //auth.authenticationProvider(userPasswordAuthenProvider()).
+                //authenticationProvider(tokenAuthenProvider());
     }
     
     @Bean
