@@ -11,12 +11,10 @@ public class DefaultController {
 
 	static Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 	
-	@RequestMapping({
-	     "/",
-	     "index"})
+	@RequestMapping({ "/", "/index", "/home" })
 	public String index () throws Exception {
 		
-		return "index";
+		return "home";
 	}
 	
 	@RequestMapping(

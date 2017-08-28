@@ -23,28 +23,8 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 	
 	public SyncAuthenFilter(AuthenticationManager authenManager) {
 
-		super("/");
+		super("/**");
 		this.setAuthenticationManager(authenManager);
-	}
-
-	private Authentication attemptAuthenticateUserPassword(UserPasswordAuthenToken userpassToken)
-			throws AuthenticationException, IOException, ServletException {
-
-		Authentication userAuthenticationToken = this.getAuthenticationManager().authenticate(userpassToken);
-		if (userAuthenticationToken == null)
-			throw new AuthenticationServiceException(MessageFormat.format("Error | {0}", "Bad User/Pass"));
-
-		return userAuthenticationToken;
-	}
-
-	private Authentication attemptAuthenticateToken(JWTAuthenToken jwtToken)
-			throws AuthenticationException, IOException, ServletException {
-
-		Authentication userAuthenticationToken = this.getAuthenticationManager().authenticate(jwtToken);
-		if (userAuthenticationToken == null)
-			throw new AuthenticationServiceException(MessageFormat.format("Error | {0}", "Bad Token"));
-
-		return userAuthenticationToken;
 	}
 
 	@Override
@@ -76,4 +56,23 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 		return authResult;
 	}
 
+	private Authentication attemptAuthenticateUserPassword(UserPasswordAuthenToken userpassToken)
+			throws AuthenticationException, IOException, ServletException {
+
+		Authentication userAuthenticationToken = this.getAuthenticationManager().authenticate(userpassToken);
+		if (userAuthenticationToken == null)
+			throw new AuthenticationServiceException(MessageFormat.format("Error | {0}", "Bad User/Pass"));
+
+		return userAuthenticationToken;
+	}
+
+	private Authentication attemptAuthenticateToken(JWTAuthenToken jwtToken)
+			throws AuthenticationException, IOException, ServletException {
+
+		Authentication userAuthenticationToken = this.getAuthenticationManager().authenticate(jwtToken);
+		if (userAuthenticationToken == null)
+			throw new AuthenticationServiceException(MessageFormat.format("Error | {0}", "Bad Token"));
+
+		return userAuthenticationToken;
+	}
 }
