@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 @Import({ 
 	RootConfigurer.class, 
 	ServiceConfigurer.class,
-	StompBrokerConfig.class
+	//StompBrokerConfig.class
 })
 public class GSyncCenterMain{
 

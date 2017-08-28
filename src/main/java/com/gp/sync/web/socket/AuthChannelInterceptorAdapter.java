@@ -27,9 +27,9 @@ public class AuthChannelInterceptorAdapter extends ChannelInterceptorAdapter {
 
         if (StompCommand.CONNECT == accessor.getCommand()) {
         	
-            final String username = accessor.getFirstNativeHeader(SyncConstants.HEADER_USERNAME);
-            final String password = accessor.getFirstNativeHeader(SyncConstants.HEADER_PASSWORD);
-            final String token = accessor.getFirstNativeHeader(SyncConstants.HEADER_TOKEN);
+            final String username = accessor.getFirstNativeHeader(SyncConstants.WS_HEADER_USERNAME);
+            final String password = accessor.getFirstNativeHeader(SyncConstants.WS_HEADER_PASSWORD);
+            final String token = accessor.getFirstNativeHeader(SyncConstants.WS_HEADER_TOKEN);
             
             UsernamePasswordAuthenticationToken user = null;
             if(StringUtils.isNotBlank(token)) {
