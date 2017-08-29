@@ -13,24 +13,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 public class SyncAuthenSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	static Logger LOGGER = LoggerFactory.getLogger(SyncAuthenSuccessHandler.class);
 
+	public SyncAuthenSuccessHandler(String targetUrl) {
+		super(targetUrl);
+	}
+	
 	@Override
 	protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-			throws IOException {
-		String targetUrl = determineTargetUrl(authentication);
+			throws IOException, ServletException {
+		String targetUrl = determineTargetUrl(request, response);
 
-		if (response.isCommitted()) {
-			System.out.println("Can't redirect");
-			return;
-		}
-
-		this.getRedirectStrategy().sendRedirect(request, response, targetUrl);
+		request.getRequestDispatcher(targetUrl).forward(request, response);
 	}
 
 	/*

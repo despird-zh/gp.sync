@@ -15,7 +15,7 @@
   <hr>
 
   <div class="form">
-    <form action="/authenticate_form" method="post">
+    <form action="/authen_form" method="post">
       <table>
         <tr>
           <td>Enter Your name</td>

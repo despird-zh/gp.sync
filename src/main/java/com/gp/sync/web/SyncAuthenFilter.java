@@ -16,16 +16,24 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+
 import com.gp.sync.SyncConstants;
 
 public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 
 	final static Logger logger = LoggerFactory.getLogger(SyncAuthenFilter.class);
 	
+	OrRequestMatcher targetUrlMatcher = new OrRequestMatcher(); 
+	
 	public SyncAuthenFilter(AuthenticationManager authenManager) {
 
-		super("/**");
+		super("/sync/**");
 		this.setAuthenticationManager(authenManager);
+		
 	}
 
 	@Override
@@ -69,6 +77,10 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 		Optional<String> passcode = Optional.ofNullable(request.getHeader(SyncConstants.AUTH_HEADER_PASSWORD));
 		Optional<String> token = Optional.ofNullable(request.getHeader(SyncConstants.WS_HEADER_TOKEN));
 		
+		String context = request.getContextPath();
+        String fullURL = request.getRequestURI();
+        String url = fullURL.substring(fullURL.indexOf(context)+context.length());
+        
 		if(login.isPresent() && passcode.isPresent()) {
 			
 			return super.requiresAuthentication(request, response);
@@ -102,5 +114,19 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 			throw new AuthenticationServiceException(MessageFormat.format("Error | {0}", "Bad Token"));
 
 		return userAuthenticationToken;
+	}
+	
+	public void setSuccessTargetUrl(String successTargetUrl) {
+		
+		SavedRequestAwareAuthenticationSuccessHandler success = (SavedRequestAwareAuthenticationSuccessHandler) this.getSuccessHandler();
+		
+		success.setDefaultTargetUrl(successTargetUrl);
+		
+	}
+	
+	public void setFailureTargetUrl(String failureTargetUrl) {
+		
+		SimpleUrlAuthenticationFailureHandler failure = (SimpleUrlAuthenticationFailureHandler) this.getFailureHandler();
+		failure.setDefaultFailureUrl(failureTargetUrl);
 	}
 }

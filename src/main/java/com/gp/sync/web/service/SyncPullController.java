@@ -10,13 +10,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gp.sync.model.SyncPullMessage;
 import com.gp.web.BaseController;
-import com.gp.web.servlet.ServiceFilter;
+import com.gp.web.servlet.ServiceTokenFilter;
 
 /**
  * After the sync node receive the sync notice message, it request the data in this controller 
  **/
 @Controller
-@RequestMapping(ServiceFilter.FILTER_PREFIX)
+@RequestMapping(ServiceTokenFilter.FILTER_PREFIX)
 public class SyncPullController extends BaseController{
 
 	static Logger LOGGER = LoggerFactory.getLogger(SyncPullController.class);

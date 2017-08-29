@@ -1,5 +1,7 @@
 package com.gp.config;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,16 +16,24 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.gp.sync.web.SyncAuthenFilter;
 import com.gp.sync.web.JwtAuthenEntryPoint;
 import com.gp.sync.web.JwtAuthenProvider;
+import com.gp.sync.web.SyncAuthenFailureHandler;
 import com.gp.sync.web.SyncAuthenSuccessHandler;
 import com.gp.sync.web.UserPasswordAuthenProvider;
+import com.gp.web.servlet.ServiceTokenFilter;
+import com.gp.web.servlet.UrlMatcher;
 
 @Configuration
 @Order(3)
@@ -42,17 +52,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.httpBasic().disable()
 			//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		//.and()
-			.exceptionHandling().authenticationEntryPoint(tokenAuthenEntryPoint())
-		.and()
+			//.exceptionHandling().authenticationEntryPoint(tokenAuthenEntryPoint())
+		//.and()
 			.csrf().disable()
 			.authorizeRequests()
-            .antMatchers("/", "/home").permitAll()
+            .antMatchers("/", "/home", "/gpapi/**").permitAll()
             .anyRequest().authenticated()
         .and()
         		.formLogin()
             .loginPage("/login")
             .defaultSuccessUrl("/home")
-            .loginProcessingUrl("/authenticate_form")
+            .loginProcessingUrl("/authen_form")
             .permitAll()
             .and()
         .logout()
@@ -68,22 +78,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .logoutUrl( "/logout" ).logoutSuccessUrl( "/login?logout" ).permitAll( );//
 //                .and( ).rememberMe( ).key( "sync_key" ).tokenValiditySeconds( 2419200 ); // remember me for 2 weeks
 
-        http.addFilterBefore( tokenAuthFilter(), UsernamePasswordAuthenticationFilter.class );
+       http.addFilterBefore( authenTokenFilter(), UsernamePasswordAuthenticationFilter.class );
     }
 	
-	@Bean
-	AuthenticationSuccessHandler successHandler() {
-		
-		return new SimpleUrlAuthenticationSuccessHandler("/authenticate");
-	};
+    
+//	@Bean
+//	AuthenticationSuccessHandler successHandler() {
+//		
+//		return new SyncAuthenSuccessHandler("/sync/authen_token");
+//	};
+//	
+//	@Bean
+//	AuthenticationFailureHandler failureHandler() {
+//		
+//		return new SyncAuthenFailureHandler("/sync/authen_fail");
+//	};
 	
-	@Bean
-	AbstractAuthenticationProcessingFilter tokenAuthFilter() throws Exception {
+	//@Bean
+	//AbstractAuthenticationProcessingFilter tokenAuthFilter() throws Exception {
 		
-		AbstractAuthenticationProcessingFilter tokenFilter = new SyncAuthenFilter(authenticationManager());
-		tokenFilter.setAuthenticationSuccessHandler(successHandler());
-		return tokenFilter;
-	}
+		//SyncAuthenFilter tokenFilter = new SyncAuthenFilter(authenticationManager());
+		//tokenFilter.setAuthenticationSuccessHandler(successHandler());
+		//tokenFilter.setAuthenticationFailureHandler(failureHandler());
+		//tokenFilter.setSuccessTargetUrl("/sync/authen_token");
+		//tokenFilter.setFailureTargetUrl("/sync/authen_fail");
+		//return tokenFilter;
+	//}
 	
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -108,5 +128,42 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     JwtAuthenEntryPoint tokenAuthenEntryPoint() {
     		
     		return new JwtAuthenEntryPoint();
+    }
+    
+    @Bean
+    public ServiceTokenFilter authenTokenFilter() throws Exception {
+    		
+    		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		
+    		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(false);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader(ServiceTokenFilter.AUTH_HEADER);
+		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration( ServiceTokenFilter.FILTER_PREFIX + "/**", config);
+		
+		ServiceTokenFilter tokenFilter = new ServiceTokenFilter(source);
+		
+		AuthenUrlMatcher matcher = new AuthenUrlMatcher(ServiceTokenFilter.FILTER_PREFIX + "/**");
+		tokenFilter.setUrlMatcher(matcher);
+		
+		return tokenFilter;
+    }
+    
+    public class AuthenUrlMatcher implements UrlMatcher{
+    		
+    		private RequestMatcher authRequestMatcher;
+    		
+    		public AuthenUrlMatcher(String filterProcessesUrl) {
+    			authRequestMatcher = new AntPathRequestMatcher(filterProcessesUrl);
+    		}
+    		
+		@Override
+		public boolean match(HttpServletRequest request) {
+			
+			return authRequestMatcher.matches(request);
+		}
+    	
     }
 }

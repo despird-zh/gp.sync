@@ -26,11 +26,11 @@ import com.gp.util.DateTimeUtils;
 import com.gp.util.JwtTokenUtils;
 import com.gp.web.ActionResult;
 import com.gp.web.BaseController;
-import com.gp.web.servlet.ServiceFilter;
-import com.gp.web.servlet.ServiceFilter.AuthTokenState;
+import com.gp.web.servlet.ServiceTokenFilter;
+import com.gp.web.servlet.ServiceTokenFilter.AuthTokenState;
 
 @Controller
-@RequestMapping(ServiceFilter.FILTER_PREFIX)
+@RequestMapping(ServiceTokenFilter.FILTER_PREFIX)
 public class AuthController extends BaseController{
 
 	static Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
@@ -82,7 +82,7 @@ public class AuthController extends BaseController{
 		// the model and view
 		ModelAndView mav = super.getJsonModelView();
 		ActionResult result = null;
-		String token = request.getHeader(ServiceFilter.AUTH_HEADER);
+		String token = request.getHeader(ServiceTokenFilter.AUTH_HEADER);
 		token = StringUtils.substringAfter(token, "Bearer: ");
 		JwtPayload jwtPayload = JwtTokenUtils.parsePayload(token);
 	
@@ -117,7 +117,7 @@ public class AuthController extends BaseController{
 		GPrincipal principal = super.getPrincipal();
 		ActionResult result = null;
 		
-		String token = request.getHeader(ServiceFilter.AUTH_HEADER);
+		String token = request.getHeader(ServiceTokenFilter.AUTH_HEADER);
 		token = StringUtils.substringAfter(token, "Bearer: ");
 		JwtPayload jwtPayload = JwtTokenUtils.parsePayload(token);
 		
@@ -134,6 +134,7 @@ public class AuthController extends BaseController{
 		}
 		return mav.addAllObjects(result.asMap());
 	}
+	
 	/**
 	 * Verify the password and return the Result 
 	 **/

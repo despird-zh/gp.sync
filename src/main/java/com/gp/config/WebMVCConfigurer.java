@@ -1,11 +1,17 @@
 package com.gp.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -15,11 +21,12 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.gp.sync.CoreStarter;
 import com.gp.web.DatabaseMessageSource;
 import com.gp.web.PrincipalLocaleResolver;
+import com.gp.web.servlet.ServiceTokenFilter;
 
 @Configuration
 @Order(2)
 @ComponentScan(basePackages = { 
-		//"com.gp.sync.web.service",
+		"com.gp.web.service",
 		"com.gp.sync.web.view" })
 public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 
@@ -44,6 +51,28 @@ public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 		return resolver;
 	}
 
+	@Bean
+	public FilterRegistrationBean corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(false);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader(ServiceTokenFilter.AUTH_HEADER);
+		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration( ServiceTokenFilter.FILTER_PREFIX + "/**", config);
+        
+		FilterRegistrationBean bean = new FilterRegistrationBean(new ServiceTokenFilter(source));
+		
+		List<String> urlPatterns = new ArrayList<String>();
+        urlPatterns.add(ServiceTokenFilter.FILTER_PREFIX + "/*");
+        
+        bean.setUrlPatterns(urlPatterns);
+		bean.setOrder(2);
+		
+		return bean;
+	}
+	
 	/**
 	 * Create locale resolver to extract locale from request.
 	 **/

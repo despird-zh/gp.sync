@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 @Component
-public class JwtAuthenEntryPoint implements AuthenticationEntryPoint, Serializable {
-
-    private static final long serialVersionUID = -8970718410437077606L;
+public class JwtAuthenEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request,
