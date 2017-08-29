@@ -50,28 +50,6 @@ public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}
-
-	@Bean
-	public FilterRegistrationBean corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(false);
-		config.addAllowedOrigin("*");
-		config.addAllowedHeader(ServiceTokenFilter.AUTH_HEADER);
-		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
-		config.addAllowedMethod("*");
-		source.registerCorsConfiguration( ServiceTokenFilter.FILTER_PREFIX + "/**", config);
-        
-		FilterRegistrationBean bean = new FilterRegistrationBean(new ServiceTokenFilter(source));
-		
-		List<String> urlPatterns = new ArrayList<String>();
-        urlPatterns.add(ServiceTokenFilter.FILTER_PREFIX + "/*");
-        
-        bean.setUrlPatterns(urlPatterns);
-		bean.setOrder(2);
-		
-		return bean;
-	}
 	
 	/**
 	 * Create locale resolver to extract locale from request.

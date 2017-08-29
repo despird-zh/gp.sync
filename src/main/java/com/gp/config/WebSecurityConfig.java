@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .logoutUrl( "/logout" ).logoutSuccessUrl( "/login?logout" ).permitAll( );//
 //                .and( ).rememberMe( ).key( "sync_key" ).tokenValiditySeconds( 2419200 ); // remember me for 2 weeks
 
-       http.addFilterBefore( authenTokenFilter(), UsernamePasswordAuthenticationFilter.class );
+       //http.addFilterBefore( authenTokenFilter(), UsernamePasswordAuthenticationFilter.class );
     }
 	
     
@@ -130,26 +130,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		return new JwtAuthenEntryPoint();
     }
     
-    @Bean
-    public ServiceTokenFilter authenTokenFilter() throws Exception {
-    		
-    		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		
-    		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(false);
-		config.addAllowedOrigin("*");
-		config.addAllowedHeader(ServiceTokenFilter.AUTH_HEADER);
-		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
-		config.addAllowedMethod("*");
-		source.registerCorsConfiguration( ServiceTokenFilter.FILTER_PREFIX + "/**", config);
-		
-		ServiceTokenFilter tokenFilter = new ServiceTokenFilter(source);
-		
-		AuthenUrlMatcher matcher = new AuthenUrlMatcher(ServiceTokenFilter.FILTER_PREFIX + "/**");
-		tokenFilter.setUrlMatcher(matcher);
-		
-		return tokenFilter;
-    }
+//    @Bean
+//    public ServiceTokenFilter authenTokenFilter() throws Exception {
+//    		
+//    		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		
+//    		CorsConfiguration config = new CorsConfiguration();
+//		config.setAllowCredentials(false);
+//		config.addAllowedOrigin("*");
+//		config.addAllowedHeader(ServiceTokenFilter.AUTH_HEADER);
+//		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
+//		config.addAllowedMethod("*");
+//		source.registerCorsConfiguration( ServiceTokenFilter.FILTER_PREFIX + "/**", config);
+//		
+//		ServiceTokenFilter tokenFilter = new ServiceTokenFilter(source);
+//		
+//		AuthenUrlMatcher matcher = new AuthenUrlMatcher(ServiceTokenFilter.FILTER_PREFIX + "/**");
+//		tokenFilter.setUrlMatcher(matcher);
+//		
+//		return tokenFilter;
+//    }
     
     public class AuthenUrlMatcher implements UrlMatcher{
     		
