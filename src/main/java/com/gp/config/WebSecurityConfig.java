@@ -78,32 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .logoutUrl( "/logout" ).logoutSuccessUrl( "/login?logout" ).permitAll( );//
 //                .and( ).rememberMe( ).key( "sync_key" ).tokenValiditySeconds( 2419200 ); // remember me for 2 weeks
 
-       //http.addFilterBefore( authenTokenFilter(), UsernamePasswordAuthenticationFilter.class );
+       http.addFilterBefore( authenTokenFilter(), UsernamePasswordAuthenticationFilter.class );
     }
-	
-    
-//	@Bean
-//	AuthenticationSuccessHandler successHandler() {
-//		
-//		return new SyncAuthenSuccessHandler("/sync/authen_token");
-//	};
-//	
-//	@Bean
-//	AuthenticationFailureHandler failureHandler() {
-//		
-//		return new SyncAuthenFailureHandler("/sync/authen_fail");
-//	};
-	
-	//@Bean
-	//AbstractAuthenticationProcessingFilter tokenAuthFilter() throws Exception {
-		
-		//SyncAuthenFilter tokenFilter = new SyncAuthenFilter(authenticationManager());
-		//tokenFilter.setAuthenticationSuccessHandler(successHandler());
-		//tokenFilter.setAuthenticationFailureHandler(failureHandler());
-		//tokenFilter.setSuccessTargetUrl("/sync/authen_token");
-		//tokenFilter.setFailureTargetUrl("/sync/authen_fail");
-		//return tokenFilter;
-	//}
 	
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -123,34 +99,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		
     		return new JwtAuthenProvider();
     }
-	
+    
     @Bean
-    JwtAuthenEntryPoint tokenAuthenEntryPoint() {
+    public ServiceTokenFilter authenTokenFilter() throws Exception {
     		
-    		return new JwtAuthenEntryPoint();
+    		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		
+    		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(false);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader(ServiceTokenFilter.AUTH_HEADER);
+		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration( ServiceTokenFilter.FILTER_PREFIX + "/**", config);
+		
+		ServiceTokenFilter tokenFilter = new ServiceTokenFilter(source);
+		
+		AuthenUrlMatcher matcher = new AuthenUrlMatcher(ServiceTokenFilter.FILTER_PREFIX + "/**");
+		tokenFilter.setUrlMatcher(matcher);
+		
+		return tokenFilter;
     }
     
-//    @Bean
-//    public ServiceTokenFilter authenTokenFilter() throws Exception {
-//    		
-//    		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		
-//    		CorsConfiguration config = new CorsConfiguration();
-//		config.setAllowCredentials(false);
-//		config.addAllowedOrigin("*");
-//		config.addAllowedHeader(ServiceTokenFilter.AUTH_HEADER);
-//		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
-//		config.addAllowedMethod("*");
-//		source.registerCorsConfiguration( ServiceTokenFilter.FILTER_PREFIX + "/**", config);
-//		
-//		ServiceTokenFilter tokenFilter = new ServiceTokenFilter(source);
-//		
-//		AuthenUrlMatcher matcher = new AuthenUrlMatcher(ServiceTokenFilter.FILTER_PREFIX + "/**");
-//		tokenFilter.setUrlMatcher(matcher);
-//		
-//		return tokenFilter;
-//    }
-    
+    /**
+     * Url Matcher it's used for ServiceTokenFilter which in charge of Jwt token authentication
+     * 
+     * @author gdiao
+     * @version 0.1 2017-4-9
+     **/
     public class AuthenUrlMatcher implements UrlMatcher{
     		
     		private RequestMatcher authRequestMatcher;
