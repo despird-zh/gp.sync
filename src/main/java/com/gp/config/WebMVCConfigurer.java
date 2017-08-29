@@ -52,7 +52,7 @@ public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 	public InternalResourceViewResolver viewResolver() {
 		
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF/views/");
+		resolver.setPrefix("/views/");
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}
@@ -80,9 +80,9 @@ public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 		@Override
 		public Locale resolveLocale(HttpServletRequest request) {
 			Authentication authen = SecurityContextHolder.getContext().getAuthentication();
-			Object detail = authen.getDetails();
-			if(detail != null && detail instanceof GPrincipal) {
-				GPrincipal principal = (GPrincipal) detail;
+			
+			if(authen != null && authen.getDetails() != null && authen.getDetails() instanceof GPrincipal) {
+				GPrincipal principal = (GPrincipal) authen.getDetails();
 			
 				setDefaultLocale(principal.getLocale());
 				return getDefaultLocale();

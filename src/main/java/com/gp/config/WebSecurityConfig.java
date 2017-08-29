@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .logoutUrl( "/logout" ).logoutSuccessUrl( "/login?logout" ).permitAll( );//
 //                .and( ).rememberMe( ).key( "sync_key" ).tokenValiditySeconds( 2419200 ); // remember me for 2 weeks
 
-       http.addFilterBefore( authenTokenFilter(), UsernamePasswordAuthenticationFilter.class );
+       http.addFilterBefore( serviceTokenFilter(), UsernamePasswordAuthenticationFilter.class );
     }
 	
     @Autowired
@@ -102,7 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     @Bean
-    public ServiceTokenFilter authenTokenFilter() throws Exception {
+    public ServiceTokenFilter serviceTokenFilter() throws Exception {
     		
     		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		

@@ -8,14 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gp.sync.web.service.AuthController;
 import com.gp.web.ActionResult;
 import com.gp.web.BaseController;
 
 @Controller
 public class DefaultController extends BaseController{
 
-	static Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+	static Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
 	
 	@RequestMapping({ "/", "/index", "/home" })
 	public ModelAndView index () throws Exception {
