@@ -12,7 +12,6 @@ public class JWTAuthenToken extends UsernamePasswordAuthenticationToken{
 	
 	public JWTAuthenToken(Object principal, Object credentials) {
 		super(principal, credentials);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Optional<String> getToken() {

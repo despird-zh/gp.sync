@@ -15,14 +15,16 @@
   <hr>
 
   <div class="form">
-    <form action="hello" method="post" onsubmit="return validate()">
+    <form action="/authenticate_form" method="post">
       <table>
         <tr>
           <td>Enter Your name</td>
-          <td><input id="username" name="username"></td>
+          <td><input id="username" name="username" value="usr1"></td>
+        </tr>
         <tr>
           <td>Enter Your password</td>
-          <td><input id="password" name="password"></td>
+          <td><input type="password" id="password" name="password" value="123456"></td>
+        </tr>
         <tr>
           <td></td>
           <td><input type="submit" value="Submit"></td>

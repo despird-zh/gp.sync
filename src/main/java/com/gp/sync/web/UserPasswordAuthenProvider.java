@@ -27,8 +27,8 @@ public class UserPasswordAuthenProvider implements AuthenticationProvider{
 			password = (String)authentication.getCredentials();
 		}
 		
-        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-            throw new BadCredentialsException("Invalid Backend Admin Credentials");
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(password) || !StringUtils.equals("usr1", username)) {
+            throw new BadCredentialsException("Invalid Backend User Credentials");
         }
 		
         return new UsernamePasswordAuthenticationToken(username, password,

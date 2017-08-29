@@ -11,29 +11,22 @@
 <title>Spring Boot</title>
 </head>
 <body>
-  <h1>Spring Boot - MVC web application home example</h1>
+  <h1>Spring Boot - MVC web application hello page</h1>
   <hr>
 
   <div class="form">
-  	<span>Welcome, ${user} !</span>
     <form action="hello" method="post" onsubmit="return validate()">
       <table>
         <tr>
-          <td>Enter Your name</td>
-          <td><input id="name" name="name"></td>
-          <td><input type="submit" value="Submit"></td>
+          <td>Congratulation! </td>
+          <td>U are in the authenticated page now!!!</td>
         </tr>
         <tr>
         		<td>Jump to:</td>
-        		<td><a href="/login">Login Page</a></td>
-        </tr>
-         <tr>
-        		<td>Jump to:</td>
-        		<td><a href="/hello">Hello Page</a></td>
+        		<td><a href="/logout">Logout Page</a></td>
         </tr>
       </table>
     </form>
   </div>
-
 </body>
 </html>

@@ -18,14 +18,14 @@ import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 import com.gp.sync.CoreStarter;
 
 @Configuration
+@Order(1)
 @ImportResource({
 		"classpath:/gpress-datasource.xml"
 	})
 @ComponentScan(basePackages = { 
 		"com.gp.core",
 		"com.gp.sync.dao",
-		"com.gp.sync.svc",
-		"com.gp.sync.web"
+		"com.gp.sync.svc"
  })
 public class RootConfigurer {
 	
@@ -33,32 +33,21 @@ public class RootConfigurer {
 //    public SyncNodeSessionRegistry webAgentSessionRegistry(){
 //        return new SyncNodeSessionRegistry();
 //    }
-	
-	/**
-	 * Trigger the AppContext event 
-	 **/
-	@Bean
-	public AppContextListener appContextListener() {
-		return new AppContextListener();
-	}
-	
-	@Bean
-	@Order(1)
-	public AppContextHelper appContextHelper() {
-		return new AppContextHelper();
-	}
-	
-	/**
-	 * The CoreStart listener, it starts the CoreEngine which detect and prepare the CoreInitializer via java serviceloader(SPI).
-	 * assembly the initializer to sort the LifecycleHooker with priority. 
-	 **/
-	@Bean ServletListenerRegistrationBean<CoreStarter> coreStarterListener(){
-		ServletListenerRegistrationBean<CoreStarter> listenerReg = new ServletListenerRegistrationBean<CoreStarter>();
-		
-		listenerReg.setListener(new CoreStarter());
-		return listenerReg;
-	}
-	
+//	
+//	/**
+//	 * Trigger the AppContext event 
+//	 **/
+//	@Bean
+//	public AppContextListener appContextListener() {
+//		return new AppContextListener();
+//	}
+//	
+//	@Bean
+//	@Order(1)
+//	public AppContextHelper appContextHelper() {
+//		return new AppContextHelper();
+//	}
+
 	/**
 	 * Build the service filter bean, it filter out the valid request to /gpapi/* service.
 	 * e.g. authenticate.do to fetch a valid token 

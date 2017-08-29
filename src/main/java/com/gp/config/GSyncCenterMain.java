@@ -5,11 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Import({ 
-	ServiceConfigurer.class,
-	RootConfigurer.class, 
-	//StompBrokerConfig.class
-})
 public class GSyncCenterMain{
 
     /**
