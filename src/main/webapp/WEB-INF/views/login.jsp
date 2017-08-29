@@ -11,7 +11,7 @@
 <title>Spring Boot</title>
 </head>
 <body>
-  <h1>Spring Boot - MVC web application login</h1>
+  <h1>Spring Boot - MVC web application login page</h1>
   <hr>
 
   <div class="form">
@@ -19,7 +19,12 @@
       <table>
         <tr>
           <td>Enter Your name</td>
-          <td><input id="name" name="name"></td>
+          <td><input id="username" name="username"></td>
+        <tr>
+          <td>Enter Your password</td>
+          <td><input id="password" name="password"></td>
+        <tr>
+          <td></td>
           <td><input type="submit" value="Submit"></td>
         </tr>
       </table>
