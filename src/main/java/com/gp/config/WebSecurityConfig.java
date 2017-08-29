@@ -15,12 +15,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.gp.sync.web.SyncAuthenFilter;
-import com.gp.sync.web.JWTAuthenProvider;
-import com.gp.sync.web.TokenAuthenSuccessHandler;
+import com.gp.sync.web.JwtAuthenEntryPoint;
+import com.gp.sync.web.JwtAuthenProvider;
+import com.gp.sync.web.SyncAuthenSuccessHandler;
 import com.gp.sync.web.UserPasswordAuthenProvider;
 
 @Configuration
@@ -40,6 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.httpBasic().disable()
 			//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		//.and()
+			.exceptionHandling().authenticationEntryPoint(tokenAuthenEntryPoint())
+		.and()
 			.csrf().disable()
 			.authorizeRequests()
             .antMatchers("/", "/home").permitAll()
@@ -70,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	AuthenticationSuccessHandler successHandler() {
 		
-		return new TokenAuthenSuccessHandler();
+		return new SimpleUrlAuthenticationSuccessHandler("/authenticate");
 	};
 	
 	@Bean
@@ -97,7 +101,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     AuthenticationProvider tokenAuthenProvider() {
     		
-    		return new JWTAuthenProvider();
+    		return new JwtAuthenProvider();
     }
 	
+    @Bean
+    JwtAuthenEntryPoint tokenAuthenEntryPoint() {
+    		
+    		return new JwtAuthenEntryPoint();
+    }
 }

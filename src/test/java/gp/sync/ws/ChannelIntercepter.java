@@ -9,7 +9,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 
-import com.gp.sync.GPrincipal;
+import com.gp.common.GPrincipal;
 
 public class ChannelIntercepter extends ChannelInterceptorAdapter{
 
@@ -24,7 +24,7 @@ public class ChannelIntercepter extends ChannelInterceptorAdapter{
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
         		LOGGER.debug("intercep login:"+accessor.getLogin());
         		LOGGER.debug("intercep password:"+accessor.getPasscode());
-            GPrincipal tp = new GPrincipal(accessor.getLogin(), accessor.getPasscode());
+            GPrincipal tp = new com.gp.common.GPrincipal(accessor.getLogin());
             accessor.setUser(tp);
         }
 

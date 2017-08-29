@@ -18,7 +18,7 @@ import com.gp.common.AccessPoint;
 import com.gp.common.IdKey;
 import com.gp.common.IdKeys;
 import com.gp.common.JwtPayload;
-import com.gp.common.Principal;
+import com.gp.common.GPrincipal;
 import com.gp.core.SecurityFacade;
 import com.gp.exception.CoreException;
 import com.gp.info.InfoId;
@@ -78,7 +78,7 @@ public class AuthController extends BaseController{
 	public ModelAndView doReissue() {
 		
 		AccessPoint accesspoint = super.getAccessPoint(request);
-		Principal principal = super.getPrincipal();
+		GPrincipal principal = super.getPrincipal();
 		// the model and view
 		ModelAndView mav = super.getJsonModelView();
 		ActionResult result = null;
@@ -114,7 +114,7 @@ public class AuthController extends BaseController{
 		AccessPoint accesspoint = super.getAccessPoint(request);
 		// the model and view
 		ModelAndView mav = super.getJsonModelView();
-		Principal principal = super.getPrincipal();
+		GPrincipal principal = super.getPrincipal();
 		ActionResult result = null;
 		
 		String token = request.getHeader(ServiceFilter.AUTH_HEADER);
@@ -148,7 +148,7 @@ public class AuthController extends BaseController{
 				result = ActionResult.failure(mesg);
 			}
 			
-			Principal principal = SecurityFacade.findPrincipal(accesspoint, null, account, null);
+			GPrincipal principal = SecurityFacade.findPrincipal(accesspoint, null, account, null);
 			if(null == principal){
 				String mesg = super.getMessage("excp.no.principal");
 				result = ActionResult.failure(mesg);

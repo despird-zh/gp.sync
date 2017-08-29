@@ -11,8 +11,8 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
+import com.gp.common.GPrincipal;
 import com.gp.common.JwtPayload;
-import com.gp.sync.GPrincipal;
 import com.gp.util.JwtTokenUtils;
 
 public class HandshakeHandler extends DefaultHandshakeHandler {
@@ -38,7 +38,7 @@ public class HandshakeHandler extends DefaultHandshakeHandler {
     			login = jwt.getSubject();
     			passcode = token;
     		}
-        return new GPrincipal(login == null? "blind":login, passcode );
+        return new GPrincipal(login == null? "blind":login );
     }
 
 }

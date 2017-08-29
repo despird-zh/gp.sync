@@ -9,7 +9,9 @@ public class UserPasswordAuthenToken extends UsernamePasswordAuthenticationToken
 	private static final long serialVersionUID = -3068745046717398175L;
 	private Optional<String> audience;
 	
-	public UserPasswordAuthenToken(Object principal, Object credentials) {
+    private Object details;
+    
+	public UserPasswordAuthenToken(Optional<String> principal, Optional<String> credentials) {
 		super(principal, credentials);
 	}
 
@@ -20,6 +22,6 @@ public class UserPasswordAuthenToken extends UsernamePasswordAuthenticationToken
 	public void setAudience(Optional<String> audience) {
 		this.audience = audience;
 	}
-
+	
 	
 }

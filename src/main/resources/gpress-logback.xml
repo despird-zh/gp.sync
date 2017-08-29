@@ -21,7 +21,7 @@
     </appender>
 
 	<logger name="com.gp" level="${LOG_LEVEL}">
-		<appender-ref ref="CONSOLE" />
+		<!-- appender-ref ref="CONSOLE" /-->
 	</logger>
 	<logger name="com.gp.dao.impl.AuditDAOImpl" level="ERROR"/>
 	<logger name="com.gp.dao.impl.IdSettingDAOImpl" level="ERROR"/>

@@ -32,9 +32,10 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 
-		Optional<String> login = Optional.ofNullable(request.getParameter(SyncConstants.WS_HEADER_USERNAME));
-		Optional<String> passcode = Optional.ofNullable(request.getParameter(SyncConstants.WS_HEADER_PASSWORD));
-		Optional<String> audience = Optional.ofNullable(request.getParameter(SyncConstants.WS_HEADER_AUDIENCE));
+		Optional<String> login = Optional.ofNullable(request.getHeader(SyncConstants.AUTH_HEADER_USERNAME));
+		Optional<String> passcode = Optional.ofNullable(request.getHeader(SyncConstants.AUTH_HEADER_PASSWORD));
+		Optional<String> audience = Optional.ofNullable(request.getHeader(SyncConstants.AUTH_HEADER_AUDIENCE));
+		
 		Optional<String> token = Optional.ofNullable(request.getHeader(SyncConstants.WS_HEADER_TOKEN));
 		
 		Authentication authResult = null;
@@ -49,17 +50,40 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 		
 		if (token.isPresent()) {
 			
-			JWTAuthenToken jwtAuthenToken = new JWTAuthenToken("tokenuser", "tokenpass");
-			jwtAuthenToken.setToken(token);
-			
+			JwtAuthenToken jwtAuthenToken = new JwtAuthenToken(token);
+
 			authResult = attemptAuthenticateToken(jwtAuthenToken);
 		}
-		
-		authResult = new UsernamePasswordAuthenticationToken("", "");
-		
+				
 		return authResult;
 	}
 
+	/**
+	 * Only Login and passcode is present or token is present  
+	 **/
+	@Override 
+	protected boolean requiresAuthentication(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		Optional<String> login = Optional.ofNullable(request.getHeader(SyncConstants.AUTH_HEADER_USERNAME));
+		Optional<String> passcode = Optional.ofNullable(request.getHeader(SyncConstants.AUTH_HEADER_PASSWORD));
+		Optional<String> token = Optional.ofNullable(request.getHeader(SyncConstants.WS_HEADER_TOKEN));
+		
+		if(login.isPresent() && passcode.isPresent()) {
+			
+			return super.requiresAuthentication(request, response);
+			
+		}else if(token.isPresent()) {
+			
+			return super.requiresAuthentication(request, response);
+			
+		}else {
+			
+			return false;
+		}
+
+	}
+	
 	private Authentication attemptAuthenticateUserPassword(UserPasswordAuthenToken userpassToken)
 			throws AuthenticationException, IOException, ServletException {
 
@@ -70,7 +94,7 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 		return userAuthenticationToken;
 	}
 
-	private Authentication attemptAuthenticateToken(JWTAuthenToken jwtToken)
+	private Authentication attemptAuthenticateToken(JwtAuthenToken jwtToken)
 			throws AuthenticationException, IOException, ServletException {
 
 		Authentication userAuthenticationToken = this.getAuthenticationManager().authenticate(jwtToken);
