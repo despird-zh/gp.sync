@@ -4,7 +4,7 @@
   <artifactId>gp-sync</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>gp-sync</name>
-
+  <packaging>jar</packaging>
   <properties>
       <redisson.version>3.4.4</redisson.version>
       <pool.jdbc>2.6.0</pool.jdbc>
@@ -21,21 +21,15 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
 	</dependency>
-
-	<!-- JSTL for JSP -->
-    <dependency>
-      <groupId>javax.servlet.jsp.jstl</groupId>
-      <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-      <version>1.2.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
-      <version>1.1.2</version>
-    </dependency>
-
-	<!-- Need this to compile JSP -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-tomcat</artifactId>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+	</dependency>
 	<dependency>
 		<groupId>org.apache.tomcat.embed</groupId>
 		<artifactId>tomcat-embed-jasper</artifactId>
