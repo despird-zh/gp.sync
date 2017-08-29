@@ -2,6 +2,9 @@ package com.gp.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -10,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.LocaleResolver;
@@ -18,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.gp.common.GPrincipal;
 import com.gp.sync.CoreStarter;
 import com.gp.web.DatabaseMessageSource;
 import com.gp.web.PrincipalLocaleResolver;
@@ -56,7 +62,7 @@ public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 	 **/
 	@Bean
 	public LocaleResolver localeResolver() {
-		return new PrincipalLocaleResolver();
+		return new SyncLocaleResolver();
 	}
 
 	/**
@@ -69,4 +75,21 @@ public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 		return source;
 	}
 
+	public class SyncLocaleResolver extends PrincipalLocaleResolver{
+		
+		@Override
+		public Locale resolveLocale(HttpServletRequest request) {
+			Authentication authen = SecurityContextHolder.getContext().getAuthentication();
+			Object detail = authen.getDetails();
+			if(detail != null && detail instanceof GPrincipal) {
+				GPrincipal principal = (GPrincipal) detail;
+			
+				setDefaultLocale(principal.getLocale());
+				return getDefaultLocale();
+			
+			}
+			return super.resolveLocale(request);
+		}
+		
+	}
 }
