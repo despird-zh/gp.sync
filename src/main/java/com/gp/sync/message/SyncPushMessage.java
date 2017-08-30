@@ -1,4 +1,4 @@
-package com.gp.sync.model;
+package com.gp.sync.message;
 
 /**
  * the distributed nodes use push structure to send information to center node or global node.

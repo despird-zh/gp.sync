@@ -7,7 +7,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.stereotype.Service;
 
-import com.gp.sync.model.SyncNotifMessage;
+import com.gp.sync.message.SyncNotifMessage;
 import com.gp.sync.svc.MessageSender;
 
 import com.gp.sync.web.socket.SyncNodeSessionRegistry;

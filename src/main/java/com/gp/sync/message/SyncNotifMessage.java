@@ -1,4 +1,4 @@
-package com.gp.sync.model;
+package com.gp.sync.message;
 
 /**
  * The notification is message sent from center node(global/ enterprise) to target nodes .<br>
