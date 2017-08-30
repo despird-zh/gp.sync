@@ -26,15 +26,10 @@ public class UserPasswordAuthenProvider implements AuthenticationProvider{
 		String username = null;
 		String password = null;
 		
-		if(authentication instanceof UserPasswordAuthenToken) {
-			LOGGER.debug("Header Login Auth :{}", authentication.getName());
-			username = ((Optional<String>) authentication.getPrincipal()).get();
-			password = ((Optional<String>) authentication.getCredentials()).get();
-		}else {
-			LOGGER.debug("FormLogin Auth :{}", authentication.getName());
-			username = authentication.getName();
-			password = (String)authentication.getCredentials();
-		}
+		LOGGER.debug("FormLogin Auth :{}", authentication.getName());
+		username = authentication.getName();
+		password = (String)authentication.getCredentials();
+
 		
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password) || !StringUtils.equals("usr1", username)) {
             throw new BadCredentialsException("Invalid Backend User Credentials");
@@ -44,7 +39,7 @@ public class UserPasswordAuthenProvider implements AuthenticationProvider{
       
         details.setEmail("a@135.com");
         
-        UsernamePasswordAuthenticationToken rtv =  new UsernamePasswordAuthenticationToken(username, password,
+        UserPasswordAuthenToken rtv =  new UserPasswordAuthenToken(username, password,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("USER"));
         
         rtv.setDetails(details);
@@ -54,8 +49,7 @@ public class UserPasswordAuthenProvider implements AuthenticationProvider{
     
 	@Override
 	public boolean supports(Class<?> tokenClazz) {
-		return tokenClazz.equals(UserPasswordAuthenToken.class) 
-				|| tokenClazz.equals(UsernamePasswordAuthenticationToken.class);
+		return tokenClazz.equals(UsernamePasswordAuthenticationToken.class);
 	}
 
 }

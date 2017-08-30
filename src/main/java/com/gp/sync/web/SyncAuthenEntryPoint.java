@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 @Component
-public class JwtAuthenEntryPoint implements AuthenticationEntryPoint {
+public class SyncAuthenEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request,

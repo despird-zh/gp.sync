@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -27,7 +28,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.gp.sync.web.SyncAuthenFilter;
-import com.gp.sync.web.JwtAuthenEntryPoint;
+import com.gp.sync.web.SyncAuthenEntryPoint;
 import com.gp.sync.web.JwtAuthenProvider;
 import com.gp.sync.web.SyncAuthenFailureHandler;
 import com.gp.sync.web.SyncAuthenSuccessHandler;
@@ -43,20 +44,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
  	public void configure(final WebSecurity web) throws Exception {
         web.ignoring()
-        		.antMatchers("/css/**","/js/**", "/images/**", "**/favicon.ico");
+        		.antMatchers("/css/**",
+        				"/js/**", 
+        				"/images/**",
+        				"/flat-ui/**",
+        				"**/favicon.ico");
     }
 	
 	@Override
     protected void configure(final HttpSecurity http) throws Exception {
-        // This is not for websocket authorization, and this should most likely not be altered.
+        
 		http.httpBasic().disable()
 			//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		//.and()
-			//.exceptionHandling().authenticationEntryPoint(tokenAuthenEntryPoint())
-		//.and()
+			.exceptionHandling().authenticationEntryPoint(syncAuthenEntryPoint())
+		.and()
 			.csrf().disable()
 			.authorizeRequests()
             .antMatchers("/", "/home", "/gpapi/**").permitAll()
+            .antMatchers("/stomp/**").permitAll()
             .anyRequest().authenticated()
         .and()
         		.formLogin()
@@ -82,11 +88,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
        http.addFilterBefore( serviceTokenFilter(), UsernamePasswordAuthenticationFilter.class );
     }
 	
+	@Bean
+	AuthenticationEntryPoint syncAuthenEntryPoint() {
+    		
+    		return new SyncAuthenEntryPoint();
+    }
+	
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     	
-        auth.authenticationProvider(userPasswordAuthenProvider()).
-        		authenticationProvider(tokenAuthenProvider());
+        auth.authenticationProvider(userPasswordAuthenProvider());
     }
     
     @Bean
@@ -94,13 +105,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		
     		return new UserPasswordAuthenProvider();
     }
-    
-    @Bean
-    AuthenticationProvider tokenAuthenProvider() {
-    		
-    		return new JwtAuthenProvider();
-    }
-    
+       
     @Bean
     public ServiceTokenFilter serviceTokenFilter() throws Exception {
     		

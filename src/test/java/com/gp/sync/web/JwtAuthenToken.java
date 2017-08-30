@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.gp.common.AccessPoint;
 import com.gp.common.GPrincipal;
 import com.gp.common.JwtPayload;
 import com.gp.util.JwtTokenUtils;
@@ -20,6 +21,8 @@ public class JwtAuthenToken extends AbstractAuthenticationToken{
     private Collection<GrantedAuthority>  authorities;
     
 	private Optional<String> rawToken;
+	
+	private AccessPoint accessPoint;
 	
 	public JwtAuthenToken(Optional<String> token) {
 		super(null);
@@ -56,5 +59,13 @@ public class JwtAuthenToken extends AbstractAuthenticationToken{
 	public GPrincipal getDetails() {
 		
 		return (GPrincipal) this.getDetails();
+	}
+
+	public AccessPoint getAccessPoint() {
+		return accessPoint;
+	}
+
+	public void setAccessPoint(AccessPoint accessPoint) {
+		this.accessPoint = accessPoint;
 	}
 }

@@ -49,7 +49,7 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 		Authentication authResult = null;
 		if(login.isPresent() && passcode.isPresent()) {
 			
-			UserPasswordAuthenToken userpassToken = new UserPasswordAuthenToken(login, passcode);
+			UserPasswordAuthenToken userpassToken = new UserPasswordAuthenToken(login.get(), passcode.get());
 			userpassToken.setAudience(audience);
 			
 			authResult = attemptAuthenticateUserPassword(userpassToken);
