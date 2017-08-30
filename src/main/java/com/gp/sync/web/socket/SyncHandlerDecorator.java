@@ -13,13 +13,13 @@ import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 
 import com.gp.core.AppContextHelper;
 
-public class HandlerDecorator extends WebSocketHandlerDecorator{
+public class SyncHandlerDecorator extends WebSocketHandlerDecorator{
 
-	static Logger LOGGER = LoggerFactory.getLogger(HandlerDecorator.class);
+	static Logger LOGGER = LoggerFactory.getLogger(SyncHandlerDecorator.class);
 	
 	private SyncNodeSessionRegistry sessionRegistry ;
 	
-	public HandlerDecorator(WebSocketHandler delegate) {
+	public SyncHandlerDecorator(WebSocketHandler delegate) {
 		
 		super(delegate);
 		LOGGER.debug("initial a new decorator");

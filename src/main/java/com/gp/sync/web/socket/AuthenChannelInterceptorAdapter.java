@@ -13,11 +13,11 @@ import org.springframework.security.core.AuthenticationException;
 import com.gp.sync.SyncConstants;
 import com.gp.sync.svc.impl.WebSocketAuthenService;
 
-public class AuthChannelInterceptorAdapter extends ChannelInterceptorAdapter {
+public class AuthenChannelInterceptorAdapter extends ChannelInterceptorAdapter {
 	    
     private final WebSocketAuthenService webSocketAuthenService;
 
-    public AuthChannelInterceptorAdapter(final WebSocketAuthenService webSocketAuthenticatorService) {
+    public AuthenChannelInterceptorAdapter(final WebSocketAuthenService webSocketAuthenticatorService) {
         this.webSocketAuthenService = webSocketAuthenticatorService;
     }
 
