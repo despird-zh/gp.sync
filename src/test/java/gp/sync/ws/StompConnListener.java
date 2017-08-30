@@ -37,7 +37,7 @@ public class StompConnListener implements ApplicationListener<SessionConnectEven
 	    		//webAgentSessionRegistry.addSession(agentId,sessionId);
 	    }
 	    //debug: show connected to stdout
-	    webAgentSessionRegistry.show();
+	    webAgentSessionRegistry.allKeys();
 	
 	}
 }

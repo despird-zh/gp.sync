@@ -1,5 +1,6 @@
 package com.gp.sync.web.socket;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -16,10 +17,10 @@ public class SyncNodeSessionRegistry {
 	/**
 	 * Add the node session into the memory repository 
 	 **/
-	public void addNodeSession(String websocketSID, WebSocketSession session) {
+	public void addNodeSession(String uname, WebSocketSession session) {
 		
 		LOGGER.debug("add node session: {}" , session.getPrincipal().getName());
-		syncNodeMap.put(websocketSID, session);
+		syncNodeMap.put(uname, session);
 	}
 	
 	/**
@@ -33,13 +34,13 @@ public class SyncNodeSessionRegistry {
 	/**
 	 * Remove the session out of memory repository 
 	 **/
-	public WebSocketSession removeNodeSession(String websocketSID) {
+	public WebSocketSession removeNodeSession(String uname) {
 		
-		LOGGER.debug("remove node session: {}" , websocketSID);
-		return syncNodeMap.remove(websocketSID);
+		LOGGER.debug("remove node session: {}" , uname);
+		return syncNodeMap.remove(uname);
 	}
 	
-	public String show() {
-		return syncNodeMap.toString();
+	public Collection<String> allKeys() {
+		return syncNodeMap.keySet();
 	}
 }

@@ -34,10 +34,10 @@ public class SyncHandlerDecorator extends WebSocketHandlerDecorator{
 		
 		initialRegistry();
 		super.afterConnectionEstablished(session);
-		Principal p = session.getPrincipal();
-		LOGGER.debug("principal from session: {}" ,p);
-		if(StringUtils.isNotBlank(p.getName()))
-			sessionRegistry.addNodeSession(p.getName(), session);
+		Principal princ = session.getPrincipal();
+		LOGGER.debug("Put session: {} to repository." ,princ.getName());
+		if(StringUtils.isNotBlank(princ.getName()))
+			sessionRegistry.addNodeSession(princ.getName(), session);
 	}
 
 //	@Override
@@ -55,9 +55,10 @@ public class SyncHandlerDecorator extends WebSocketHandlerDecorator{
 		
 		initialRegistry();
 		super.afterConnectionClosed(session, closeStatus);
-		Principal p = session.getPrincipal();
-		if(StringUtils.isNotBlank(p.getName()))
-			sessionRegistry.removeNodeSession(p.getName());
+		Principal princ = session.getPrincipal();
+		LOGGER.debug("Remove session: {} off repository." ,princ.getName());
+		if(StringUtils.isNotBlank(princ.getName()))
+			sessionRegistry.removeNodeSession(princ.getName());
 	}
 
 }

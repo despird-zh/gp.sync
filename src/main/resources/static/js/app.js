@@ -21,6 +21,14 @@ function connect() {
         stompClient.subscribe('/topic/greetings', function(greeting){
             showGreeting(JSON.parse(greeting.body).content);
         });
+        
+        stompClient.subscribe('/user/queue/notifications', function(greeting){
+            showGreeting(JSON.parse(greeting.body).content);
+        });
+        
+        stompClient.subscribe('/user/queue/chat', function(greeting){
+            showGreeting(JSON.parse(greeting.body).content);
+        });
     });
 }
 
@@ -67,6 +75,27 @@ $(document).ready(function(){
 	});
 	
 	$('#test').bind('click', function(){
-		stompClient.send("/app/test", {'token':'xxx-0sdfsss--'}, JSON.stringify({ 'tkey': 'hello blabal...' }));
+		stompClient.send("/app/test", {},JSON.stringify({ 'tkey': 'hello blabal...' }));
+	});
+	
+	$('#spittle').bind('click', function(){
+		stompClient.send("/app/spittle", {},JSON.stringify({ 'name': 'spittle message...' }));
+	});
+	
+	$('#to-user').bind('click', function(){
+		
+		stompClient.send("/app/chat", {},JSON.stringify({ 'target': $('#target-user').val(), 'message': $('#message').val()}));
+	});
+	
+	$('#all-users').bind('click', function(){
+		$.ajax({
+			url: 'gpapi/all-users',
+			type: 'post',
+			contentType: "application/json; charset=utf-8",
+			dataType: 'json',
+			success:function(data) {  
+				$('#users-span').html(JSON.stringify(data));
+			}
+		});
 	});
 }) 

@@ -21,9 +21,22 @@
         		</div>
         		<div style="margin-bottom:5px">
         			<div>
-        				<button id="test">send test</button>
+        				<button id="test">send</button> <span>Test json string to /app/test and forward to /topic/greetings</span>
         			</div>
-        			<div id="test">
+        		</div>
+        		<div style="margin-bottom:5px">
+        			<div>
+        				<button id="spittle">send</button> <span>Test spittle to /app/spittle and forward to  @SendToUser("/queue/notifications")</span>
+        			</div>
+        		</div>
+        		<div style="margin-bottom:5px">
+        			<div>
+        				<button id="all-users">all user</button> <span id="users-span"></span>
+        			</div>
+        		</div>
+        		<div style="margin-bottom:5px">
+        			<div>
+        				<button id="to-user">to user</button> <label>user</label> <input type="text" id="target-user" /> / <label>message</label><input type="text" value="chat message" id="message" />
         			</div>
         		</div>
             <div>

@@ -31,7 +31,7 @@ public class SyncNoticeSender {
         this.broker = broker;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 20000)
     public void run() {
        String time = LocalTime.now().format(TIME_FORMAT);
 

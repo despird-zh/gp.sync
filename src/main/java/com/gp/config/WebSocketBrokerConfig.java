@@ -24,7 +24,7 @@ import com.gp.sync.web.socket.SyncHandshakeHandler;
 @EnableWebSocketMessageBroker
 @EnableScheduling
 @ComponentScan(basePackages = { 
-		"com.gp.sync.web.socket"
+	"com.gp.sync.web.socket"
  })
 @Order(3)//Ordered.HIGHEST_PRECEDENCE + 99
 public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {

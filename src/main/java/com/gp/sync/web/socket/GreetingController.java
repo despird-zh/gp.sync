@@ -1,5 +1,8 @@
 package com.gp.sync.web.socket;
 
+import java.security.Principal;
+import java.util.Collection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +10,13 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.gp.sync.web.model.ChatMessage;
 import com.gp.sync.web.model.Greeting;
 import com.gp.sync.web.model.HelloMessage;
 
@@ -21,13 +28,38 @@ public class GreetingController {
 	@Autowired
 	private SimpMessagingTemplate template;
 	
+	@Autowired
+	SyncNodeSessionRegistry nodeSessionRegistry;
+	
+	/**
+	 * Message be broadcast to all clients that subscribe the '/topic/greetings' 
+	 **/
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws Exception {
-        log.info("Received hello: {}", message.getName());
+    public Greeting greeting(HelloMessage message, Principal principal) throws Exception {
+        log.info("Receive hello: {} - princ: {}", message.getName(), principal.getName());
         return new Greeting("Hello, " + message.getName() + "!");
     }
 
+	/**
+	 * Message be feedback to client which send message, it must subscribe the /user/queue/notifications
+	 **/
+    @MessageMapping("/spittle")  
+    @SendToUser("/queue/notifications")  
+    public Greeting handleSpittle(HelloMessage message, Principal principal) {  
+	    
+	    log.info("Receive spittle: {} - princ: {}", message.getName(), principal.getName());
+	    return new Greeting("Spittle, " + message.getName() + " from "+ principal.getName());  
+    }  
+    
+    @MessageMapping("/chat")
+    public void handleChat(ChatMessage message, Principal principal) {  
+	    
+	    log.info("Receive chat target: {} - princ: {}", message.getTarget(), principal.getName());
+	    Greeting greeting = new Greeting("Chat, " + message.getMessage() + " from "+ principal.getName());  
+	    template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 
+    } 
+    
     @MessageMapping("/test")
     @SendTo("/topic/greetings")
     public Greeting test(Message<?> message) throws Exception {
@@ -43,5 +75,11 @@ public class GreetingController {
     public void greet(String greeting) {
         String text = "[" + System.currentTimeMillis() + "]:" + greeting;
         this.template.convertAndSend("/topic/greetings", text);
+    }
+    
+    @RequestMapping(path="/gpapi/all-users")
+    @ResponseBody
+    public Collection<String> allUsers() {
+    		return nodeSessionRegistry.allKeys();
     }
 }
