@@ -1,4 +1,4 @@
-package com.gp.sync.web.socket;
+package gp.sync.ws;
 
 import java.security.Principal;
 import java.util.Map;
