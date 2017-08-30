@@ -1,13 +1,9 @@
 package com.gp.config;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,24 +11,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.gp.common.GPrincipal;
-import com.gp.sync.CoreStarter;
 import com.gp.web.DatabaseMessageSource;
 import com.gp.web.PrincipalLocaleResolver;
-import com.gp.web.servlet.ServiceTokenFilter;
 
 @Configuration
 @Order(2)
 @ComponentScan(basePackages = { 
-		"com.gp.web.service",
+		"com.gp.web.api",
+		"com.gp.sync.web.api",
 		"com.gp.sync.web.view" })
 public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 
@@ -75,7 +66,10 @@ public class WebMVCConfigurer extends WebMvcConfigurerAdapter {
 		return source;
 	}
 
-	public class SyncLocaleResolver extends PrincipalLocaleResolver{
+	/**
+	 * Inner class to override the default PrincipalLocaleResolver 
+	 **/
+	private class SyncLocaleResolver extends PrincipalLocaleResolver{
 		
 		@Override
 		public Locale resolveLocale(HttpServletRequest request) {

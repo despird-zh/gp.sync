@@ -1,4 +1,4 @@
-package com.gp.sync.web.service;
+package com.gp.sync.web.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
