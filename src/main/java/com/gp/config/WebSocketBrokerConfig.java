@@ -17,6 +17,7 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 
 import com.gp.sync.svc.impl.WebSocketAuthenService;
+import com.gp.sync.web.socket.AuthenChannelInterceptorAdapter;
 import com.gp.sync.web.socket.SyncHandlerDecorator;
 import com.gp.sync.web.socket.SyncHandshakeHandler;
 
@@ -58,4 +59,9 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
 			}
 		};
 	}
+	
+    @Override
+    public void configureClientInboundChannel(final ChannelRegistration registration) {
+        registration.setInterceptors(new AuthenChannelInterceptorAdapter());
+    }
 }

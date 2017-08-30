@@ -24,7 +24,11 @@ import com.gp.util.JwtTokenUtils;
 public class SyncHandshakeHandler extends DefaultHandshakeHandler {
 
 	Logger LOGGER = LoggerFactory.getLogger(SyncHandshakeHandler.class);
-		
+	
+	/**
+	 * Here we not authenticate the request principal, just prepare the Principal object for
+	 * further authentication and authorization in {@link AuthenChannelInterceptorAdapter } 
+	 **/
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
                     Map<String, Object> attributes) throws HandshakeFailureException {
