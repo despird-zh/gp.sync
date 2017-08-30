@@ -7,46 +7,16 @@ package com.gp.sync.message;
  * @author diaogc 
  * @version 0.1 2017-5-6
  **/
-public class SyncNotifMessage {
-	
-	private String type;
+public class SyncNotifMessage extends SyncMessage{
 	
 	private String center;
 	
-	private String traceCode;
-	
-	private Object payload;
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public String getCenter() {
 		return center;
 	}
 
 	public void setCenter(String center) {
 		this.center = center;
-	}
-
-	public String getTraceCode() {
-		return traceCode;
-	}
-
-	public void setTraceCode(String traceCode) {
-		this.traceCode = traceCode;
-	}
-
-	public Object getPayload() {
-		return payload;
-	}
-
-	public void setPayload(Object payload) {
-		this.payload = payload;
 	}
 
 }

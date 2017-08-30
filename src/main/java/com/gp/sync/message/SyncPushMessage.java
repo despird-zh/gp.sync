@@ -8,24 +8,10 @@ package com.gp.sync.message;
  * @version 0.1 2017-9-10
  * 
  **/
-public class SyncPushMessage {
+public class SyncPushMessage extends SyncMessage{
 
-	private String type;
-	
 	private String node;
 	
-	private String traceCode;
-	
-	private Object payload;
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public String getNode() {
 		return node;
 	}
@@ -34,21 +20,4 @@ public class SyncPushMessage {
 		this.node = node;
 	}
 
-	public String getTraceCode() {
-		return traceCode;
-	}
-
-	public void setTraceCode(String traceCode) {
-		this.traceCode = traceCode;
-	}
-
-	public Object getPayload() {
-		return payload;
-	}
-
-	public void setPayload(Object payload) {
-		this.payload = payload;
-	}
-	
-	
 }

@@ -17,6 +17,12 @@ public class SyncType {
 		}
 	}
 	
+	public SyncType(String ...opts) {
+		for(String opt: opts) {
+			options.add(opt);
+		}
+	}
+	
 	/**
 	 * Check the option existence 
 	 **/
