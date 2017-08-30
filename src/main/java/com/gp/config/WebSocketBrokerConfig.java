@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.Ordered;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,7 +17,7 @@ import com.gp.sync.web.socket.AuthChannelInterceptorAdapter;
 
 @Configuration
 @EnableWebSocketMessageBroker
-//@EnableScheduling
+@EnableScheduling
 @ComponentScan(basePackages = { 
 		"com.gp.sync.web.socket"
  })

@@ -1,6 +1,5 @@
 package com.gp.config;
 
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import com.gp.core.AppContextHelper;
 import com.gp.sync.AppContextListener;
 import com.gp.sync.web.socket.SyncNodeSessionRegistry;
-import com.gp.sync.CoreStarter;
 
 @Configuration
 @Order(1)
@@ -29,24 +27,24 @@ import com.gp.sync.CoreStarter;
  })
 public class RootConfigurer {
 	
-//	@Bean
-//    public SyncNodeSessionRegistry webAgentSessionRegistry(){
-//        return new SyncNodeSessionRegistry();
-//    }
-//	
-//	/**
-//	 * Trigger the AppContext event 
-//	 **/
-//	@Bean
-//	public AppContextListener appContextListener() {
-//		return new AppContextListener();
-//	}
-//	
-//	@Bean
-//	@Order(1)
-//	public AppContextHelper appContextHelper() {
-//		return new AppContextHelper();
-//	}
+	@Bean
+    public SyncNodeSessionRegistry webAgentSessionRegistry(){
+        return new SyncNodeSessionRegistry();
+    }
+	
+	/**
+	 * Trigger the AppContext event 
+	 **/
+	@Bean
+	public AppContextListener appContextListener() {
+		return new AppContextListener();
+	}
+	
+	@Bean
+	@Order(1)
+	public AppContextHelper appContextHelper() {
+		return new AppContextHelper();
+	}
 
 	/**
 	 * Build the service filter bean, it filter out the valid request to /gpapi/* service.
