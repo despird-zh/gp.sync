@@ -37,7 +37,7 @@ import com.gp.web.servlet.ServiceTokenFilter;
 import com.gp.web.servlet.UrlMatcher;
 
 @Configuration
-@Order(3)
+@Order(5)
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    
@@ -56,27 +56,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         
 		http.httpBasic().disable()
 			//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		//.and()
-			.exceptionHandling().authenticationEntryPoint(syncAuthenEntryPoint())
-		.and()
 			.csrf().disable()
 			.authorizeRequests()
             .antMatchers("/", "/home", "/gpapi/**").permitAll()
             .antMatchers("/stomp/**").permitAll()
             .anyRequest().authenticated()
         .and()
-        		.formLogin()
+        	.formLogin()
             .loginPage("/login")
             .defaultSuccessUrl("/home")
             .successHandler(new SyncAuthenSuccessHandler())
             .loginProcessingUrl("/authen_form")
+            .failureUrl( "/login?error" )
             .permitAll()
-            .and()
+        .and()
         .logout()
         		.logoutUrl("/logout")
         		.logoutSuccessUrl( "/home" )
             .permitAll();
-
 //        		.formLogin()//
 //                .loginPage( "/login" )//
 //                .successHandler( successHandler( ) )//
@@ -86,12 +83,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and( ).rememberMe( ).key( "sync_key" ).tokenValiditySeconds( 2419200 ); // remember me for 2 weeks
 
        http.addFilterBefore( serviceTokenFilter(), UsernamePasswordAuthenticationFilter.class );
-    }
-	
-	@Bean
-	AuthenticationEntryPoint syncAuthenEntryPoint() {
-    		
-    		return new SyncAuthenEntryPoint();
     }
 	
     @Autowired

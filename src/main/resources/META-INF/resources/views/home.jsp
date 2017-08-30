@@ -31,6 +31,10 @@
         		<td>Jump to:</td>
         		<td><a href="/hello">Hello Page</a></td>
         </tr>
+        <tr>
+        		<td>Jump to:</td>
+        		<td><a href="/wstest">WSTest Page</a></td>
+        </tr>
       </table>
     </form>
   </div>

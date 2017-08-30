@@ -40,4 +40,10 @@ public class DefaultController extends BaseController{
 		return "hello";
 	}
 	
+	@RequestMapping(
+		    value = "/wstest")
+	public String wstest () throws Exception {
+		
+		return "wstest";
+	}
 }

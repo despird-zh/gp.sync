@@ -10,7 +10,7 @@ function setConnected(connected) {
 function connect() {
 	console.log('connecting... ');
 	//sockJS = new SockJS('http://localhost:8080/hello');
-    stompClient = Stomp.client('ws://localhost:8080/hello');
+    stompClient = Stomp.client('ws://localhost:8080/stomp');
     //stompClient.debug = null;
     var login = document.getElementById('user').value;
     var pass = document.getElementById('pass').value;
@@ -55,7 +55,7 @@ $(document).ready(function(){
 			audience:'sync001'
 		}
 		$.ajax({
-			url: 'gpapi/authenticate.do',
+			url: 'gpapi/authenticate',
 			data: JSON.stringify(data),
 			type: 'post',
 			contentType: "application/json; charset=utf-8",

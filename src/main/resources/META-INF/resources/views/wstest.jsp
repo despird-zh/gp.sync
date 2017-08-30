@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,7 +11,7 @@
         		<div style="margin-bottom:5px">
         			<table>
         				<tr>
-        					<th> user</th> <td> <input id="user" value="dev1"/></td>
+        					<th> user</th> <td> <input id="user" value="usr1"/></td>
         					<th> pass</th> <td> <input id="pass" value="1"/></td>
         					<th> <button id="login">Login</button></th>
         				</tr>
@@ -37,6 +38,6 @@
         </div>
         <script src="jquery.min.js"></script>
         <script src="stomp.js"></script>
-        <script src="app.js"></script>
+        <script src="js/app.js"></script>
     </body>
 </html>
