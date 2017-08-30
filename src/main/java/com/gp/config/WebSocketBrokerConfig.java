@@ -1,7 +1,6 @@
 package com.gp.config;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 
-import com.gp.sync.svc.impl.WebSocketAuthenService;
 import com.gp.sync.web.socket.AuthenChannelInterceptorAdapter;
 import com.gp.sync.web.socket.SyncHandlerDecorator;
 import com.gp.sync.web.socket.SyncHandshakeHandler;
