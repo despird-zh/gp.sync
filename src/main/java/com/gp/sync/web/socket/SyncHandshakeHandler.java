@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -26,18 +27,18 @@ public class SyncHandshakeHandler extends DefaultHandshakeHandler {
 		
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
-                    Map<String, Object> attributes) {
+                    Map<String, Object> attributes) throws HandshakeFailureException {
     		
     		GPrincipal gprincipal = parseFromURI(request.getURI());
     		if(null == gprincipal) {
     		
     			gprincipal = parseFromHeader(request.getHeaders());
-    			
-    			if(null == gprincipal) {
-    				gprincipal = new GPrincipal("blind" );
-    			}
     		}
     		
+    		if(null == gprincipal || "usr2".equals(gprincipal.getName())) {
+    			
+			throw new HandshakeFailureException("illegal user principal");
+		}
         return gprincipal;
     }
 

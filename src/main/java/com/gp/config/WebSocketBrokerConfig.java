@@ -17,7 +17,6 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 
 import com.gp.sync.svc.impl.WebSocketAuthenService;
-import com.gp.sync.web.socket.AuthenChannelInterceptorAdapter;
 import com.gp.sync.web.socket.SyncHandlerDecorator;
 import com.gp.sync.web.socket.SyncHandshakeHandler;
 
@@ -30,9 +29,6 @@ import com.gp.sync.web.socket.SyncHandshakeHandler;
 @Order(3)//Ordered.HIGHEST_PRECEDENCE + 99
 public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
-	@Autowired
-    private WebSocketAuthenService webSocketAuthenService;
-	
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic","/queue");
@@ -52,11 +48,6 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
 		registration.setMessageSizeLimit(256 * 1024);
 		super.configureWebSocketTransport(registration);
 	}
-    
-//    @Override
-//    public void configureClientInboundChannel(final ChannelRegistration registration) {
-//        registration.setInterceptors(new AuthenChannelInterceptorAdapter(this.webSocketAuthenService));
-//    }
 
 	@Bean
 	public WebSocketHandlerDecoratorFactory handlerDecoratorFactory() {

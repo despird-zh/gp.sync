@@ -1,4 +1,4 @@
-package com.gp.sync.web.socket;
+package gp.sync.ws;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
