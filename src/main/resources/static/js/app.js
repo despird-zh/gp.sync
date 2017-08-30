@@ -10,10 +10,10 @@ function setConnected(connected) {
 function connect() {
 	console.log('connecting... ');
 	//sockJS = new SockJS('http://localhost:8080/hello');
-    stompClient = Stomp.client('ws://localhost:8080/stomp');
-    //stompClient.debug = null;
     var login = document.getElementById('user').value;
     var pass = document.getElementById('pass').value;
+    stompClient = Stomp.client('ws://localhost:8080/stomp?login='+login+'&passcode='+pass);
+    //stompClient.debug = null;
     stompClient.connect({'passcode':pass,'login':login}, function(frame) {
     	
         setConnected(true);

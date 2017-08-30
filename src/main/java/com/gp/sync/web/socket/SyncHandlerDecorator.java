@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 
@@ -36,19 +35,20 @@ public class SyncHandlerDecorator extends WebSocketHandlerDecorator{
 		initialRegistry();
 		super.afterConnectionEstablished(session);
 		Principal p = session.getPrincipal();
+		LOGGER.debug("principal from session: {}" ,p);
 		if(StringUtils.isNotBlank(p.getName()))
 			sessionRegistry.addNodeSession(p.getName(), session);
 	}
-	
-	@Override
-	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		LOGGER.info("handle message principal: {}", session.getPrincipal());
-		
-		if("dev2".equals(session.getPrincipal().getName())) {
-			session.close();
-		}
-		super.handleMessage(session, message);
-	}
+
+//	@Override
+//	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+//		LOGGER.info("handle message principal: {}", session.getPrincipal().getName());
+//		
+//		if("dev2".equals(session.getPrincipal().getName())) {
+//			session.close();
+//		}
+//		super.handleMessage(session, message);
+//	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus)	throws Exception {

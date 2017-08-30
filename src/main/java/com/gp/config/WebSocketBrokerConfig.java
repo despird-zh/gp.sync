@@ -19,6 +19,7 @@ import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 import com.gp.sync.svc.impl.WebSocketAuthenService;
 import com.gp.sync.web.socket.AuthenChannelInterceptorAdapter;
 import com.gp.sync.web.socket.SyncHandlerDecorator;
+import com.gp.sync.web.socket.SyncHandshakeHandler;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -41,6 +42,7 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stomp")//
+        		.setHandshakeHandler(new SyncHandshakeHandler())
         		.setAllowedOrigins("*");
     }
     
@@ -51,10 +53,10 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
 		super.configureWebSocketTransport(registration);
 	}
     
-    @Override
-    public void configureClientInboundChannel(final ChannelRegistration registration) {
-        registration.setInterceptors(new AuthenChannelInterceptorAdapter(this.webSocketAuthenService));
-    }
+//    @Override
+//    public void configureClientInboundChannel(final ChannelRegistration registration) {
+//        registration.setInterceptors(new AuthenChannelInterceptorAdapter(this.webSocketAuthenService));
+//    }
 
 	@Bean
 	public WebSocketHandlerDecoratorFactory handlerDecoratorFactory() {

@@ -6,7 +6,7 @@ public class SyncConstants {
     public static final String WS_HEADER_PASSWORD = "passcode";
     public static final String WS_HEADER_AUDIENCE = "audience";
     
-    public static final String WS_HEADER_TOKEN    = "Authorization";
+    public static final String WS_HEADER_TOKEN    = "token";
     
     public static final String AUTH_HEADER_USERNAME = "X-Login";
     public static final String AUTH_HEADER_PASSWORD = "X-Passcode";
