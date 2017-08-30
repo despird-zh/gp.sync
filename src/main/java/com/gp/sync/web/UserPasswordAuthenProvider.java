@@ -1,7 +1,5 @@
 package com.gp.sync.web;
 
-import java.util.Optional;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,14 +10,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
 
-import com.google.common.collect.Sets;
 import com.gp.common.GPrincipal;
 
 public class UserPasswordAuthenProvider implements AuthenticationProvider{
 
 	static Logger LOGGER = LoggerFactory.getLogger(UserPasswordAuthenProvider.class);
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		
