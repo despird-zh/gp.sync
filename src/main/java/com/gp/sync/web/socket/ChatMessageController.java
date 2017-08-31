@@ -13,7 +13,7 @@ import com.gp.sync.message.SyncPushMessage;
 
 @Controller
 @MessageMapping("/person")
-public class UserMessageController {
+public class ChatMessageController {
 
 	Logger LOGGER = LoggerFactory.getLogger(GreetingController.class);
 	

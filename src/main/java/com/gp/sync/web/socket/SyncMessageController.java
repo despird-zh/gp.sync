@@ -24,9 +24,9 @@ import com.gp.sync.web.model.HelloMessage;
  * 
  **/
 @Controller
-@MessageMapping("node")
+@MessageMapping(SyncConstants.SYNC_VIEW)
 @RequestMapping(SyncConstants.SYNC_VIEW)
-public class NodeMessageController {
+public class SyncMessageController {
 
 	Logger LOGGER = LoggerFactory.getLogger(GreetingController.class);
 	
@@ -41,8 +41,8 @@ public class NodeMessageController {
 	 * other related nodes.
 	 * message path: /app/node.sync-push
 	 **/
-	@MessageMapping("sync-push")
-    public void handleChat(SyncPushMessage message, Principal principal) {
+	@MessageMapping("/sync-push")
+    public void handlePush(SyncPushMessage message, Principal principal) {
 		
 		//template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 
 	}
