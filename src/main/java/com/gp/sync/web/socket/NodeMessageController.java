@@ -24,7 +24,7 @@ import com.gp.sync.web.model.HelloMessage;
  * 
  **/
 @Controller
-@MessageMapping("/node")
+@MessageMapping("node")
 @RequestMapping(SyncConstants.SYNC_VIEW)
 public class NodeMessageController {
 
@@ -39,8 +39,9 @@ public class NodeMessageController {
 	/**
 	 * node send the SyncPushMessage, center server route the message to 
 	 * other related nodes.
+	 * message path: /app/node.sync-push
 	 **/
-	@MessageMapping("/sync-push")
+	@MessageMapping("sync-push")
     public void handleChat(SyncPushMessage message, Principal principal) {
 		
 	}
