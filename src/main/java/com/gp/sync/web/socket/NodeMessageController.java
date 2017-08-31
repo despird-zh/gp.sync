@@ -44,6 +44,7 @@ public class NodeMessageController {
 	@MessageMapping("sync-push")
     public void handleChat(SyncPushMessage message, Principal principal) {
 		
+		//template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 
 	}
 	
 	/**
