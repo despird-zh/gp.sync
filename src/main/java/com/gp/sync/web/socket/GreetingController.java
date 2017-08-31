@@ -34,7 +34,7 @@ public class GreetingController {
 	/**
 	 * Message be broadcast to all clients that subscribe the '/topic/greetings' 
 	 **/
-    @MessageMapping("/hello")
+    @MessageMapping("hello")
     @SendTo("/topic/greetings")
     public Greeting greeting(HelloMessage message, Principal principal) throws Exception {
         log.info("Receive hello: {} - princ: {}", message.getName(), principal.getName());
@@ -44,7 +44,7 @@ public class GreetingController {
 	/**
 	 * Message be feedback to client which send message, it must subscribe the /user/queue/notifications
 	 **/
-    @MessageMapping("/spittle")  
+    @MessageMapping("spittle")  
     @SendToUser("/queue/notifications")  
     public Greeting handleSpittle(HelloMessage message, Principal principal) {  
 	    
@@ -52,7 +52,7 @@ public class GreetingController {
 	    return new Greeting("Spittle, " + message.getName() + " from "+ principal.getName());  
     }  
     
-    @MessageMapping("/chat")
+    @MessageMapping("chat")
     public void handleChat(ChatMessage message, Principal principal) {  
 	    
 	    log.info("Receive chat target: {} - princ: {}", message.getTarget(), principal.getName());
@@ -60,7 +60,7 @@ public class GreetingController {
 	    template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 
     } 
     
-    @MessageMapping("/test")
+    @MessageMapping("test")
     @SendTo("/topic/greetings")
     public Greeting test(Message<?> message) throws Exception {
     		

@@ -46,6 +46,7 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic","/queue");
         config.setApplicationDestinationPrefixes("/app");//gpwsi
+        
         config.setPathMatcher(new AntPathMatcher(".")); 
     }
 

@@ -82,6 +82,13 @@ $(document).ready(function(){
 		stompClient.send("/app/spittle", {},JSON.stringify({ 'name': 'spittle message...' }));
 	});
 	
+	$('#sayhi').bind('click', function(){
+		stompClient.send("/app/test.sayhi", {},JSON.stringify({ 'name': 'sayhi message...' }));
+	});
+	$('#sayhi2').bind('click', function(){
+		stompClient.send("/app/test.sayhi.dev1", {},JSON.stringify({ 'name': 'sayhi dev1 message...' }));
+	});
+	
 	$('#to-user').bind('click', function(){
 		
 		stompClient.send("/app/chat", {},JSON.stringify({ 'target': $('#target-user').val(), 'message': $('#message').val()}));
