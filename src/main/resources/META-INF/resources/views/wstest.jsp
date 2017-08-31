@@ -11,7 +11,7 @@
         		<div style="margin-bottom:5px">
         			<table>
         				<tr>
-        					<th> user</th> <td> <input id="user" value="usr1"/></td>
+        					<th> user</th> <td> <input id="user" value="dev1"/></td>
         					<th> pass</th> <td> <input id="pass" value="1"/></td>
         					<th> <button id="login">Login</button></th>
         				</tr>
@@ -31,12 +31,12 @@
         		</div>
         		<div style="margin-bottom:5px">
         			<div>
-        				<button id="sayhi">send</button> <span>Test sayhi with path matcher[.], /app/test.sayhi and forward to /topic/greetings</span>
+        				<button id="sayhi">send</button> <span>Test sayhi , /app/test.sayhi and forward to /topic/greetings</span>
         			</div>
         		</div>
         		<div style="margin-bottom:5px">
         			<div>
-        				<button id="sayhi2">send</button> <span>Test sayhi with path matcher[.], /app/test.sayhi.dev1 and forward to /topic/greetings</span>
+        				<button id="sayhi2">send</button> <span>Test sayhi with parameter, /app/test.sayhi.dev1 and forward to /topic/greetings</span>
         			</div>
         		</div>
         		<div style="margin-bottom:5px">

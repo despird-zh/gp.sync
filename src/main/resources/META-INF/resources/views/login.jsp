@@ -19,11 +19,11 @@
       <table>
         <tr>
           <td>Enter Your name</td>
-          <td><input id="username" name="username" value="usr1"></td>
+          <td><input id="username" name="username" value="dev1"></td>
         </tr>
         <tr>
           <td>Enter Your password</td>
-          <td><input type="password" id="password" name="password" value="123456"></td>
+          <td><input type="password" id="password" name="password" value="1"></td>
         </tr>
         <tr>
           <td></td>

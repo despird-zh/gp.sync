@@ -22,7 +22,6 @@ import com.gp.sync.web.model.Greeting;
 import com.gp.sync.web.model.HelloMessage;
 
 @Controller
-@MessageMapping("test")
 public class TestController {
 	
 	Logger log = LoggerFactory.getLogger(TestController.class);
@@ -33,14 +32,14 @@ public class TestController {
 	/**
 	 * Message be broadcast to all clients that subscribe the '/topic/greetings' 
 	 **/
-    @MessageMapping("sayhi")
+    @MessageMapping("/test.sayhi")
     @SendTo("/topic/greetings")
     public Greeting greeting(HelloMessage message, Principal principal) throws Exception {
         log.info("Receive sayhi: {} - princ: {}", message.getName(), principal.getName());
         return new Greeting("Hi, " + message.getName() + "!");
     }
 
-    @MessageMapping("sayhi.{username}")
+    @MessageMapping("/test.sayhi.{username}")
     @SendTo("/topic/greetings")
     public Greeting greeting(HelloMessage message, Principal principal,@DestinationVariable("username") String username) throws Exception {
         log.info("Receive sayhi: {} - princ: {}", message.getName(), principal.getName());
