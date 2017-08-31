@@ -7,7 +7,7 @@ package com.gp.sync.message;
  * @author diaogc 
  * @version 0.1 2017-5-6
  **/
-public class SyncNotifMessage extends SyncMessage{
+public class SyncNotifyMessage extends SyncMessage{
 	
 	private String center;
 	
