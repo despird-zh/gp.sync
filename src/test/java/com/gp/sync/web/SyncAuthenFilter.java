@@ -58,7 +58,7 @@ public class SyncAuthenFilter extends AbstractAuthenticationProcessingFilter {
 		
 		if (token.isPresent()) {
 			
-			JwtAuthenToken jwtAuthenToken = new JwtAuthenToken(token);
+			JwtAuthenToken jwtAuthenToken = new JwtAuthenToken("");
 
 			authResult = attemptAuthenticateToken(jwtAuthenToken);
 		}

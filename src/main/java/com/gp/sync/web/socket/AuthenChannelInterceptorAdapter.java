@@ -10,7 +10,9 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
 
@@ -18,6 +20,12 @@ public class AuthenChannelInterceptorAdapter extends ChannelInterceptorAdapter {
 	    
     static Logger LOGGER = LoggerFactory.getLogger(AuthenChannelInterceptorAdapter.class);
 
+    private AuthenticationManager authenManager = null;
+    
+    public AuthenChannelInterceptorAdapter(AuthenticationManager authenManager) {
+    		this.authenManager = authenManager;
+    }
+    
     @Override
     public Message<?> preSend(final Message<?> message, final MessageChannel channel) throws AuthenticationException {
         
@@ -27,13 +35,12 @@ public class AuthenChannelInterceptorAdapter extends ChannelInterceptorAdapter {
         
         if (StompCommand.CONNECT == accessor.getCommand()) {
         		LOGGER.debug("Try to authorization during connect : {}", principal.getName());
-	        UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(
-	                principal.getName(),
-	                null,
-	                AuthorityUtils.commaSeparatedStringToAuthorityList("USER"));
+        		
+        		Authentication authen = (Authentication) principal;
+        		
+        		Authentication passedAuthen = authenManager.authenticate(authen);
 	        
-	        user.setDetails(principal);
-	        accessor.setUser(user);
+        		accessor.setUser(passedAuthen);
 	    }
         return message;
     }

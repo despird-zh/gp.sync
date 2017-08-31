@@ -1,6 +1,8 @@
 package com.gp.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +10,9 @@ import org.springframework.core.annotation.Order;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -25,13 +30,24 @@ import com.gp.sync.web.socket.SyncHandshakeHandler;
 @ComponentScan(basePackages = { 
 	"com.gp.sync.web.socket"
  })
-@Order(3)//Ordered.HIGHEST_PRECEDENCE + 99
+@Order(4)//Ordered.HIGHEST_PRECEDENCE + 99
 public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
+	@Autowired
+	public void setAuthenticationConfiguration(AuthenticationConfiguration authenticationConfiguration) {
+	     try {
+			this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic","/queue");
         config.setApplicationDestinationPrefixes("/app");//gpwsi
+        config.setPathMatcher(new AntPathMatcher(".")); 
     }
 
     @Override
@@ -58,8 +74,13 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
 		};
 	}
 	
+	/**
+	 *  prepare the authenticationMananger so as to inject it into {@link AuthenChannelInterceptorAdapter}
+	 */
+	private AuthenticationManager authenticationManager;
+	
     @Override
     public void configureClientInboundChannel(final ChannelRegistration registration) {
-        registration.setInterceptors(new AuthenChannelInterceptorAdapter());
+        registration.setInterceptors(new AuthenChannelInterceptorAdapter(authenticationManager));
     }
 }

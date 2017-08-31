@@ -16,9 +16,10 @@ import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.gp.common.GPrincipal;
 import com.gp.common.JwtPayload;
 import com.gp.sync.SyncConstants;
+import com.gp.sync.web.JwtAuthenToken;
+import com.gp.sync.web.UserPasswordAuthenToken;
 import com.gp.util.JwtTokenUtils;
 
 public class SyncHandshakeHandler extends DefaultHandshakeHandler {
@@ -33,20 +34,23 @@ public class SyncHandshakeHandler extends DefaultHandshakeHandler {
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
                     Map<String, Object> attributes) throws HandshakeFailureException {
     		
-    		GPrincipal gprincipal = parseFromURI(request.getURI());
+    		Principal gprincipal = parseFromURI(request.getURI());
     		if(null == gprincipal) {
     		
     			gprincipal = parseFromHeader(request.getHeaders());
     		}
     		
-    		if(null == gprincipal || "usr2".equals(gprincipal.getName())) {
+    		if(null == gprincipal || "bad1".equals(gprincipal.getName())) {
     			
 			throw new HandshakeFailureException("illegal user principal");
 		}
         return gprincipal;
     }
 
-    private GPrincipal parseFromURI(URI websocketUri) {
+    /**
+     * parse form the URI request parameters 
+     **/
+    private Principal parseFromURI(URI websocketUri) {
     	
     		MultiValueMap<String, String> parameters = UriComponentsBuilder.fromUri(websocketUri).build().getQueryParams();
 		
@@ -56,17 +60,19 @@ public class SyncHandshakeHandler extends DefaultHandshakeHandler {
 	    //List<String> audienceParam = parameters.get(SyncConstants.WS_HEADER_AUDIENCE);
 	    
 	    if(CollectionUtils.isNotEmpty(tokenParam)) {
-	    		JwtPayload jwt = JwtTokenUtils.parsePayload(tokenParam.get(0));
-			return new GPrincipal( jwt.getSubject() );
+			return new JwtAuthenToken( tokenParam.get(0));
 	    }
 	    else if(CollectionUtils.isNotEmpty(passParam) && CollectionUtils.isNotEmpty(loginParam)) {
-	    		return new GPrincipal( loginParam.get(0) );
+	    		return new UserPasswordAuthenToken( loginParam.get(0), passParam.get(0) );
 	    }
 	    
 	    return null;
     }
     
-    private GPrincipal parseFromHeader(HttpHeaders headers) {
+    /**
+     * parse the principal from the Http headers
+     **/
+    private Principal parseFromHeader(HttpHeaders headers) {
     	
     		String mapHeaders = headers.toSingleValueMap().toString();
 		if(LOGGER.isDebugEnabled()) {
@@ -77,13 +83,11 @@ public class SyncHandshakeHandler extends DefaultHandshakeHandler {
 		String token = headers.toSingleValueMap().get(SyncConstants.WS_HEADER_TOKEN);
 		//String audience = headers.toSingleValueMap().get(SyncConstants.WS_HEADER_AUDIENCE);
 
-	    
 	    if(StringUtils.isNotEmpty(token)) {
-	    		JwtPayload jwt = JwtTokenUtils.parsePayload(token);
-			return new GPrincipal( jwt.getSubject() );
+			return new JwtAuthenToken( token);
 	    }
 	    else if(StringUtils.isNotEmpty(passcode) && StringUtils.isNotEmpty(login)) {
-	    		return new GPrincipal( login );
+	    		return new UserPasswordAuthenToken( login, passcode );
 	    }
 	    
 	    return null;

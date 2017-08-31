@@ -20,25 +20,25 @@ public class JwtAuthenToken extends AbstractAuthenticationToken{
 	 
     private Collection<GrantedAuthority>  authorities;
     
-	private Optional<String> rawToken;
+	private String rawToken;
 	
 	private AccessPoint accessPoint;
 	
-	public JwtAuthenToken(Optional<String> token) {
+	public JwtAuthenToken(String token) {
 		super(null);
 		this.rawToken = token;
-		JwtPayload payload = JwtTokenUtils.parsePayload(token.get());
+		JwtPayload payload = JwtTokenUtils.parsePayload(token);
 		this.principal = payload.getSubject();
 		this.audience = payload.getAudience();
 	}
 
 	public String getToken() {
-		return rawToken.get();
+		return rawToken;
 	}
 
 	@Override
 	public Object getCredentials() {
-		return rawToken.get();
+		return rawToken;
 	}
 
 	@Override

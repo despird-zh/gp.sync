@@ -45,7 +45,8 @@ public class UserPasswordAuthenProvider implements AuthenticationProvider{
     
 	@Override
 	public boolean supports(Class<?> tokenClazz) {
-		return tokenClazz.equals(UsernamePasswordAuthenticationToken.class);
+		return tokenClazz.equals(UsernamePasswordAuthenticationToken.class) ||
+				tokenClazz.equals(UserPasswordAuthenToken.class);
 	}
 
 }

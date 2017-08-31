@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import com.gp.sync.message.SyncPushMessage;
 
 @Controller
-@MessageMapping("/person")
+@MessageMapping("/group")
 public class ChatMessageController {
 
 	Logger LOGGER = LoggerFactory.getLogger(GreetingController.class);
@@ -27,8 +27,11 @@ public class ChatMessageController {
 	 * node send the SyncPushMessage, center server route the message to 
 	 * other related nodes.
 	 **/
-	@MessageMapping("/chat")
-    public void handleChat(SyncPushMessage message, Principal principal) {
+	@MessageMapping("/chat-square.{baz}")
+    public void handleGroupChat(SyncPushMessage message, Principal principal) {
 		
+		// get the group code from message
+		String groupCode = "w001";
+		messaging.convertAndSend( "/topic/group/" + groupCode,  "" ); 
 	}
 }

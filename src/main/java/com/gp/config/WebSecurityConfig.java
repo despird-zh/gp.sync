@@ -18,13 +18,14 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.gp.sync.web.JwtAuthenProvider;
 import com.gp.sync.web.SyncAuthenSuccessHandler;
 import com.gp.sync.web.UserPasswordAuthenProvider;
 import com.gp.web.servlet.ServiceTokenFilter;
 import com.gp.web.servlet.UrlMatcher;
 
 @Configuration
-@Order(5)
+@Order(3)
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    
@@ -76,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     	
         auth.authenticationProvider(userPasswordAuthenProvider());
+        auth.authenticationProvider(tokenAuthenProvider());
     }
     
     @Bean
@@ -83,7 +85,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		
     		return new UserPasswordAuthenProvider();
     }
-       
+    
+    @Bean
+    AuthenticationProvider tokenAuthenProvider() {
+    		
+    		return new JwtAuthenProvider();
+    }
+    
     @Bean
     public ServiceTokenFilter serviceTokenFilter() throws Exception {
     		
