@@ -3,6 +3,7 @@ package com.gp.sync.web;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,10 +12,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 import com.gp.common.GPrincipal;
+import com.gp.svc.SecurityService;
 
 public class UserPasswordAuthenProvider implements AuthenticationProvider{
 
 	static Logger LOGGER = LoggerFactory.getLogger(UserPasswordAuthenProvider.class);
+	
+	@Autowired
+	SecurityService securitysvc;
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
