@@ -19,6 +19,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.gp.sync.SyncConstants;
 import com.gp.sync.web.JwtAuthenProvider;
 import com.gp.sync.web.SyncAuthenSuccessHandler;
 import com.gp.sync.web.UserPasswordAuthenProvider;
@@ -47,8 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			//.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.csrf().disable()
 			.authorizeRequests()
-            .antMatchers("/", "/home", "/gpapi/**").permitAll()
-            .antMatchers("/stomp/**").permitAll()
+            .antMatchers("/", "/home", ServiceTokenFilter.FILTER_PREFIX + "/**").permitAll()
+            .antMatchers(SyncConstants.WS_ENDPOINT + "/**").permitAll()
             .anyRequest().authenticated()
         .and()
         	.formLogin()

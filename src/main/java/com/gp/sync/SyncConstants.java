@@ -13,4 +13,7 @@ public class SyncConstants {
     public static final String AUTH_HEADER_AUDIENCE = "X-Audience";
     
     public static final String SYNC_VIEW = "/sync";
+    
+    public static final String WS_ENDPOINT = "/gpcenter";
+    public static final String WS_APP_PREFIX = "/gpapp";
 }

@@ -21,6 +21,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 
+import com.gp.sync.SyncConstants;
 import com.gp.sync.web.socket.AuthenChannelInterceptorAdapter;
 import com.gp.sync.web.socket.SyncHandlerDecorator;
 import com.gp.sync.web.socket.SyncHandshakeHandler;
@@ -48,7 +49,7 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic","/queue", "/exchange/");
-        config.setApplicationDestinationPrefixes("/gpapp");//gpwsi
+        config.setApplicationDestinationPrefixes( SyncConstants.WS_APP_PREFIX );//gpwsi
         /**
          * The Ant Path Matcher setting must ignore, because it affect the /user/bla/bla...
          * Message forwarding.
@@ -58,7 +59,7 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/gpcenter")//
+        registry.addEndpoint(SyncConstants.WS_ENDPOINT )//
         		.setHandshakeHandler(new SyncHandshakeHandler())
         		.setAllowedOrigins("*");
     }
