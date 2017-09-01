@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,7 +17,7 @@ import com.gp.sync.AppContextListener;
 import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 
 @Configuration
-@Order(1)
+@Order(Ordered.HIGHEST_PRECEDENCE + ServiceConfigurer.SERVICE_PRECEDENCE + 10)
 @ImportResource({
 		"classpath:/gpress-datasource.xml"
 	})

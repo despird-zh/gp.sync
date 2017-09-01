@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -30,7 +31,7 @@ import com.gp.sync.web.socket.SyncHandshakeHandler;
 @ComponentScan(basePackages = { 
 	"com.gp.sync.web.socket"
  })
-@Order(4)//Ordered.HIGHEST_PRECEDENCE + 99
+@Order(Ordered.HIGHEST_PRECEDENCE + ServiceConfigurer.SERVICE_PRECEDENCE + 40)
 public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	
 	static Logger LOGGER = LoggerFactory.getLogger(WebSocketBrokerConfig.class);
