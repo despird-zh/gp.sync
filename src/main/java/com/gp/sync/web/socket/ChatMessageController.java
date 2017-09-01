@@ -14,7 +14,7 @@ import com.gp.sync.message.SyncPushMessage;
 @Controller
 public class ChatMessageController {
 
-	Logger LOGGER = LoggerFactory.getLogger(GreetingController.class);
+	Logger LOGGER = LoggerFactory.getLogger(ChatMessageController.class);
 	
 	@Autowired
 	private SimpMessagingTemplate messaging;

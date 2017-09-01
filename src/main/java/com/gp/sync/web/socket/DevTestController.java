@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,9 +22,9 @@ import com.gp.sync.web.model.Greeting;
 import com.gp.sync.web.model.HelloMessage;
 
 @Controller
-public class GreetingController {
+public class DevTestController {
 	
-	Logger log = LoggerFactory.getLogger(GreetingController.class);
+	Logger log = LoggerFactory.getLogger(DevTestController.class);
 	
 	@Autowired
 	private SimpMessagingTemplate template;
@@ -69,6 +70,24 @@ public class GreetingController {
     		log.debug("msg: {} " , str);
     		
         return new Greeting("Hello, "+str+"!");
+    }
+    
+    /**
+	 * Message be broadcast to all clients that subscribe the '/topic/greetings' 
+	 **/
+    @MessageMapping("/test.sayhi")
+    @SendTo("/topic/greetings")
+    public Greeting sayhi(HelloMessage message, Principal principal) throws Exception {
+        log.info("Receive sayhi: {} - princ: {}", message.getName(), principal.getName());
+        return new Greeting("Hi, " + message.getName() + "!");
+    }
+
+    @MessageMapping("/test.sayhi.{username}")
+    @SendTo("/topic/greetings")
+    public Greeting sayhai2(HelloMessage message, Principal principal,@DestinationVariable("username") String username) throws Exception {
+        log.info("Receive sayhi: {} - princ: {}", message.getName(), principal.getName());
+        log.info("Receive sayhi: param is {} ", username);
+        return new Greeting("Hi, prove the param in path" + message.getName() + "!");
     }
     
     @RequestMapping(path="/greetings", method=RequestMethod.POST)

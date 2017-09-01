@@ -27,7 +27,7 @@ import com.gp.sync.web.model.HelloMessage;
 @RequestMapping(SyncConstants.SYNC_VIEW)
 public class SyncMessageController {
 
-	Logger LOGGER = LoggerFactory.getLogger(GreetingController.class);
+	Logger LOGGER = LoggerFactory.getLogger(SyncMessageController.class);
 	
 	@Autowired
 	private SimpMessagingTemplate messaging;

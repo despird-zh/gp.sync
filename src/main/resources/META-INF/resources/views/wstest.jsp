@@ -13,7 +13,7 @@
         				<tr>
         					<th> user</th> <td> <input id="user" value="dev1"/></td>
         					<th> pass</th> <td> <input id="pass" value="1"/></td>
-        					<th> <button id="login">Login</button></th>
+        					<th> <button id="login">Login</button> <a href="/"> Home</a></th>
         				</tr>
         			</table>
         			<div id="api-result">
