@@ -42,7 +42,7 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
 	     try {
 			this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
 		} catch (Exception e) {
-			LOGGER.debug("Fail to assign the authenticationManager in socket broker config");
+			LOGGER.debug("Fail to assign the authenticationManager in WebSocket broker config");
 		}
 	}
 
@@ -67,7 +67,8 @@ public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigu
     @Override
 	public void configureWebSocketTransport(final WebSocketTransportRegistration registration) {
     		registration.addDecoratorFactory(handlerDecoratorFactory());
-		registration.setMessageSizeLimit(256 * 1024);
+		registration.setMessageSizeLimit(256 * 1024); // 256K
+		registration.setSendBufferSizeLimit(512 * 1024); // 512K
 		super.configureWebSocketTransport(registration);
 	}
 

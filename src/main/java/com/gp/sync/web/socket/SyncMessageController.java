@@ -1,10 +1,12 @@
 package com.gp.sync.web.socket;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
@@ -41,7 +43,12 @@ public class SyncMessageController {
 	 * message path: /app/node.sync-push
 	 **/
 	@MessageMapping("/sync.push")
-    public void handlePush(SyncPushMessage message, Principal principal) {
+    public void handlePush(Message<?> message, Principal principal) {
+		
+		byte[] payload = (byte[]) message.getPayload();
+		String payloadStr = new String(payload, StandardCharsets.UTF_8);
+		
+		LOGGER.debug("Receive: {}", payloadStr);
 		
 		//template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 
 	}
