@@ -24,7 +24,6 @@ import com.gp.sync.web.model.HelloMessage;
  * 
  **/
 @Controller
-@MessageMapping("sync")
 @RequestMapping(SyncConstants.SYNC_VIEW)
 public class SyncMessageController {
 
@@ -41,7 +40,7 @@ public class SyncMessageController {
 	 * other related nodes.
 	 * message path: /app/node.sync-push
 	 **/
-	@MessageMapping("sync-push")
+	@MessageMapping("/sync.push")
     public void handlePush(SyncPushMessage message, Principal principal) {
 		
 		//template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 
@@ -50,7 +49,7 @@ public class SyncMessageController {
 	/**
 	 * node subscribe to receive notification 
 	 **/
-	@RequestMapping("sync-pull")
+	@RequestMapping("/pull")
 	@ResponseBody
 	public SyncPullMessage handleSpittle(HelloMessage message) { 
 		

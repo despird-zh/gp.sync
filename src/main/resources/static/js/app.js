@@ -7,12 +7,14 @@ function setConnected(connected) {
     document.getElementById('response').innerHTML = '';
 }
 
+var wsendpoint = "gpcenter";
+var wsapp = "gpapp";
 function connect() {
 	console.log('connecting... ');
 	//sockJS = new SockJS('http://localhost:8080/hello');
     var login = document.getElementById('user').value;
     var pass = document.getElementById('pass').value;
-    stompClient = Stomp.client('ws://localhost:8080/stomp?login='+login+'&passcode='+pass);
+    stompClient = Stomp.client('ws://localhost:8080/'+wsendpoint+'?login='+login+'&passcode='+pass);
     //stompClient.debug = null;
     stompClient.connect({'passcode':pass,'login':login}, function(frame) {
     	
@@ -43,7 +45,7 @@ function disconnect() {
 
 function sendName() {
     var name = document.getElementById('name').value;
-    stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name }));
+    stompClient.send('/'+wsapp+'/hello', {}, JSON.stringify({ 'name': name }));
 }
 
 function showGreeting(message) {
@@ -75,23 +77,23 @@ $(document).ready(function(){
 	});
 	
 	$('#test').bind('click', function(){
-		stompClient.send("/app/test", {},JSON.stringify({ 'tkey': 'hello blabal...' }));
+		stompClient.send("/"+wsapp+"/test", {},JSON.stringify({ 'tkey': 'hello blabal...' }));
 	});
 	
 	$('#spittle').bind('click', function(){
-		stompClient.send("/app/spittle", {},JSON.stringify({ 'name': 'spittle message...' }));
+		stompClient.send("/"+wsapp+"/spittle", {},JSON.stringify({ 'name': 'spittle message...' }));
 	});
 	
 	$('#sayhi').bind('click', function(){
-		stompClient.send("/app/test.sayhi", {},JSON.stringify({ 'name': 'sayhi message...' }));
+		stompClient.send("/"+wsapp+"/test.sayhi", {},JSON.stringify({ 'name': 'sayhi message...' }));
 	});
 	$('#sayhi2').bind('click', function(){
-		stompClient.send("/app/test.sayhi.dev1", {},JSON.stringify({ 'name': 'sayhi dev1 message...' }));
+		stompClient.send("/"+wsapp+"/test.sayhi.dev1", {},JSON.stringify({ 'name': 'sayhi dev1 message...' }));
 	});
 	
 	$('#to-user').bind('click', function(){
 		
-		stompClient.send("/app/chat", {},JSON.stringify({ 'target': $('#target-user').val(), 'message': $('#message').val()}));
+		stompClient.send("/"+wsapp+"/chat", {},JSON.stringify({ 'target': $('#target-user').val(), 'message': $('#message').val()}));
 	});
 	
 	$('#all-users').bind('click', function(){

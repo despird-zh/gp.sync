@@ -28,8 +28,6 @@ import com.gp.exception.CoreException;
 import com.gp.info.InfoId;
 import com.gp.svc.SecurityService;
 import com.gp.util.JwtTokenUtils;
-import com.gp.web.servlet.ServiceTokenFilter.AuthTokenState;
-import com.gp.web.util.ExWebUtils;
 
 public class JwtAuthenProvider implements AuthenticationProvider{
 

@@ -1,8 +1,6 @@
 package com.gp.sync.web;
 
 import java.util.Collection;
-import java.util.Optional;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -11,7 +9,7 @@ import com.gp.common.AccessPoint;
 public class UserPasswordAuthenToken extends UsernamePasswordAuthenticationToken{
 
 	private static final long serialVersionUID = -3068745046717398175L;
-	private Optional<String> audience;
+	private String audience;
 	
 	private AccessPoint accessPoint;
 	
@@ -24,11 +22,11 @@ public class UserPasswordAuthenToken extends UsernamePasswordAuthenticationToken
 		super(principal, credentials, authorities);
 	}
 	
-	public Optional<String> getAudience() {
+	public String getAudience() {
 		return audience;
 	}
 
-	public void setAudience(Optional<String> audience) {
+	public void setAudience(String audience) {
 		this.audience = audience;
 	}
 

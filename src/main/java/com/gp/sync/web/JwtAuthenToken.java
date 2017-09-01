@@ -1,8 +1,6 @@
 package com.gp.sync.web;
 
 import java.util.Collection;
-import java.util.Optional;
-
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 

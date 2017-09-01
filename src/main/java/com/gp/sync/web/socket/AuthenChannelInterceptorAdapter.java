@@ -69,7 +69,9 @@ public class AuthenChannelInterceptorAdapter extends ChannelInterceptorAdapter {
 			return new JwtAuthenToken( token);
 	    }
 	    else if(StringUtils.isNotEmpty(passcode) && StringUtils.isNotEmpty(login)) {
-	    		return new UserPasswordAuthenToken( login, passcode );
+	    		UserPasswordAuthenToken rtv = new UserPasswordAuthenToken( login, passcode );
+	    		rtv.setAudience(audience);
+	    		return rtv;
 	    }
     
 	    return null;

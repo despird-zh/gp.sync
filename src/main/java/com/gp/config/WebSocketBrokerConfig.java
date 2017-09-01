@@ -1,6 +1,8 @@
 package com.gp.config;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +13,6 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -31,27 +32,32 @@ import com.gp.sync.web.socket.SyncHandshakeHandler;
  })
 @Order(4)//Ordered.HIGHEST_PRECEDENCE + 99
 public class WebSocketBrokerConfig extends AbstractWebSocketMessageBrokerConfigurer {
-
+	
+	static Logger LOGGER = LoggerFactory.getLogger(WebSocketBrokerConfig.class);
+	
 	@Autowired
 	public void setAuthenticationConfiguration(AuthenticationConfiguration authenticationConfiguration) {
 	     try {
 			this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.debug("Fail to assign the authenticationManager in socket broker config");
 		}
 	}
-	
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic","/queue", "/exchange/");
-        config.setApplicationDestinationPrefixes("/app");//gpwsi
-        
+        config.setApplicationDestinationPrefixes("/gpapp");//gpwsi
+        /**
+         * The Ant Path Matcher setting must ignore, because it affect the /user/bla/bla...
+         * Message forwarding.
+        	 * config.setPathMatcher(new AntPathMatcher("."));
+         */
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/stomp")//
+        registry.addEndpoint("/gpcenter")//
         		.setHandshakeHandler(new SyncHandshakeHandler())
         		.setAllowedOrigins("*");
     }

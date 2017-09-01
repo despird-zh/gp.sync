@@ -16,11 +16,9 @@ import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.gp.common.JwtPayload;
 import com.gp.sync.SyncConstants;
 import com.gp.sync.web.JwtAuthenToken;
 import com.gp.sync.web.UserPasswordAuthenToken;
-import com.gp.util.JwtTokenUtils;
 
 public class SyncHandshakeHandler extends DefaultHandshakeHandler {
 
