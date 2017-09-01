@@ -22,8 +22,12 @@ import com.gp.sync.web.model.Greeting;
 import com.gp.sync.web.model.HelloMessage;
 
 /**
- * Node side subscribe the /user/queue/sync-notify to receive the {@link SyncNotifyMessage}
+ * Node side subscribe the /user/queue/sync.notify to receive the {@link SyncNotifyMessage} per node
+ * Node side subscribe the /topic/sync.notify to receive the {@link SyncNotifyMessage} that sent globally
  * 
+ * @author gdiao
+ * 
+ * @version 0.1 2016-8-3
  **/
 @Controller
 @RequestMapping(SyncConstants.SYNC_VIEW)
@@ -40,7 +44,7 @@ public class SyncMessageController {
 	/**
 	 * node send the SyncPushMessage, center server route the message to 
 	 * other related nodes.
-	 * message path: /app/node.sync-push
+	 * message path: /gpapp/sync.push
 	 **/
 	@MessageMapping("/sync.push")
     public void handlePush(Message<?> message, Principal principal) {

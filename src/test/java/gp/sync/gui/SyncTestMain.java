@@ -74,14 +74,14 @@ public class SyncTestMain {
 	private void initialize() {
 		frmGroupressSyncTest = new JFrame();
 		frmGroupressSyncTest.setTitle("Groupress Sync Test Tool (" + version + ")");
-		frmGroupressSyncTest.setBounds(100, 100, 897, 720);
+		frmGroupressSyncTest.setBounds(100, 100, 1047, 720);
 		frmGroupressSyncTest.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frmGroupressSyncTest.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("Client API", null, panel, null);
+		tabbedPane.addTab("Client API Testing", null, panel, null);
 		panel.setLayout(new BorderLayout(0, 0));
 	
 		JPanel panel_2 = new JPanel();
@@ -134,7 +134,7 @@ public class SyncTestMain {
 				sendArea.setText(data);
 			}
 		});
-		comboAPIs.setModel(new DefaultComboBoxModel(new String[] {"/sync.push", "/hello", "/test"}));
+		comboAPIs.setModel(new DefaultComboBoxModel(new String[] {"", "/sync.push", "/hello", "/test"}));
 		comboAPIs.setBounds(358, 58, 298, 27);
 		panel_2.add(comboAPIs);
 		
@@ -171,7 +171,7 @@ public class SyncTestMain {
 		panel_2.add(btnNewButton_1);
 		
 		tokenText = new JTextField();
-		tokenText.setBounds(108, 84, 548, 26);
+		tokenText.setBounds(108, 84, 768, 26);
 		panel_2.add(tokenText);
 		tokenText.setColumns(10);
 		
@@ -277,11 +277,11 @@ public class SyncTestMain {
 		receiveArea = new JTextArea();
 		receiveArea.setLineWrap(true);
 		scrollPane_2.setViewportView(receiveArea);
-		splitPane_1.setDividerLocation(250);
-		splitPane.setDividerLocation(350);
+		splitPane_1.setDividerLocation(350);
+		splitPane.setDividerLocation(300);
 		
 		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_1, null);
+		tabbedPane.addTab("Tool Info", null, panel_1, null);
 		
 		JLabel lblNewLabel_5 = new JLabel("not implemented yet");
 		panel_1.add(lblNewLabel_5);
@@ -299,6 +299,16 @@ public class SyncTestMain {
 		int offset = this.logText.getDocument().getLength();
 		try {
 			this.logText.getDocument().insertString(offset, offset == 0? msg : "\n" + msg, null);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void appendReceived(String msg) {
+		int offset = this.receiveArea.getDocument().getLength();
+		try {
+			this.receiveArea.getDocument().insertString(offset, offset == 0 ? msg : "\n" + msg, null);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

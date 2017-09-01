@@ -1,9 +1,12 @@
 package com.gp.sync.web.socket;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.converter.MessageConverter;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
@@ -16,6 +19,9 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+/**
+ * Client to connect sync websocket server 
+ **/
 public class SyncStompClient {
 	
 	static Logger LOGGER = LoggerFactory.getLogger(SyncStompClient.class);
@@ -28,9 +34,17 @@ public class SyncStompClient {
 	
 	private StompSession stompSession = null;
 	
+	private Map<String, StompFrameHandler> handlerMap = null;
+	
 	public SyncStompClient(String url) {
 		this.url = url;
 		this.messageConverter = new MappingJackson2MessageConverter();
+	}
+	
+	public SyncStompClient(String url, Map<String, StompFrameHandler> handlerMap) {
+		this.url = url;
+		this.messageConverter = new MappingJackson2MessageConverter();
+		this.handlerMap = handlerMap;
 	}
 	
 	public SyncStompClient(String url, MessageConverter messageConverter) {
@@ -45,12 +59,13 @@ public class SyncStompClient {
         stompClient.setMessageConverter(this.messageConverter);
         stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
 
-        StompSessionHandler sessionHandler = new SyncClientSessionHandler();
+        StompSessionHandler sessionHandler = new SyncClientSessionHandler(this.handlerMap);
         WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
         headers.add("passcode", passcode);
         headers.add("login", login);
         
         ListenableFuture<StompSession> listenableFuture = stompClient.connect(url, headers, sessionHandler);
+
         SuccessCallback<StompSession> successCallback = new SuccessCallback<StompSession>() {  
             @Override  
             public void onSuccess(StompSession session) {  
@@ -75,7 +90,7 @@ public class SyncStompClient {
         stompClient.setMessageConverter(this.messageConverter);
         stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
 
-        StompSessionHandler sessionHandler = new SyncClientSessionHandler();
+        StompSessionHandler sessionHandler = new SyncClientSessionHandler(this.handlerMap);
         WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
         headers.add("token", token);
         
