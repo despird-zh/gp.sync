@@ -1,11 +1,15 @@
 package com.gp.sync.message;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.gp.util.RawJsonDeserializer;
+
 public abstract class SyncMessage {
 
 	private SyncType type;
 	
 	private String traceCode;
 	
+	@JsonDeserialize(using = RawJsonDeserializer.class)
 	private Object payload;
 
 	public SyncType getType() {

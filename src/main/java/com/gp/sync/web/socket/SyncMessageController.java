@@ -2,6 +2,7 @@ package com.gp.sync.web.socket;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gp.sync.SyncConstants;
+import com.gp.sync.message.SyncMessages;
 import com.gp.sync.message.SyncPullMessage;
 import com.gp.sync.message.SyncPushMessage;
 import com.gp.sync.web.model.ChatMessage;
@@ -51,9 +53,10 @@ public class SyncMessageController {
 		
 		byte[] payload = (byte[]) message.getPayload();
 		String payloadStr = new String(payload, StandardCharsets.UTF_8);
+		Optional<String> jsonLoad = Optional.ofNullable(payloadStr);
 		
+		SyncPushMessage pushMsg = SyncMessages.parsePushMessage(jsonLoad);
 		LOGGER.debug("Receive: {}", payloadStr);
-		
 		//template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 
 	}
 	

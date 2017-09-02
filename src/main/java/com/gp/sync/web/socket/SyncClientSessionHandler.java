@@ -11,8 +11,6 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 
 import com.gp.sync.message.SyncNotifyMessage;
-import com.gp.sync.web.model.Greeting;
-
 import java.lang.reflect.Type;
 import java.util.Map;
 
