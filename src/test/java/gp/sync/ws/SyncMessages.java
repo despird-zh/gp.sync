@@ -1,4 +1,4 @@
-package com.gp.sync.message;
+package gp.sync.ws;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.gp.sync.message.SyncPushMessage;
+import com.gp.sync.message.SyncType;
 
 public class SyncMessages {
 	
@@ -38,14 +40,14 @@ public class SyncMessages {
 		if(LOGGER.isDebugEnabled())
 			MESSAGE_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 		
-		//withSyncTypeModule(MESSAGE_MAPPER);
+		withInfoIdModule(MESSAGE_MAPPER);
 	}
 	
 	/**
 	 * Make ObjectMapper support the InfoId module 
 	 * @param mapper
 	 **/
-	public static void withSyncTypeModule(final ObjectMapper mapper) {
+	public static void withInfoIdModule(final ObjectMapper mapper) {
 		
 		final SimpleModule module = new SimpleModule("SyncTypeSerializeModule");
 		
@@ -92,26 +94,61 @@ public class SyncMessages {
 		
 		SyncPushMessage pushMessage = null;
 		try {
+//			pushMessage = new SyncPushMessage(); 
+//			JsonNode root = MESSAGE_MAPPER.readTree(optJson.get());
+//			JsonNode keyNode = root.path("node");
+//			pushMessage.setNode(keyNode.asText());
+//			
+//			keyNode = root.path("node");
+//			pushMessage.setNode(keyNode.asText());
+//			
+//			keyNode = root.path("traceCode");
+//			pushMessage.setTraceCode(keyNode.asText());
+//			
+//			keyNode = root.path("type");
+//			SyncType type = new SyncType(keyNode.asText());
+//			pushMessage.setType(type);
+//			
+//			keyNode = root.path("payload");
+//			String payload = keyNode.;
+//			LOGGER.debug("payload: {} " , payload);
+//			pushMessage.setPayload(payload);
+			
+//			JsonParser jsonParser = MESSAGE_MAPPER.getFactory().createParser(optJson.get());
+//			
+//			while(jsonParser.nextToken() != JsonToken.END_OBJECT){
+//				String name = jsonParser.getCurrentName();
+//				LOGGER.debug("jsonkey : {}", name);
+//				
+//				if(jsonParser.getCurrentToken() == JsonToken.START_OBJECT){
+//					pushMessage = new SyncPushMessage(); 
+//					continue;
+//				}
+//				
+//				if("type".equals(name)){
+//					jsonParser.nextToken();
+//					SyncType type = new SyncType(jsonParser.getValueAsString());
+//					pushMessage.setType(type);
+//				}
+//				else if("traceCode".equals(name)){
+//					jsonParser.nextToken();
+//					pushMessage.setTraceCode(jsonParser.getValueAsString());
+//				}
+//				else if("payload".equals(name)){
+//					jsonParser.nextToken();
+//					pushMessage.setPayload(jsonParser.getValueAsString());
+//				}
+//				else if("node".equals(name)){
+//					jsonParser.nextToken();
+//					pushMessage.setNode(jsonParser.getValueAsString());
+//				}
+//			}
+			
 			pushMessage = MESSAGE_MAPPER.readValue(optJson.get(), SyncPushMessage.class);
 		} catch (IOException e) {
 			LOGGER.debug("Fail to parse the PushMessage Json string", e);
 		}
 		
 		return pushMessage;
-	}
-	
-	/**
-	 * parse the notify message 
-	 **/
-	public static SyncNotifyMessage parseNotifyMessage(Optional<String> optJson) {
-		
-		SyncNotifyMessage notifyMessage = null;
-		try {
-			notifyMessage = MESSAGE_MAPPER.readValue(optJson.get(), SyncNotifyMessage.class);
-		} catch (IOException e) {
-			LOGGER.debug("Fail to parse the PushMessage Json string", e);
-		}
-		
-		return notifyMessage;
 	}
 }

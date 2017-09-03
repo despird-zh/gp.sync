@@ -19,6 +19,8 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import com.gp.sync.message.SyncMessages;
+
 /**
  * Client to connect sync websocket server 
  **/
@@ -38,12 +40,16 @@ public class SyncStompClient {
 	
 	public SyncStompClient(String url) {
 		this.url = url;
-		this.messageConverter = new MappingJackson2MessageConverter();
+		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+		//SyncMessages.withInfoIdModule(converter.getObjectMapper());
+		this.messageConverter = converter;
 	}
 	
 	public SyncStompClient(String url, Map<String, StompFrameHandler> handlerMap) {
 		this.url = url;
-		this.messageConverter = new MappingJackson2MessageConverter();
+		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+		//SyncMessages.withInfoIdModule(converter.getObjectMapper());
+		this.messageConverter = converter;
 		this.handlerMap = handlerMap;
 	}
 	

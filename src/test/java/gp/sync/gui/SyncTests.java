@@ -18,7 +18,7 @@ public class SyncTests {
 
 	static ObjectMapper OBJMAPPER = new ObjectMapper();
 	static {
-		SyncMessages.withInfoIdModule(OBJMAPPER);
+		//SyncMessages.withInfoIdModule(OBJMAPPER);
 		OBJMAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 	}
 	Map<String, Object> dataMap = new HashMap<String, Object>();

@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 
-public class SyncTestMain {
+public class SyncTestMainGUI {
 
 	private JFrame frmGroupressSyncTest;
 
@@ -50,7 +50,7 @@ public class SyncTestMain {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SyncTestMain window = new SyncTestMain();
+					SyncTestMainGUI window = new SyncTestMainGUI();
 					window.frmGroupressSyncTest.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,7 +62,7 @@ public class SyncTestMain {
 	/**
 	 * Create the application.
 	 */
-	public SyncTestMain() {
+	public SyncTestMainGUI() {
 		initialize();
 		
 		this.support = new SyncTestSupport(this);

@@ -15,10 +15,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gp.common.IdKey;
+import com.gp.common.IdKeys;
+import com.gp.info.InfoId;
 import com.gp.sync.SyncConstants;
 import com.gp.sync.message.SyncMessages;
+import com.gp.sync.message.SyncNotifyMessage;
 import com.gp.sync.message.SyncPullMessage;
 import com.gp.sync.message.SyncPushMessage;
+import com.gp.sync.message.SyncType;
 import com.gp.sync.web.model.ChatMessage;
 import com.gp.sync.web.model.Greeting;
 import com.gp.sync.web.model.HelloMessage;
@@ -47,16 +52,31 @@ public class SyncMessageController {
 	 * node send the SyncPushMessage, center server route the message to 
 	 * other related nodes.
 	 * message path: /gpapp/sync.push
+	 * send feedback to /queue/sync.notify -> client: /user/queue/sync.notify
 	 **/
 	@MessageMapping("/sync.push")
-    public void handlePush(Message<?> message, Principal principal) {
+	@SendToUser("/queue/sync.notify") 
+    public SyncNotifyMessage handlePush(Message<?> message, Principal principal) {
 		
 		byte[] payload = (byte[]) message.getPayload();
 		String payloadStr = new String(payload, StandardCharsets.UTF_8);
 		Optional<String> jsonLoad = Optional.ofNullable(payloadStr);
 		
 		SyncPushMessage pushMsg = SyncMessages.parsePushMessage(jsonLoad);
+		SyncNotifyMessage notifyMsg = new SyncNotifyMessage();
+		
+		notifyMsg.setCenter("xxcenter001");
+		InfoId<Long> wid = IdKeys.getInfoId(IdKey.WORKGROUP, 31l);
+		String trcCd = IdKeys.getTraceCode("xxcenter001", wid);
+		notifyMsg.setTraceCode(trcCd);
+		notifyMsg.setType(new SyncType("cmd-wgrp-feedback"));
+		HelloMessage hello = new HelloMessage();
+		hello.setName("blabla demo test payload");
+		notifyMsg.setPayload(hello);
+		
 		LOGGER.debug("Receive: {}", payloadStr);
+		
+		return notifyMsg;
 		//template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 
 	}
 	

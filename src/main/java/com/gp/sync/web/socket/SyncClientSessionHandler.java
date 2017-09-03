@@ -60,5 +60,6 @@ public class SyncClientSessionHandler extends StompSessionHandlerAdapter {
     	
     		SyncNotifyMessage message =	(SyncNotifyMessage) payload;
         log.info("Received: {} - {}", message.getType(), message.getTraceCode());
+        log.debug("Received: {}", message.getPayload());
     }
 }
