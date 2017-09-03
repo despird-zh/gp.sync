@@ -22,12 +22,12 @@ public class SyncTestSupport {
 	
 	static Log log = LogFactory.getLog(SyncTestSupport.class);
 	
-	SyncTestMainGUI main = null;
+	SyncTestMainGui main = null;
 	
 	SyncStompClient stompClient = null;
 	
 	
-	public SyncTestSupport(SyncTestMainGUI main) {
+	public SyncTestSupport(SyncTestMainGui main) {
 		this.main = main;
 	}
 	

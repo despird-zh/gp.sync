@@ -75,7 +75,6 @@ public class SyncMessageController {
 		LOGGER.debug("Receive: {}", new String(payload, StandardCharsets.UTF_8));
 		
 		return notifyMsg;
-		//template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 
 	}
 	
 	/**

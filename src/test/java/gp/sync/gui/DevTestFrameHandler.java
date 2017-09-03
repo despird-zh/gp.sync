@@ -14,7 +14,7 @@ public class DevTestFrameHandler implements StompFrameHandler{
 
 	static Logger log = LoggerFactory.getLogger(SyncClientSessionHandler.class);
 	
-	SyncTestMainGUI testMain = null;
+	SyncTestMainGui testMain = null;
 	
 	@Override
 	public Type getPayloadType(StompHeaders headers) {
