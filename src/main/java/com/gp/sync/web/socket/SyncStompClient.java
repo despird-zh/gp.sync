@@ -41,14 +41,12 @@ public class SyncStompClient {
 	public SyncStompClient(String url) {
 		this.url = url;
 		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-		//SyncMessages.withInfoIdModule(converter.getObjectMapper());
 		this.messageConverter = converter;
 	}
 	
 	public SyncStompClient(String url, Map<String, StompFrameHandler> handlerMap) {
 		this.url = url;
 		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-		//SyncMessages.withInfoIdModule(converter.getObjectMapper());
 		this.messageConverter = converter;
 		this.handlerMap = handlerMap;
 	}

@@ -59,10 +59,8 @@ public class SyncMessageController {
     public SyncNotifyMessage handlePush(Message<?> message, Principal principal) {
 		
 		byte[] payload = (byte[]) message.getPayload();
-		String payloadStr = new String(payload, StandardCharsets.UTF_8);
-		Optional<String> jsonLoad = Optional.ofNullable(payloadStr);
 		
-		SyncPushMessage pushMsg = SyncMessages.parsePushMessage(jsonLoad);
+		SyncPushMessage pushMsg = SyncMessages.parsePushMessage(payload);
 		SyncNotifyMessage notifyMsg = new SyncNotifyMessage();
 		
 		notifyMsg.setCenter("xxcenter001");
@@ -74,7 +72,7 @@ public class SyncMessageController {
 		hello.setName("blabla demo test payload");
 		notifyMsg.setPayload(hello);
 		
-		LOGGER.debug("Receive: {}", payloadStr);
+		LOGGER.debug("Receive: {}", new String(payload, StandardCharsets.UTF_8));
 		
 		return notifyMsg;
 		//template.convertAndSendToUser( message.getTarget(), "/queue/chat",  greeting ); 

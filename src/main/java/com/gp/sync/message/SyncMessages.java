@@ -88,11 +88,11 @@ public class SyncMessages {
 	/**
 	 * parse the push message 
 	 **/
-	public static SyncPushMessage parsePushMessage(Optional<String> optJson) {
+	public static SyncPushMessage parsePushMessage(byte[] optJson) {
 		
 		SyncPushMessage pushMessage = null;
 		try {
-			pushMessage = MESSAGE_MAPPER.readValue(optJson.get(), SyncPushMessage.class);
+			pushMessage = MESSAGE_MAPPER.readValue(optJson, SyncPushMessage.class);
 		} catch (IOException e) {
 			LOGGER.debug("Fail to parse the PushMessage Json string", e);
 		}

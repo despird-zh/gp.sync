@@ -22,9 +22,9 @@ public class SyncMessageTest {
 		SyncTests tests = new SyncTests();
 		String pushMsg = tests.getTestData("/sync.push");
 		
-		SyncPushMessage msg = SyncMessages.parsePushMessage(Optional.ofNullable(pushMsg));
+		SyncPushMessage msg = SyncMessages.parsePushMessage(pushMsg.getBytes());
 		
-		System.out.println(msg.getPayload());
+		System.out.println("------ Push Payload: "+msg.getPayload());
 		
 		SyncNotifyMessage notifyMsg = new SyncNotifyMessage();
 		
@@ -39,13 +39,13 @@ public class SyncMessageTest {
 		
 		String data = SyncMessages.MESSAGE_MAPPER.writeValueAsString(notifyMsg);
 		
-		System.out.println("data: "+ data);
+		System.out.println("------ Notif Msg: "+ data);
 		
-		SyncNotifyMessage notif = SyncMessages.MESSAGE_MAPPER.readValue(data, SyncNotifyMessage.class);
-		System.out.println("notif: "+ notif.getCenter());
-		System.out.println("notif: "+ notif.getType());
-		System.out.println("notif: "+ notif.getPayload());
-		System.out.println("notif: "+ notif.getTraceCode());
+		SyncNotifyMessage notif = SyncMessages.MESSAGE_MAPPER.readValue(data.getBytes(), SyncNotifyMessage.class);
+		System.out.println("notif - center : "+ notif.getCenter());
+		System.out.println("notif - type : "+ notif.getType());
+		System.out.println("notif - payload : "+ notif.getPayload());
+		System.out.println("notif - trace :"+ notif.getTraceCode());
 	}
 
 }
