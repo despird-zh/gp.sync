@@ -7,32 +7,32 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.stereotype.Service;
 
-import com.gp.sync.model.SyncNotifMessage;
+import com.gp.sync.message.SyncNotifyMessage;
 import com.gp.sync.svc.MessageSender;
 
 import com.gp.sync.web.socket.SyncNodeSessionRegistry;
 
-@Service
-public class MessageSenderImpl implements MessageSender{
-
-	@Autowired
-	SyncNodeSessionRegistry nodeSessionRegistry;
-	
-	@Autowired
-	SimpMessageSendingOperations messageTemplate;
-
-	private String qName = "/queue/response";
-
-	private MessageHeaders createHeaders(String sessionId) {
-		
-	    SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
-	    headerAccessor.setSessionId(sessionId);
-	    headerAccessor.setLeaveMutable(true);
-	    return headerAccessor.getMessageHeaders();
-	}
-
-	@Override
-	public void sendNotifToUser(SyncNotifMessage event,String sessionId) {
-	    messageTemplate.convertAndSendToUser(sessionId,qName,event,createHeaders(sessionId));
-	}
-}
+//@Service
+//public class MessageSenderImpl implements MessageSender{
+//
+//	@Autowired
+//	SyncNodeSessionRegistry nodeSessionRegistry;
+//	
+//	@Autowired
+//	SimpMessageSendingOperations messageTemplate;
+//
+//	private String qName = "/queue/response";
+//
+//	private MessageHeaders createHeaders(String sessionId) {
+//		
+//	    SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
+//	    headerAccessor.setSessionId(sessionId);
+//	    headerAccessor.setLeaveMutable(true);
+//	    return headerAccessor.getMessageHeaders();
+//	}
+//
+//	@Override
+//	public void sendNotifToUser(SyncNotifMessage event,String sessionId) {
+//	    messageTemplate.convertAndSendToUser(sessionId,qName,event,createHeaders(sessionId));
+//	}
+//}

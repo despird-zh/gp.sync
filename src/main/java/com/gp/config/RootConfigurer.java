@@ -1,14 +1,10 @@
 package com.gp.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,21 +12,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.DispatcherServlet;
-
 import com.gp.core.AppContextHelper;
 import com.gp.sync.AppContextListener;
 import com.gp.sync.web.socket.SyncNodeSessionRegistry;
-import com.gp.sync.CoreStarter;
-import com.gp.web.servlet.ServiceFilter;
 
-/**
- *
- */
 @Configuration
+@Order(Ordered.HIGHEST_PRECEDENCE + ServiceConfigurer.SERVICE_PRECEDENCE + 10)
 @ImportResource({
 		"classpath:/gpress-datasource.xml"
 	})
@@ -59,58 +46,47 @@ public class RootConfigurer {
 	public AppContextHelper appContextHelper() {
 		return new AppContextHelper();
 	}
-	
-	/**
-	 * The CoreStart listener, it starts the CoreEngine which detect and prepare the CoreInitializer via java serviceloader(SPI).
-	 * assembly the initializer to sort the LifecycleHooker with priority. 
-	 **/
-	@Bean ServletListenerRegistrationBean<CoreStarter> coreStarterListener(){
-		ServletListenerRegistrationBean<CoreStarter> listenerReg = new ServletListenerRegistrationBean<CoreStarter>();
-		
-		listenerReg.setListener(new CoreStarter());
-		return listenerReg;
-	}
-	
+
 	/**
 	 * Build the service filter bean, it filter out the valid request to /gpapi/* service.
 	 * e.g. authenticate.do to fetch a valid token 
 	 **/
-	@Bean
-	public FilterRegistrationBean corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(false);
-		config.addAllowedOrigin("*");
-		config.addAllowedHeader(ServiceFilter.AUTH_HEADER);
-		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
-		config.addAllowedMethod("*");
-		source.registerCorsConfiguration( ServiceFilter.FILTER_PREFIX + "/**", config);
-        
-		FilterRegistrationBean bean = new FilterRegistrationBean(new ServiceFilter(source));
-		
-		List<String> urlPatterns = new ArrayList<String>();
-        urlPatterns.add(ServiceFilter.FILTER_PREFIX + "/*");
-        
-        bean.setUrlPatterns(urlPatterns);
-		bean.setOrder(2);
-		
-		return bean;
-	}
+//	@Bean
+//	public FilterRegistrationBean corsFilter() {
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		CorsConfiguration config = new CorsConfiguration();
+//		config.setAllowCredentials(false);
+//		config.addAllowedOrigin("*");
+//		config.addAllowedHeader(ServiceFilter.AUTH_HEADER);
+//		config.addAllowedHeader("content-type");// required, otherwise the preflight not work
+//		config.addAllowedMethod("*");
+//		source.registerCorsConfiguration( ServiceFilter.FILTER_PREFIX + "/**", config);
+//        
+//		FilterRegistrationBean bean = new FilterRegistrationBean(new ServiceFilter(source));
+//		
+//		List<String> urlPatterns = new ArrayList<String>();
+//        urlPatterns.add(ServiceFilter.FILTER_PREFIX + "/*");
+//        
+//        bean.setUrlPatterns(urlPatterns);
+//		bean.setOrder(2);
+//		
+//		return bean;
+//	}
 	
 	/**
 	 * Prepare the dispatch servlet 
 	 **/
-	@Bean
-	public DispatcherServlet dispatcherServlet() {
-
-		 // Create ApplicationContext
-        AnnotationConfigWebApplicationContext webMvcContext = new AnnotationConfigWebApplicationContext();
-        webMvcContext.register(WebMVCConfigurer.class);
-
-	    DispatcherServlet servlet=new DispatcherServlet(webMvcContext);
- 
-	    return  servlet;
-	}
+//	@Bean
+//	public DispatcherServlet dispatcherServlet() {
+//
+//		 // Create ApplicationContext
+//        AnnotationConfigWebApplicationContext webMvcContext = new AnnotationConfigWebApplicationContext();
+//        webMvcContext.register(WebMVCConfigurer.class);
+//
+//	    DispatcherServlet servlet=new DispatcherServlet(webMvcContext);
+// 
+//	    return  servlet;
+//	}
 	
     /**
      * Prepare the rest template for Jedis data  

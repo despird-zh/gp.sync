@@ -7,19 +7,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 
 import com.gp.core.AppContextHelper;
 
-public class HandlerDecorator extends WebSocketHandlerDecorator{
+public class SyncHandlerDecorator extends WebSocketHandlerDecorator{
 
-	static Logger LOGGER = LoggerFactory.getLogger(HandlerDecorator.class);
+	static Logger LOGGER = LoggerFactory.getLogger(SyncHandlerDecorator.class);
 	
 	private SyncNodeSessionRegistry sessionRegistry ;
 	
-	public HandlerDecorator(WebSocketHandler delegate) {
+	public SyncHandlerDecorator(WebSocketHandler delegate) {
 		
 		super(delegate);
 		LOGGER.debug("initial a new decorator");
@@ -35,29 +34,31 @@ public class HandlerDecorator extends WebSocketHandlerDecorator{
 		
 		initialRegistry();
 		super.afterConnectionEstablished(session);
-		Principal p = session.getPrincipal();
-		if(StringUtils.isNotBlank(p.getName()))
-			sessionRegistry.addNodeSession(p.getName(), session);
+		Principal princ = session.getPrincipal();
+		LOGGER.debug("Put session: {} to repository." ,princ.getName());
+		if(StringUtils.isNotBlank(princ.getName()))
+			sessionRegistry.addNodeSession(princ.getName(), session);
 	}
-	
-	@Override
-	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		LOGGER.info("handle message principal: {}", session.getPrincipal());
-		
-		if("dev2".equals(session.getPrincipal().getName())) {
-			session.close();
-		}
-		super.handleMessage(session, message);
-	}
+
+//	@Override
+//	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
+//		LOGGER.info("handle message principal: {}", session.getPrincipal().getName());
+//		
+//		if("dev2".equals(session.getPrincipal().getName())) {
+//			session.close();
+//		}
+//		super.handleMessage(session, message);
+//	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus)	throws Exception {
 		
 		initialRegistry();
 		super.afterConnectionClosed(session, closeStatus);
-		Principal p = session.getPrincipal();
-		if(StringUtils.isNotBlank(p.getName()))
-			sessionRegistry.removeNodeSession(p.getName());
+		Principal princ = session.getPrincipal();
+		LOGGER.debug("Remove session: {} off repository." ,princ.getName());
+		if(StringUtils.isNotBlank(princ.getName()))
+			sessionRegistry.removeNodeSession(princ.getName());
 	}
 
 }

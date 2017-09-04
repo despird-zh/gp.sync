@@ -21,7 +21,7 @@ public class SyncNoticeSender {
 	
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
     
-    Logger LOGGER = LoggerFactory.getLogger(SyncNoticeSender.class);
+    static Logger LOGGER = LoggerFactory.getLogger(SyncNoticeSender.class);
     
     @Autowired
     private SimpMessagingTemplate broker;
@@ -31,11 +31,11 @@ public class SyncNoticeSender {
         this.broker = broker;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 20000)
     public void run() {
        String time = LocalTime.now().format(TIME_FORMAT);
 
-       LOGGER.info("Time broadcast: {}", time);
+       //LOGGER.info("Time broadcast: {}", time);
        broker.convertAndSend("/topic/greetings", new Greeting("Current time is " + time));
     }
 }
