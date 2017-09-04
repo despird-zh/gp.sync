@@ -22,7 +22,7 @@ public class SyncPullController extends BaseController{
 	static Logger LOGGER = LoggerFactory.getLogger(SyncPullController.class);
 	
 	@RequestMapping(
-		    value = "sync-pull.do", 
+		    value = "sync-pull", 
 		    method = RequestMethod.POST,
 		    consumes = {"text/plain", "application/*"})
 	public ModelAndView doSyncPull(@RequestBody(required = false) String payload) throws Exception {
