@@ -9,7 +9,6 @@ import org.msgpack.jackson.dataformat.MessagePackFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gp.common.IdKeys;
 import com.gp.info.InfoId;
-import com.gp.info.InfoIds;
 import com.gp.sync.SyncIdKey;
 import com.gp.sync.dao.info.CenterDistInfo;
 
@@ -19,7 +18,8 @@ public class MsgpackTestJson {
 	public static void main(String[] args) throws IOException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
 		objectMapper.setDateFormat(sdf);
-		InfoIds.withInfoIdModule(objectMapper);
+		IdKeys.withInfoIdModule(objectMapper);
+		IdKeys.addIdentifier(SyncIdKey.values());
 		test();
 		test1();
 	}
