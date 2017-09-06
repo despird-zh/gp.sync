@@ -28,6 +28,7 @@ import com.gp.exception.CoreException;
 import com.gp.info.InfoId;
 import com.gp.svc.SecurityService;
 import com.gp.util.JwtTokenUtils;
+import com.gp.web.servlet.ServiceTokenFilter;
 
 public class JwtAuthenProvider implements AuthenticationProvider{
 
@@ -39,7 +40,10 @@ public class JwtAuthenProvider implements AuthenticationProvider{
 	@Override
 	public Authentication authenticate(Authentication arg0) throws AuthenticationException {
 		JwtAuthenToken jwtToken = (JwtAuthenToken) arg0;
-		String token = StringUtils.substringAfter(jwtToken.getToken(), "Bearer: ");
+		String token = jwtToken.getToken();
+		if(StringUtils.startsWith(token, ServiceTokenFilter.TOKEN_PREFIX)) {
+			token = StringUtils.substringAfter(jwtToken.getToken(), ServiceTokenFilter.TOKEN_PREFIX);
+		}
 		try{
 			AccessPoint accesspoint = new AccessPoint("sync","blind");
 			JwtPayload jwtPayload = JwtTokenUtils.parsePayload(token);
