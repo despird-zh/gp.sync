@@ -27,7 +27,7 @@ public interface SyncOptDAO extends BaseDAO<SyncOptInfo>{
 		@Override
 		public SyncOptInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			SyncOptInfo info = new SyncOptInfo();
-			InfoId<Integer> id = IdKeys.getInfoId(SyncIdKey.SYNC_OPT,rs.getInt("sync_opt_id"));
+			InfoId<Integer> id = IdKeys.getInfoId(SyncIdKey.GP_SYNC_OPT,rs.getInt("sync_opt_id"));
 			info.setInfoId(id);
 
 			info.setOptionGroup(rs.getString("opt_group"));

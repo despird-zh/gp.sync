@@ -20,7 +20,7 @@ public interface NodePullDAO extends BaseDAO<NodePullInfo>{
 			
 			NodePullInfo info = new NodePullInfo();
 			
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_PULL, rs.getLong("pull_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.GP_NODE_PULL, rs.getLong("pull_id"));
 			info.setInfoId(id);
 			info.setEntityCode(rs.getString("entity_code"));
 			info.setNodeCode(rs.getString("node_code"));

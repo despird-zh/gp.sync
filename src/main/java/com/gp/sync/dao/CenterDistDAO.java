@@ -19,7 +19,7 @@ public interface CenterDistDAO extends BaseDAO<CenterDistInfo>{
 		public CenterDistInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			CenterDistInfo info = new CenterDistInfo();
 			
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.CENTER_DIST, rs.getLong("dist_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.GP_CENTER_DIST, rs.getLong("dist_id"));
 			info.setInfoId(id);
 			info.setMsgId(rs.getLong("msg_id"));
 			info.setSendId(rs.getLong("snd_id"));

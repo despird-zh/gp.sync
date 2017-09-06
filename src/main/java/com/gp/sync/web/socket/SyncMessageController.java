@@ -64,7 +64,7 @@ public class SyncMessageController {
 		SyncNotifyMessage notifyMsg = new SyncNotifyMessage();
 		
 		notifyMsg.setCenter("xxcenter001");
-		InfoId<Long> wid = IdKeys.getInfoId(IdKey.WORKGROUP, 31l);
+		InfoId<Long> wid = IdKeys.getInfoId(IdKey.GP_WORKGROUPS, 31l);
 		String trcCd = IdKeys.getTraceCode("xxcenter001", wid);
 		notifyMsg.setTraceCode(trcCd);
 		notifyMsg.setType(new SyncType("cmd-wgrp-feedback"));

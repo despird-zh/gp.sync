@@ -19,7 +19,7 @@ public interface CenterMsgDAO extends BaseDAO<CenterMsgInfo>{
 		public CenterMsgInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			CenterMsgInfo info  = new CenterMsgInfo();
 			
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.CENTER_MSG, rs.getLong("msg_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.GP_CENTER_MSGS, rs.getLong("msg_id"));
 			info.setInfoId(id);
 			info.setReceiveId(rs.getLong("rcv_id"));
 			info.setEntityCode(rs.getString("entity_code"));

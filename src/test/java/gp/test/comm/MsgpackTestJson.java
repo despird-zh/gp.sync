@@ -27,7 +27,7 @@ public class MsgpackTestJson {
 	public static void test1() throws IOException{
 		
 		CenterDistInfo dist = new CenterDistInfo();
-		InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.CENTER_DIST,12l);
+		InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.GP_CENTER_DIST,12l);
 		dist.setInfoId(id);
 		dist.setTargetEntityCode("TG001");
 		dist.setTargetNodeCode("TGN001");

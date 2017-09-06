@@ -38,8 +38,10 @@ public class AuthenChannelInterceptorAdapter extends ChannelInterceptorAdapter {
         
         if (StompCommand.CONNECT == accessor.getCommand()) {
         		
-        		if(principal == null)
+        		// firstly parse the principal from stomp message header.
+        		if(principal == null) {
         			principal = parseFromHeader(accessor);
+        		}
         		
         		if(principal != null) {
 	        		LOGGER.debug("Try to authorization during connect : {}", principal.getName());

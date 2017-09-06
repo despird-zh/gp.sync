@@ -20,7 +20,7 @@ public interface CenterRcvDAO extends BaseDAO<CenterRcvInfo>{
 			
 			CenterRcvInfo info = new CenterRcvInfo();
 			
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.CENTER_RCV, rs.getLong("rcv_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.GP_CENTER_RCV, rs.getLong("rcv_id"));
 			info.setInfoId(id);
 			info.setEntityCode(rs.getString("entity_code"));
 			info.setNodeCode(rs.getString("node_code"));

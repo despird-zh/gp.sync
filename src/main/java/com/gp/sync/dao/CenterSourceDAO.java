@@ -19,7 +19,7 @@ public interface CenterSourceDAO extends BaseDAO<CenterSourceInfo>{
 		public CenterSourceInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			CenterSourceInfo info = new CenterSourceInfo();
 			
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.CENTER_SOURCE, rs.getLong("node_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.GP_CENTER_SOURCES, rs.getLong("node_id"));
 			info.setInfoId(id);
 			info.setNodeCode(rs.getString("node_code"));
 			info.setEntityCode(rs.getString("entity_code"));

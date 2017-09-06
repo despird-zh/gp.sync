@@ -20,7 +20,7 @@ public interface NodePushDAO extends BaseDAO<NodePushInfo>{
 			
 			NodePushInfo info = new NodePushInfo();
 			
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_PUSH,rs.getLong("push_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.GP_NODE_PUSH,rs.getLong("push_id"));
 			info.setInfoId(id);
 			info.setEntityCode(rs.getString("entity_code"));
 			info.setNodeCode(rs.getString("node_code"));

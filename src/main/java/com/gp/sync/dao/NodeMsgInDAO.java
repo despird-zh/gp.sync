@@ -19,7 +19,7 @@ public interface NodeMsgInDAO extends BaseDAO<NodeMsgInInfo>{
 		public NodeMsgInInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			NodeMsgInInfo info = new NodeMsgInInfo();
 			
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_MSG_IN,rs.getLong("msg_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.GP_NODE_MSG_IN,rs.getLong("msg_id"));
 			info.setInfoId(id);
 			info.setPullId(rs.getLong("pull_id"));
 			info.setEntityCode(rs.getString("entity_code"));

@@ -18,7 +18,7 @@ public interface NodeSourceDAO extends BaseDAO<NodeSourceInfo>{
 		@Override
 		public NodeSourceInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			NodeSourceInfo info = new NodeSourceInfo();
-			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.NODE_SOURCE,rs.getLong("node_id"));
+			InfoId<Long> id = IdKeys.getInfoId(SyncIdKey.GP_NODE_SOURCES,rs.getLong("node_id"));
 			
 			info.setInfoId(id);
 			info.setEntityCode(rs.getString("entity_code"));
