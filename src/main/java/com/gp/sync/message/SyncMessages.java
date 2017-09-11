@@ -1,8 +1,6 @@
 package com.gp.sync.message;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -18,20 +16,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.gp.util.CommonUtils;
 
 public class SyncMessages {
 	
 	static Logger LOGGER = LoggerFactory.getLogger(SyncMessages.class);
 	
-	public static ObjectMapper MESSAGE_MAPPER = new ObjectMapper();
-	public static final DateFormat JSON_DT_FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-	
+	public static ObjectMapper MESSAGE_MAPPER = CommonUtils.JSON_MAPPER;
+
 	/**
 	 * decorate the mapper with necessary feature. 
 	 **/
 	static {
 		
-		MESSAGE_MAPPER.setDateFormat(JSON_DT_FORMATTER);
 		if(LOGGER.isDebugEnabled())
 			MESSAGE_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 		
