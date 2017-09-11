@@ -20,7 +20,7 @@ public class SyncCoreInitializer extends CoreInitializer{
 			@Override
 			public void initial() {
 				
-				SyncHooker syncHooker = new SyncHooker();
+				SyncEventHooker syncHooker = new SyncEventHooker();
 				EventDispatcher.getInstance().regEventHooker( syncHooker );
 				// Register the IdKey enum to IdKeys helper class.
 				IdKeys.addIdentifier(SyncIdKey.values());

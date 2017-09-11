@@ -8,15 +8,15 @@ import com.gp.disruptor.EventPayload;
 import com.gp.disruptor.EventType;
 import com.gp.exception.RingEventException;
 
-public class SyncHooker extends EventHooker<SyncEventLoad>{
+public class SyncEventHooker extends EventHooker<SyncEventLoad>{
 
-	public static Logger LOGGER = LoggerFactory.getLogger(SyncHooker.class);
+	public static Logger LOGGER = LoggerFactory.getLogger(SyncEventHooker.class);
 	
-	public SyncHooker() {
+	public SyncEventHooker() {
 		this(EventType.SYNC);
 	}
 	
-	public SyncHooker(EventType eventType) {
+	public SyncEventHooker(EventType eventType) {
 		super(eventType);
 	}
 
