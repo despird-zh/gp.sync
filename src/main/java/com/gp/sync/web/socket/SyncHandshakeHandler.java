@@ -25,7 +25,7 @@ import com.gp.common.SystemOptions;
 import com.gp.sync.SyncConstants;
 import com.gp.sync.web.JwtAuthenToken;
 import com.gp.sync.web.UserPasswordAuthenToken;
-import com.gp.util.ConfigSettingUtils;
+import com.gp.web.util.ConfigUtils;
 
 public class SyncHandshakeHandler extends DefaultHandshakeHandler {
 
@@ -114,8 +114,8 @@ public class SyncHandshakeHandler extends DefaultHandshakeHandler {
 		
 		String client = request.getHeaders().getFirst("User-Agent");
 		String host = request.getRemoteAddress().getHostName();
-		String app = ConfigSettingUtils.getSystemOption(SystemOptions.SYSTEM_APP);
-		String version = ConfigSettingUtils.getSystemOption(SystemOptions.SYSTEM_VERSION);
+		String app = ConfigUtils.getSystemOption(SystemOptions.SYSTEM_APP);
+		String version = ConfigUtils.getSystemOption(SystemOptions.SYSTEM_VERSION);
 		
 		AccessPoint ap = new AccessPoint(client, host, app, version);
 		
