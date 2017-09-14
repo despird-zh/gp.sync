@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.gp.common.FlatColumns;
 import com.gp.common.FlatColumns.FilterMode;
-import com.gp.config.ServiceConfigurer;
+import com.gp.common.DataSourceHolder;
 import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
@@ -27,7 +27,7 @@ public class NodePushDAOImpl extends DAOSupport implements NodePushDAO{
 	Logger LOGGER = LoggerFactory.getLogger(NodePushDAOImpl.class);
 	
 	@Autowired
-	public NodePushDAOImpl(@Qualifier(ServiceConfigurer.DATA_SRC) DataSource dataSource) {
+	public NodePushDAOImpl(@Qualifier(DataSourceHolder.DATA_SRC) DataSource dataSource) {
 		setDataSource(dataSource);
 	}
 	

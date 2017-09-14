@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.gp.common.FlatColumns;
 import com.gp.common.FlatColumns.FilterMode;
-import com.gp.config.ServiceConfigurer;
+import com.gp.common.DataSourceHolder;
 import com.gp.dao.impl.DAOSupport;
 import com.gp.info.FlatColLocator;
 import com.gp.info.InfoId;
@@ -29,7 +29,7 @@ public class NodeMsgInDAOImpl extends DAOSupport implements NodeMsgInDAO{
 	Logger LOGGER = LoggerFactory.getLogger(NodeMsgInDAOImpl.class);
 	
 	@Autowired
-	public NodeMsgInDAOImpl(@Qualifier(ServiceConfigurer.DATA_SRC) DataSource dataSource) {
+	public NodeMsgInDAOImpl(@Qualifier(DataSourceHolder.DATA_SRC) DataSource dataSource) {
 		setDataSource(dataSource);
 	}
 	
