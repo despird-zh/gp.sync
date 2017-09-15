@@ -14,5 +14,7 @@ public class AppContextListener implements ApplicationListener<ContextRefreshedE
 		// ignore
     		if(LOGGER.isDebugEnabled())
     			LOGGER.debug("AppContextListener ContextRefreshedEvent triggered");
+    		
+    		SyncCenterLauncher.getInstance(SyncCenterLauncher.class).engineOn();
     }
 }
